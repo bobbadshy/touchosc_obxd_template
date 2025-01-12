@@ -4,4 +4,4 @@
 
 Currently ***work in progress***. I'll add some decent info and a Release once I've reached the first beta ;)
 
-![image](https://github.com/user-attachments/assets/d0b9b64e-57eb-467b-a3f4-948fe72a8b7a)
+![image](https://github.com/user-attachments/assets/3fe63609-f3d3-4819-b802-2e1909ba0b32)
