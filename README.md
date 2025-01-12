@@ -4,7 +4,7 @@
 
 Currently ***work in progress***. I'll add some more infos soon..
 
-First alpha release available in the [Releases](https://github.com/bobbadshy/touchosc_obxd_template/releases) section. Expect bugs! :) 
+First alpha release available in the [Releases](https://github.com/bobbadshy/touchosc_obxd_template/releases) section. Expect bugs!! ;) 
 
 ![image](https://github.com/user-attachments/assets/b2e02af8-3c04-4baa-99e7-1b3bdb55bbf6)
 
