@@ -2,7 +2,9 @@
 
 [TouchOSC](https://hexler.net/touchosc/) template for the [Oberheim OB-Xd Virtual Analog Synthesizer](https://www.discodsp.com/obxd/) (and possibly other Oberheim OB-Xa software emulations).
 
-Currently ***work in progress***. I'll add some decent info and a Release once I've reached the first beta ;)
+Currently ***work in progress***. I'll add some more infos soon..
+
+First alpha release available in the [Releases](https://github.com/bobbadshy/touchosc_obxd_template/releases) section. Expect bugs! :) 
 
 ![image](https://github.com/user-attachments/assets/b2e02af8-3c04-4baa-99e7-1b3bdb55bbf6)
 
