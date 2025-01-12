@@ -7,7 +7,7 @@
 
 - [TouchOSC template for the OB-Xd Virtual Analog Synthesizer](#touchosc-template-for-the-ob-xd-virtual-analog-synthesizer)
   - [Contents](#contents)
-  - [Supported features:](#supported-features)
+  - [Supported features](#supported-features)
   - [Preliminary screenshots](#preliminary-screenshots)
   - [Download](#download)
   - [Bug reports, Feature Suggestions or Contributing](#bug-reports-feature-suggestions-or-contributing)
@@ -15,7 +15,7 @@
   - [Donations](#donations)
 
 
-## Supported features:
+## Supported features
 Currently ***work in progress***. I'll add some detailed infos soon..
 
 ## Preliminary screenshots
