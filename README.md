@@ -4,6 +4,6 @@
 
 Currently ***work in progress***. I'll add some decent info and a Release once I've reached the first beta ;)
 
-![image](https://github.com/user-attachments/assets/d7f4f3fc-7413-4c7a-8a46-b5023fa97c4a)
+![image](https://github.com/user-attachments/assets/b2e02af8-3c04-4baa-99e7-1b3bdb55bbf6)
 
-![image](https://github.com/user-attachments/assets/3fe63609-f3d3-4819-b802-2e1909ba0b32)
+![image](https://github.com/user-attachments/assets/bb56b671-6303-47cd-8e50-d180fd230f4f)
