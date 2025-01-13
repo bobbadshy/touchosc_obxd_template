@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global, undefined-global
 -- ##########
 -- # == Check for double tap ==
 -- #
@@ -155,16 +156,6 @@ function zoomTo(fact, center)
   end
 end
 
-function zoomPinch(x1, x2, y1, y2)
-  local newDist = calcDistance(x1, x2, y1, y2)
-  local fact = newDist / dist
-  local center = calcMid(x1, x2, y1, y2)
-  center.x = center.x - pzf.x
-  center.y = center.y - pzf.y
-  zoomTo(fact, center)
-  dist = newDist
-end
-
 function pan(x, y)
   pzf.x = orig.x + x - start.x
   pzf.y = orig.y + y - start.y
@@ -227,9 +218,7 @@ function onPointer(pointer)
       end
     end
   elseif pointer[1].state == PointerState.MOVE then
-    if #self.pointers == 2 then
-      zoomPinch(self.pointers[1].x, self.pointers[2].x, self.pointers[1].y, self.pointers[2].y)
-    elseif #self.pointers == 1 then
+    if #self.pointers == 1 then
       pan(self.pointers[1].x, self.pointers[1].y)
       last = { x = self.pointers[1].x, y = self.pointers[1].y }
     end
