@@ -10,7 +10,6 @@ function onValueChanged(key)
     if(now - lastTap < tapDelay) then
       if not enabled then
         enabled = true
-        self.parent.children.zoomButton.visible = true
       end
       if enabled then
         toggleZoom()
