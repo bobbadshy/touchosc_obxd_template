@@ -1,68 +1,68 @@
-local w = self.children.white.children
-local b = self.children.black.children
-local octave = 4
-local transpose = 0
-local afterTouchPitchBendSensitivity = 1
-local afterTouchPitchBendMaxValue = 8192*0.75
+---@diagnostic disable: undefined-global, lowercase-global
+-- ##########
+-- # start keys.lua
+-- #
+-- CONSTANTS
+local PB_MSG = 2
+local AT_MSG = 3
+-- #
+-- local state
+local range_pb = self.frame.w / 2
+local range_at = self.frame.h
+local start_x = range_pb
+-- #
+-- pitchbend on touch wiggle
+local pbEnabled = false
+local pbSensitivity = 2
+local pbMaxValue = 8192 * 0.75
+-- #
+-- aftertouch on touch slide up/down
+local atEnabled = true
 
-local keys = 
-{
-  w[1],  b[1], w[2],  b[2], w[3], 
-  w[4],  b[3], w[5],  b[4], w[6],  b[5],  w[7], 
-  w[8],  b[6], w[9],  b[7], w[10], 
-  w[11], b[8], w[12], b[9], w[13], b[10], w[14],
-  w[15],  b[11], w[16],  b[12], w[17], 
-  w[18],  b[13], w[19],  b[14], w[20],  b[15],  w[21], w[22], 
-}
-
-function init()
-  print('init')
-  setOctave(octave)
-  setTranspose(transpose)
-  for i=1,#w do
-    w[i]:notify('pbSensitivity', afterTouchPitchBendSensitivity)
-    w[i]:notify('pbMaxValue', afterTouchPitchBendMaxValue)
-  end
-  for i=1,#b do
-    b[i]:notify('pbSensitivity', afterTouchPitchBendSensitivity)
-    b[i]:notify('pbMaxValue', afterTouchPitchBendMaxValue)
-  end
-end
-
-function applyToKeys()
-  local index = octave * 12
-  for i=1,#keys do
-    local note = index + (i-1) + transpose
-    keys[i].name = note
-    keys[i].visible = (note <= 127)
-  end
-  self.children.C0.values.text = 'C' .. (octave -1)
-  self.children.C1.values.text = 'C' .. (octave)
-  self.children.C2.values.text = 'C' .. (octave +1)
-  self.children.C3.values.text = 'C' .. (octave +2)
-end
-
-function setOctave(value)
-  octave = value
-  applyToKeys()
-end
-
-function setTranspose(value)
-  transpose = value
-  applyToKeys()
-end
-
-function setChannel(value)
-  local channel = value - 1
-  for i=1,#keys do keys[i].tag = channel end
-end
-
-function onReceiveNotify(key, value)
-  if(key == 'octave') then
-    setOctave(value)
-  elseif(key == 'transpose') then
-    setTranspose(value)
-  elseif(key == 'channel') then
-    setChannel(value-1)
+function onReceiveNotify(c, v)
+  if c == 'pbEnabled' then
+    if v == 1 then pbEnabled = true else pbEnabled = false end
+  elseif c == 'atEnabled' then
+    if v == 1 then atEnabled = true else atEnabled = false end
+  elseif c == 'pbSensitivity' then
+    pbSensitivity = v
+  elseif c == 'pbMaxValue' then
+    pbMaxValue = v
   end
 end
+
+function onPointer(pointers)
+  local p = pointers[1]
+  local p_state = p.state
+  if p_state == PointerState.BEGIN then
+    start_x = p.x
+    start_y = p.y
+  elseif p_state == PointerState.END then
+    -- send pitchbend reset msg on release
+    if pbEnabled then self.messages.MIDI[2]:trigger() end
+  elseif p_state == PointerState.MOVE then
+    if pbEnabled then applyPitchBend(p.x) end
+    if atEnabled then applyAftertouch(p.y) end
+  end
+end
+
+function applyPitchBend(p_x)
+  local d = (p_x - start_x) / range_pb
+  local i = math.min(1, math.abs(d) ^ pbSensitivity) * pbMaxValue
+  if d <= 0 then i = pbMaxValue - i else i = pbMaxValue + i end
+  local data = self.messages.MIDI[PB_MSG]:data()
+  data[2] = math.floor(math.fmod(i, 128)) --lsb
+  data[3] = math.floor(i / 128)           --msb
+  sendMIDI(data)
+end
+
+function applyAftertouch(p_y)
+  local d = p_y / range_at
+  local i = math.min(1, math.max(0, d))
+  local data = self.messages.MIDI[AT_MSG]:data()
+  data[3] = math.floor(i*127)
+  sendMIDI(data)
+end
+-- #
+-- # end keys.lua
+-- ##########
