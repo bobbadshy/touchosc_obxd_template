@@ -1,13 +1,19 @@
 #!/bin/bash
+#
+# Compresses all .xml files back into .tosc
+#
+# IMPORTANT! Run from repo root with:
+#
+# ./scripts/compress.sh
+#
 
-# Compresses the .xml file back into a .tosc file
+s="xml_export/"
+t="newly_packed/"
 
-mkdir -p "xml_export"
+mkdir -p "$t"
 
-
-s="xml_export/obxd.xml"
-t="obxd.tosc"
-
-echo "Compressing $s to $t .."
-
-pigz -c -z < "$s" > "$t"
+for f in $(find $s -type f -name '*.xml'); do
+  echo "Compressing $f to $t .. also formats the .xml a bit better to allow for better showing a git diff on it"
+  # shellcheck disable=SC2086
+  pigz -c -z < "$f" > "$t$(basename $f .xml).tosc"
+done
