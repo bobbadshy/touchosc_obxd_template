@@ -20,7 +20,7 @@ Currently ***work in progress***. I'll add some detailed infos soon..
 
 ## Preliminary screenshots
 
-![image](https://github.com/user-attachments/assets/b2e02af8-3c04-4baa-99e7-1b3bdb55bbf6)
+![image](https://github.com/user-attachments/assets/8abe6644-29e4-44e9-bb83-cbb101fe91e4)
 
 ..or maybe without the retro color gradient ..haven't decided, yet.. ;)
 
