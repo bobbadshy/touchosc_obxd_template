@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global
 
 midi_codes = {
   cc0 = {
