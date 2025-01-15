@@ -18,6 +18,11 @@ local pbMaxValue = 8192 * 0.75
 -- #
 -- aftertouch on touch slide up/down
 local atEnabled = true
+-- #
+-- ##########
+
+local at = 0
+local pb = 8192
 
 function onReceiveNotify(c, v)
   if c == 'pbEnabled' then
@@ -49,7 +54,9 @@ end
 function applyPitchBend(p_x)
   local d = (p_x - start_x) / range_pb
   local i = math.min(1, math.abs(d) ^ pbSensitivity) * pbMaxValue
+  if i == pb then return end
   if d <= 0 then i = pbMaxValue - i else i = pbMaxValue + i end
+  pb = i
   local data = self.messages.MIDI[PB_MSG]:data()
   data[2] = math.floor(math.fmod(i, 128)) --lsb
   data[3] = math.floor(i / 128)           --msb
@@ -59,6 +66,8 @@ end
 function applyAftertouch(p_y)
   local d = p_y / range_at
   local i = math.min(1, math.max(0, d))
+  if i == at then return end
+  at = i
   local data = self.messages.MIDI[AT_MSG]:data()
   data[3] = math.floor(i*127)
   sendMIDI(data)
