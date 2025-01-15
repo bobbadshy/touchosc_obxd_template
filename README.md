@@ -1,6 +1,12 @@
 # TouchOSC template for the OB-Xd Virtual Analog Synthesizer
 
-[TouchOSC](https://hexler.net/touchosc/) template for the [Oberheim OB-Xd Virtual Analog Synthesizer](https://www.discodsp.com/obxd/) (and possibly other Oberheim OB-X/OB-Xa software emulations).
+[TouchOSC](https://hexler.net/touchosc/) template for the
+[Oberheim OB-Xd Virtual Analog Synthesizer](https://www.discodsp.com/obxd/) (and
+possibly other Oberheim OB-X/OB-Xa software emulations).
+
+The layout and functionality of this template were created using OB-Xd versions
+3.5.3 through 3.6.
+
 
 
 ## Contents
@@ -17,8 +23,33 @@
 
 ## Supported features
 
-- ...
+- All controls of the OB-Xd virtual synth have been implemented. The control
+  layout closely follows the OB-Xd "IIkka Rosma Dark" default skin.
+- All MIDI mappings match the default mappings found in OB-Xd v3.6. So all
+  controls should work out of the box, with no further setup neccessary.
 
+  The template also contains a MIDI mappings XML file for OB-Xd. If some MIDI
+  mappings do not work as expected (OB-Xd versions below 3.6), try to copy:
+  
+  [./midi_mapping/TouchOsc.xml](./midi_mapping/TouchOsc.xml)
+  
+  from this template's directory into your `discoDSP` documents folder:
+  
+  ... `discoDSP/OB-Xd 3/MIDI/TouchOsc.xml`
+  
+  *This folder is located in the "Documents" folder in your user's `$HOME`
+  directory. The exact naming will differ between operating systems and
+  distributions. Consult the discoDSP documentation if you are unsure about the
+  folder location.*
+
+  Restart OB-Xd. The MIDI menu should now show **"TouchOsc"** as a new MIDI mappings
+  option.
+
+- All TouchOSC faders use a 
+
+double-tap controls
+zoom 
+tooltip and true value
 
 Currently ***work in progress***. I'll add some detailed infos soon..
 
