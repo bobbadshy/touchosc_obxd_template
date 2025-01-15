@@ -21,11 +21,39 @@ local atEnabled = true
 -- #
 -- ##########
 
+-- my midi messages
+local NOTE_ON = 1
+local PITCHBEND = 2
+local AFTERTOUCH = 3
+
 local at = 0
 local pb = 8192
+local held_notes = {}
 
 function onReceiveNotify(c, v)
-  if c == 'pbEnabled' then
+  if c == 'cc66' then
+    if v == 127 and self.values.touch then
+      self.messages.MIDI[NOTE_ON].send = false
+      held_notes[self.name] = true
+    elseif v == 0 then
+      for i,_ in pairs(held_notes) do
+        local j = tostring(i)
+        if self.parent.children[j] == nil then
+          local d = self.messages.MIDI[NOTE_ON]:data()
+          d[2] = i
+          d[3] = 0
+          sendMIDI(d)
+        elseif j == self.name and not self.values.touch then
+          self.messages.MIDI[NOTE_ON].send = true
+          self.messages.MIDI[NOTE_ON]:trigger()
+        elseif not self.parent.children[j].values.touch then
+          self.parent.children[j].messages.MIDI[NOTE_ON].send = true
+          self.parent.children[j].messages.MIDI[NOTE_ON]:trigger()
+        end
+      end
+      held_notes = {}
+    end
+  elseif c == 'pbEnabled' then
     if v == 1 then pbEnabled = true else pbEnabled = false end
   elseif c == 'atEnabled' then
     if v == 1 then atEnabled = true else atEnabled = false end

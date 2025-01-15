@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global, undefined-global
 local w = self.children.white.children
 local b = self.children.black.children
 local octave = 4
@@ -58,7 +59,14 @@ function setChannel(value)
 end
 
 function onReceiveNotify(key, value)
-  if(key == 'octave') then
+  if(key == 'sustain') then
+    for i=1,#w do
+      w[i]:notify('cc66', value)
+    end
+    for i=1,#b do
+      w[i]:notify('cc66', value)
+    end
+  elseif(key == 'octave') then
     setOctave(value)
   elseif(key == 'transpose') then
     setTranspose(value)
