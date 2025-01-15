@@ -71,7 +71,7 @@ function applySustain(val)
           d[2] = i
           d[3] = 0
           sendMIDI(d)
-          held_notes[i] = nil
+          held_notes[tostring(i)] = nil
         end
       else
         if held_notes[note.name] ~= nil then
@@ -79,7 +79,7 @@ function applySustain(val)
           if not note.values.touch then
             note.messages.MIDI[NOTE_ON]:trigger()
           end
-          held_notes[i] = nil
+          held_notes[tostring(i)] = nil
         end
       end
     end
