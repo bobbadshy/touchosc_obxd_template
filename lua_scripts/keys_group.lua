@@ -1,12 +1,13 @@
 ---@diagnostic disable: lowercase-global, undefined-global
 local w = self.children.white.children
 local b = self.children.black.children
+local wb = {w, b}
 local octave = 4
 local transpose = 0
 local afterTouchPitchBendSensitivity = 1
 local afterTouchPitchBendMaxValue = 8192*0.75
 
-local keys = 
+local keys =
 {
   w[1],  b[1], w[2],  b[2], w[3], 
   w[4],  b[3], w[5],  b[4], w[6],  b[5],  w[7], 
@@ -15,6 +16,13 @@ local keys =
   w[15],  b[11], w[16],  b[12], w[17], 
   w[18],  b[13], w[19],  b[14], w[20],  b[15],  w[21], w[22], 
 }
+
+-- my midi messages
+local NOTE_ON = 1
+local PITCHBEND = 2
+local AFTERTOUCH = 3
+
+local held_notes = {{}, {}}
 
 function init()
   print('init')
@@ -43,6 +51,37 @@ function applyToKeys()
   self.children.C3.values.text = 'C' .. (octave +2)
 end
 
+function applySustain(v)
+  local index = octave * 12
+  if v == 127 then
+    for i=1,2 do
+      for j=1,#wb[i] do
+        if wb[i][j].values.touch then
+          wb[i][j].messages.MIDI[NOTE_ON].send = false
+          held_notes[i][wb[i][j].name] = true
+        end
+      end
+    end
+  elseif v == 0 then
+    for i=1,#held_notes do
+      for j=1,#wb[i] do
+        wb[i][j].messages.MIDI[NOTE_ON].send = true
+      end
+      for name,_ in pairs(held_notes[i]) do
+        if wb[i][name] == nil then
+          local d = wb[i][1].messages.MIDI[NOTE_ON]:data()
+          d[2] = name
+          d[3] = 0
+          sendMIDI(d)
+        elseif not wb[i][name].values.touch then
+          wb[i][name].messages.MIDI[NOTE_ON]:trigger()
+        end
+      end
+      held_notes[i] = {}
+    end
+  end
+end
+
 function setOctave(value)
   octave = value
   applyToKeys()
@@ -60,12 +99,7 @@ end
 
 function onReceiveNotify(key, value)
   if(key == 'sustain') then
-    for i=1,#w do
-      w[i]:notify('cc66', value)
-    end
-    for i=1,#b do
-      w[i]:notify('cc66', value)
-    end
+    applySustain(value)
   elseif(key == 'octave') then
     setOctave(value)
   elseif(key == 'transpose') then

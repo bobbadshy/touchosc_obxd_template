@@ -3,6 +3,16 @@ local kbd = self.parent.parent.children.keys
 local last = 0
 local delay = 600
 
+function onReceiveMIDI(m,c)
+  if m[2] == 66 then
+    if m[3] == 127 then
+      self.values.x = 1
+    else
+      self.values.x = 0
+    end
+  end
+end
+
 function onValueChanged(k)
   -- Activate sustain, re-trigger if pressed again,
   -- disable when double-tap (identified by default pull towards 0.4)
