@@ -16,6 +16,10 @@
 
 
 ## Supported features
+
+- ...
+
+
 Currently ***work in progress***. I'll add some detailed infos soon..
 
 ## Preliminary screenshots
