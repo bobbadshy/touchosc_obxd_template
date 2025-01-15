@@ -1,7 +1,6 @@
----@diagnostic disable: lowercase-global, undefined-global
+---@diagnostic disable: lowercase-global, undefined-global, undefined-field
 local w = self.children.white.children
 local b = self.children.black.children
-local wb = {w, b}
 local octave = 4
 local transpose = 0
 local afterTouchPitchBendSensitivity = 1
@@ -22,7 +21,7 @@ local NOTE_ON = 1
 local PITCHBEND = 2
 local AFTERTOUCH = 3
 
-local held_notes = {{}, {}}
+local held_notes = {}
 
 function init()
   print('init')
@@ -44,6 +43,11 @@ function applyToKeys()
     local note = index + (i-1) + transpose
     keys[i].name = note
     keys[i].visible = (note <= 127)
+    if held_notes[tostring(note)] ~= true then
+      keys[i].messages.MIDI[NOTE_ON].send = true
+    else
+      keys[i].messages.MIDI[NOTE_ON].send = false
+    end
   end
   self.children.C0.values.text = 'C' .. (octave -1)
   self.children.C1.values.text = 'C' .. (octave)
@@ -51,33 +55,33 @@ function applyToKeys()
   self.children.C3.values.text = 'C' .. (octave +2)
 end
 
-function applySustain(v)
-  local index = octave * 12
-  if v == 127 then
-    for i=1,2 do
-      for j=1,#wb[i] do
-        if wb[i][j].values.touch then
-          wb[i][j].messages.MIDI[NOTE_ON].send = false
-          held_notes[i][wb[i][j].name] = true
-        end
+function applySustain(val)
+  for i=1,127 do
+    note = w[i]
+    if note == nil then note = b[i] end
+    if val == 127 then
+      if note ~= nil and note.values.touch then
+        note.messages.MIDI[NOTE_ON].send = false
+        held_notes[note.name] = true
       end
-    end
-  elseif v == 0 then
-    for i=1,#held_notes do
-      for j=1,#wb[i] do
-        wb[i][j].messages.MIDI[NOTE_ON].send = true
-      end
-      for name,_ in pairs(held_notes[i]) do
-        if wb[i][name] == nil then
-          local d = wb[i][1].messages.MIDI[NOTE_ON]:data()
-          d[2] = name
+    elseif val == 0 then
+      if note == nil then
+        if held_notes[tostring(i)] then
+          local d = w[1].messages.MIDI[NOTE_ON]:data()
+          d[2] = i
           d[3] = 0
           sendMIDI(d)
-        elseif not wb[i][name].values.touch then
-          wb[i][name].messages.MIDI[NOTE_ON]:trigger()
+          held_notes[i] = nil
+        end
+      else
+        if held_notes[note.name] ~= nil then
+          note.messages.MIDI[NOTE_ON].send = true
+          if not note.values.touch then
+            note.messages.MIDI[NOTE_ON]:trigger()
+          end
+          held_notes[i] = nil
         end
       end
-      held_notes[i] = {}
     end
   end
 end
