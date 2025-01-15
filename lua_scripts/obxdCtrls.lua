@@ -147,6 +147,20 @@ local ctrlConfigs = {
     doubleTap = true,
     tapDelay = 300,
   },
+  -- Oscillators
+  ctrlGroupOscillators_osc2_ctrl = {
+    sens = 3,
+    lblControlName = 'midi',
+    low = -24,
+    high = 24,
+    min = nil,
+    max = nil,
+    unit = '',
+    decimals = 1,
+    type = LINEAR,
+    doubleTap = true,
+    tapDelay = 300,
+  },
 }
 
 function init()
