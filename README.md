@@ -24,11 +24,7 @@ Currently ***work in progress***. I'll add some detailed infos soon..
 
 ## Preliminary screenshots
 
-![image](https://github.com/user-attachments/assets/8abe6644-29e4-44e9-bb83-cbb101fe91e4)
-
-..or maybe without the retro color gradient ..haven't decided, yet.. ;)
-
-![image](https://github.com/user-attachments/assets/bb56b671-6303-47cd-8e50-d180fd230f4f)
+![image](https://github.com/user-attachments/assets/412b9422-2c19-4239-a6b8-747798dd9e60)
 
 ## Download
 
