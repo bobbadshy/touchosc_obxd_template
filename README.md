@@ -163,7 +163,7 @@ to fork it and submit the changes back to me.
 
 ## Donations
 
-This is an Open Source software and free to use for everyone in any which way possible! :)
+This is an Open Source software and free to use for everyone in any which way possible (..well, as long as it stays Open Source, licensed under GPL-3.0 license)! 🙂
 
 |    |  PayPal  |
 | -- | -------- |
