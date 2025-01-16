@@ -17,6 +17,7 @@ The layout and functionality of this template were created using OB-Xd versions
   - [Usage](#usage)
   - [Download](#download)
   - [Bug reports, Feature Suggestions or Contributing](#bug-reports-feature-suggestions-or-contributing)
+  - [Planned features](#planned-features)
   - [Links](#links)
   - [Donations](#donations)
 
@@ -129,6 +130,21 @@ The integrated keyboard currently includes:
   sustain is being held! Play a bass note and sustain it, switch octave, and
   play a melody on top. :)
 
+**A note on manipulating the two oscillators:**
+
+Since MIDI has the well-known limitation of only supporting 128 discrete steps
+on normal MIDI CC messages, this resolution is, of course, not enough to allow
+for true continuous manipulation of the available oscillator ranges. However,
+the OB-Xd GUI also does not offer true continuous control of the two
+oscillators. It does have a fine-control setting, but at the current version
+(3.6), this fine-control setting is a bit hard to operate, and is also limited
+to discrete steps. So, while the oscillator controls in OB-Xd offer more fine
+control than this surface, the controls in this surface are *almost on-par* with
+the resolution available in the OB-Xd GUI. Maybe in a future version, OB-Xd will
+improve the oscillator controls, and also add high resolution MIDI support.
+(MIDI has the option to send high resolution values encoded in MSB and LSB bit
+values, as for example, is the default mode for MIDI pitchbend message.)
+
 
 ## Usage
 
@@ -153,6 +169,20 @@ any of them, but nevertheless, suggestions and bug reports are welcome! 🙂
 
 If you have any ideas or want to contribute to the project yourself, feel free
 to fork it and submit the changes back to me.
+
+## Planned features
+
+- Light color scheme
+- Randomize button, with a toggle to individually include/exclude each controls
+  section from randomize. The preset manager actually already has a randomize
+  button in its settings panel. However, "Randomize" is a very nice thing to
+  have to get started on a sound, and I want to add a button directly next to
+  the fader controls.
+- More keyboard features:
+  - Extra panel with xy pad and faders for all midi supported modulations
+    (pitch, vibrato, tremolo, etc.)
+  - Separate keyboard zoom ..less octaves, but bigger keys :)
+- ...
 
 ## Links
 
