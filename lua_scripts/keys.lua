@@ -18,10 +18,16 @@ local pbMaxValue = 8192 * 0.75
 -- #
 -- aftertouch on touch slide up/down
 local atEnabled = true
+-- channel aftertouch on touch slide up/down
+local cAtEnabled = true
+-- modulation on touch slide up/down
+local modEnabled = true
 -- #
 -- ##########
 
 local at = 0
+local cAt = 0
+local modulation = 0
 local pb = 8192
 
 function onReceiveNotify(c, v)
@@ -33,6 +39,21 @@ function onReceiveNotify(c, v)
     pbSensitivity = v
   elseif c == 'pbMaxValue' then
     pbMaxValue = v
+  end
+end
+
+function onValueChanged(k)
+  if k == 'touch' then
+    if self.values.touch then
+      -- reset start values
+      at = 0
+      cAt = 0
+      modulation = 0
+      pb = 8192
+      self.parent.parent:notify('press')
+    else
+      self.parent.parent:notify('release')
+    end
   end
 end
 
@@ -48,6 +69,8 @@ function onPointer(pointers)
   elseif p_state == PointerState.MOVE then
     if pbEnabled then applyPitchBend(p.x) end
     if atEnabled then applyAftertouch(p.y) end
+    if cAtEnabled then applyChannelAftertouch(p.y) end
+    if modEnabled then applyModulation(p.y) end
   end
 end
 
@@ -71,6 +94,24 @@ function applyAftertouch(p_y)
   local data = self.messages.MIDI[AT_MSG]:data()
   data[3] = math.floor(i*127)
   sendMIDI(data)
+end
+
+function applyChannelAftertouch(p_y)
+  local d = p_y / range_at
+  local i = math.min(1, math.max(0, d))
+  i = math.floor(i*127)
+  if i == cAt then return end
+  cAt = i
+  self.parent.parent:notify('pressure', cAt)
+end
+
+function applyModulation(p_y)
+  local d = math.abs(2 * (p_y - start_y) / range_at)
+  local i = math.min(1, math.max(0, d))
+  i = math.floor(i*127)
+  if i == modulation then return end
+  modulation = i
+  self.parent.parent:notify('modulation', modulation)
 end
 -- #
 -- # end keys.lua
