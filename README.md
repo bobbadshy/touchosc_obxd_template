@@ -14,7 +14,7 @@ The layout and functionality of this template were created using OB-Xd versions
 - [TouchOSC template for the OB-Xd Virtual Analog Synthesizer](#touchosc-template-for-the-ob-xd-virtual-analog-synthesizer)
   - [Contents](#contents)
   - [Supported features](#supported-features)
-    - [Integrated Keyboard](#integrated-keyboard)
+    - [Integrated touch Keyboard](#integrated-touch-keyboard)
   - [Preliminary screenshots](#preliminary-screenshots)
   - [Download](#download)
   - [Bug reports, Feature Suggestions or Contributing](#bug-reports-feature-suggestions-or-contributing)
@@ -87,36 +87,44 @@ The layout and functionality of this template were created using OB-Xd versions
   designed to be modular. So, you can also re-use it separately for your own
   TouchOSC surfaces.)
 
-### Integrated Keyboard
+### Integrated touch Keyboard
 
 The integrated keyboard currently includes:
 
 - Pitchbend slider, with toggle switch for half or full MIDI range. Full MIDI
   range by default maps to two semitones, so the toggle will switch between one
   semitone and a full tone by default.
-- Octave and transpose buttons
-- Optional aftertouch modulation support on the keys. If enabled, sliding up or
-  down on the keys will engage modulation (MIDI cc1). The modulation is held
-  after releasing all keys, and resets once you press a new key.
 
-- Velocity, Aftertouch, and optional modulation support *on each key*.
-- 
-- , as well
-  as a keys sustain button (MIDI cc66 "sustenuto").
+- Octave and transpose buttons.
 
-  Velocity, aftertouch and modulation are controlled by the vertical and
-  horizontal touch position on the keys. The initial touch point controls
-  velocity. Then, move up/down, or left/right on the key to control aftertouch
-  and modulation.
+- Positional velocity, and optional aftertouch modulation support on the keys.
 
-  The "Keys Sustain" button supports stacking: Tap once to sustain all currently
-  pressed keys. Tap again to add new keys. Long-tap or double-tap to cancel
-  sustain.
+  Velocity is controlled by the initial touch position on the keys: bottom of
+  keys is loudest, top is the most quiet.
+  
+  Modulation (MIDI cc1) is engaged by sliding up or down on the keys. The
+  modulation is held after releasing the keys. It will automatically reset when
+  all keys are released and then a new key is pressed. This behaviour seemed the
+  most intuitive, so the modulation stays active after releasing the keys, but
+  when you continue playing again, it will do so without modulation.
 
-  **Note:** The keyboard supports both MIDI global channel aftertouch, as well
-  as polyphonic aftertouch on each key. OB-Xd only registers channel aftertouch,
-  but, if you want to play some other synth with the keyboard, polyphonic
-  aftertouch is available.
+  **Extended keyboard features:** In addition, the keyboard also supports global
+  MIDI channel pressure, and individual keys polyphonic aftertouch, as well as
+  registering *horizontal* movement on pressed keys. These features are disabled
+  by default, since (to my knowledge) OB-Xd does not support MIDI aftertouch. If
+  however, you want to play some other synth with the keyboard, you can enable
+  these features in the keyboard's settings panel. :)
+
+- "Keys Sustain" button (MIDI cc66 "Sustenuto pedal").
+
+  When Sustenuto is engaged, all currently pressed keys *are held* on releasing
+  the keys. So, for example, you can hold a chord, and then play some melody
+  over it. The "Keys Sustain" button supports stacking: Tap once to sustain all
+  currently pressed keys. Tap again to add new keys. Double-tap or long-tap (for
+  exactly timed cancel upon button release) on the button to cancel the
+  sustenuto. You can also switch octaves on the keyboard while sustain is being
+  held! Play a bass note and sustain it, switch octave, and play a melody on
+  top. :)
 
 ## Preliminary screenshots
 
