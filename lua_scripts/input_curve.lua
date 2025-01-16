@@ -122,8 +122,8 @@ function _showTrueValue(val)
   if config.lblControlName == nil then return end
   local ctrl = self.parent.children[config.lblControlName]
   if ctrl == nil then return end
-  local r = _calcRealValue(val) 
-  local sr
+  local r = _calcRealValue(val)
+  local s
   if config.decimals > 0 then
     s = string.format('%.' .. config.decimals .. 'f', r)
   else
@@ -158,7 +158,7 @@ function _calcRealValue(val)
 end
 
 function _showAsMidi(val)
-  return math.floor((val+0.5)*127)
+  return math.floor(0.5+val*127)
 end
 
 function _checkForDoubleTap()
