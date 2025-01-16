@@ -7,8 +7,6 @@ possibly other Oberheim OB-X/OB-Xa software emulations).
 The layout and functionality of this template were created using OB-Xd versions
 3.5.3 through 3.6.
 
-
-
 ## Contents
 
 - [TouchOSC template for the OB-Xd Virtual Analog Synthesizer](#touchosc-template-for-the-ob-xd-virtual-analog-synthesizer)
