@@ -136,11 +136,12 @@ function _showTrueValue(val)
 end
 
 function _calcRealValue(val)
+  local v = math.floor(val*127+0.5)/127 -- snap to midi values
   local decimals = 10^config.decimals
   if config.type == LINEAR then
     local low = config.low
     local high = config.high
-    if low == nil or high == nil then return _showAsMidi(val) end
+    if low == nil or high == nil then return _showAsMidi(v) end
     local min = config.min
     local max = config.max
     if min == nil then min = low end
@@ -148,13 +149,13 @@ function _calcRealValue(val)
     local delta = high - low
     return math.min(
       max, math.max(
-        min, math.floor(val * delta * decimals +0.5 ) / decimals + low
+        min, math.floor(v * delta * decimals +0.5 ) / decimals + low
     ))
   elseif config.type == LOG then
-    return decimals * math.log(val)
+    return decimals * math.log(v)
   end
   -- return as MIDI by default
-  return _showAsMidi(val)
+  return _showAsMidi(v)
 end
 
 function _showAsMidi(val)
