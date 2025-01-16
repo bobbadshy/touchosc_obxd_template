@@ -19,6 +19,7 @@ LOG = 2
 CMD_CONFIG = 'cmdConfig'
 
 local ctrlConfigs = {
+  -- ####################
   -- Master
   ctrlGroupMaster_ctrlMasterVolume_ctrl = {
     sens = 1.5,
@@ -59,6 +60,8 @@ local ctrlConfigs = {
     doubleTap = true,
     tapDelay = 300,
   },
+  -- ####################
+  -- Global
   ctrlGroupGlobal_ctrlGlobalSpread_ctrl = {
     sens = 1.5,
     lblControlName = 'midi',
@@ -147,7 +150,34 @@ local ctrlConfigs = {
     doubleTap = true,
     tapDelay = 300,
   },
+  -- ####################
   -- Oscillators
+  ctrlGroupOscillators_osc1_ctrl = {
+    sens = 3,
+    lblControlName = 'midi',
+    low = -24,
+    high = 24,
+    min = nil,
+    max = nil,
+    unit = '',
+    decimals = 1,
+    type = LINEAR,
+    doubleTap = true,
+    tapDelay = 300,
+  },
+  ctrlGroupOscillators_pw_ctrl = {
+    sens = 3,
+    lblControlName = 'midi',
+    low = 0,
+    high = 127,
+    min = nil,
+    max = nil,
+    unit = '',
+    decimals = 0,
+    type = MIDI,
+    doubleTap = true,
+    tapDelay = 300,
+  },
   ctrlGroupOscillators_osc2_ctrl = {
     sens = 3,
     lblControlName = 'midi',
@@ -161,6 +191,102 @@ local ctrlConfigs = {
     doubleTap = true,
     tapDelay = 300,
   },
+  ctrlGroupOscillators_detune_ctrl = {
+    sens = 3,
+    lblControlName = 'midi',
+    low = 0,
+    high = 127,
+    min = nil,
+    max = nil,
+    unit = '',
+    decimals = 0,
+    type = MIDI,
+    doubleTap = true,
+    tapDelay = 300,
+  },
+  ctrlGroupOscillators_pitchEnvAmt_ctrl = {
+    sens = 3,
+    lblControlName = 'midi',
+    low = 0,
+    high = 127,
+    min = nil,
+    max = nil,
+    unit = '',
+    decimals = 0,
+    type = MIDI,
+    doubleTap = true,
+    tapDelay = 300,
+  },
+  ctrlGroupOscillators_crossMod_ctrl = {
+    sens = 3,
+    lblControlName = 'midi',
+    low = 0,
+    high = 127,
+    min = nil,
+    max = nil,
+    unit = '',
+    decimals = 0,
+    type = MIDI,
+    doubleTap = true,
+    tapDelay = 300,
+  },
+  ctrlGroupOscillators_pwEnvAmt_ctrl = {
+    sens = 3,
+    lblControlName = 'midi',
+    low = 0,
+    high = 127,
+    min = nil,
+    max = nil,
+    unit = '',
+    decimals = 0,
+    type = MIDI,
+    doubleTap = true,
+    tapDelay = 300,
+  },
+  ctrlGroupOscillators_brightAmt_ctrl = {
+    sens = 3,
+    lblControlName = 'midi',
+    low = 0,
+    high = 127,
+    min = nil,
+    max = nil,
+    unit = '',
+    decimals = 0,
+    type = MIDI,
+    doubleTap = true,
+    tapDelay = 300,
+  },
+  ctrlGroupOscillators_osc2PwOffset_ctrl = {
+    sens = 3,
+    lblControlName = 'midi',
+    low = 0,
+    high = 127,
+    min = nil,
+    max = nil,
+    unit = '',
+    decimals = 0,
+    type = MIDI,
+    doubleTap = true,
+    tapDelay = 300,
+  },
+  -- ####################
+  -- Control
+  ctrlGroupOscillators_osc1_ctrl = {
+    sens = 3,
+    lblControlName = 'midi',
+    low = -24,
+    high = 24,
+    min = nil,
+    max = nil,
+    unit = '',
+    decimals = 1,
+    type = LINEAR,
+    doubleTap = true,
+    tapDelay = 300,
+  },
+
+
+  
 }
 
 function init()
