@@ -157,7 +157,7 @@ to fork it and submit the changes back to me.
 
 ## Links
 
-- [OB-Xd Virtual Analog Synthseizer from discoDSP](https://www.discodsp.com/obxd/)
+- [OB-Xd Virtual Analog Synthesizer from discoDSP](https://www.discodsp.com/obxd/)
 - [Hexler TouchOSC](https://hexler.net/touchosc)
 - [TouchOSC Scripting API](https://hexler.net/touchosc/manual/script)
 - Zoom script and many other useful TouchOSC [modules and plugins by tshoppa](https://github.com/tshoppa/touchOSC/tree/main)
