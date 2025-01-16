@@ -32,14 +32,21 @@ local modulation = 0
 local pressure = 63
 
 function init()
-  print('init')
   setOctave(octave)
   setTranspose(transpose)
   for i=1,#w do
+    w[i]:notify('pbEnabled', false)
+    w[i]:notify('atEnabled', false)
+    w[i]:notify('cAtEnabled', false)
+    w[i]:notify('modEnabled', true)
     w[i]:notify('pbSensitivity', afterTouchPitchBendSensitivity)
     w[i]:notify('pbMaxValue', afterTouchPitchBendMaxValue)
   end
   for i=1,#b do
+    w[i]:notify('pbEnabled', false)
+    w[i]:notify('atEnabled', false)
+    w[i]:notify('cAtEnabled', false)
+    w[i]:notify('modEnabled', true)
     b[i]:notify('pbSensitivity', afterTouchPitchBendSensitivity)
     b[i]:notify('pbMaxValue', afterTouchPitchBendMaxValue)
   end
@@ -136,8 +143,6 @@ function onReceiveNotify(key, value)
     calcChannelPressure(value)
   elseif(key == 'press') then
     pressed = pressed + 1
-    print('#########')
-    print(pressed)
     if pressed == 1 then
       reset()
     end
@@ -154,5 +159,13 @@ function onReceiveNotify(key, value)
     setTranspose(value)
   elseif(key == 'channel') then
     setChannel(value-1)
+  elseif(key == 'modEnabled') then
+    print(value)
+    for i=1,#w do
+      w[i]:notify('modEnabled', value)
+    end
+    for i=1,#b do
+      w[i]:notify('modEnabled', value)
+    end
   end
 end

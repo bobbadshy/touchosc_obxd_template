@@ -31,10 +31,10 @@ local modulation = 0
 local pb = 8192
 
 function onReceiveNotify(c, v)
-  if c == 'pbEnabled' then
-    if v == 1 then pbEnabled = true else pbEnabled = false end
-  elseif c == 'atEnabled' then
-    if v == 1 then atEnabled = true else atEnabled = false end
+  if c == 'pbEnabled' then pbEnabled = v
+  elseif c == 'atEnabled' then atEnabled = v
+  elseif c == 'cAtEnabled' then cAtEnabled = v
+  elseif c == 'modEnabled' then modEnabled = v
   elseif c == 'pbSensitivity' then
     pbSensitivity = v
   elseif c == 'pbMaxValue' then
