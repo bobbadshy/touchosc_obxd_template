@@ -47,7 +47,6 @@ end
 
 function reset(k)
   -- reset all modulation when no keys pressed
-  pressed = 0
   pressure = 63
   modulation = 0
   calcChannelPressure(63)
@@ -137,11 +136,14 @@ function onReceiveNotify(key, value)
     calcChannelPressure(value)
   elseif(key == 'press') then
     pressed = pressed + 1
-  elseif(key == 'release') then
-    pressed = pressed - 1
-    if pressed <= 0 then
+    print('#########')
+    print(pressed)
+    if pressed == 1 then
       reset()
     end
+  elseif(key == 'release') then
+    print('down')
+    pressed = pressed - 1
   elseif(key == 'modulation') then
     calcModulation(value)
   elseif(key == 'sustain') then

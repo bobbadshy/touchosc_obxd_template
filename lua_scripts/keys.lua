@@ -17,9 +17,9 @@ local pbSensitivity = 2
 local pbMaxValue = 8192 * 0.75
 -- #
 -- aftertouch on touch slide up/down
-local atEnabled = true
+local atEnabled = false
 -- channel aftertouch on touch slide up/down
-local cAtEnabled = true
+local cAtEnabled = false
 -- modulation on touch slide up/down
 local modEnabled = true
 -- #
@@ -106,7 +106,7 @@ function applyChannelAftertouch(p_y)
 end
 
 function applyModulation(p_y)
-  local d = math.abs(2 * (p_y - start_y) / range_at)
+  local d = math.abs(2 * ((p_y - start_y) / range_at)^2)
   local i = math.min(1, math.max(0, d))
   i = math.floor(i*127)
   if i == modulation then return end
