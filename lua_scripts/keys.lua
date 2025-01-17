@@ -31,14 +31,14 @@ local modulation = 0
 local pb = 8192
 
 function onReceiveNotify(c, v)
-  if c == 'pbEnabledHorz' then print('pbEnabledHorz ' .. tostring(pbEnabledHorz)) pbEnabledHorz = v
-  elseif c == 'atEnabledHorz' then print('atEnabledHorz ' .. tostring(atEnabledHorz)) atEnabledHorz = v
-  elseif c == 'cAtEnabledHorz' then print('cAtEnabledHorz ' .. tostring(cAtEnabledHorz)) cAtEnabledHorz = v
-  elseif c == 'modEnabledHorz' then print('modEnabledHorz ' .. tostring(modEnabledHorz)) modEnabledHorz = v
-  elseif c == 'pbEnabledVert' then print('pbEnabledVert ' .. tostring(pbEnabledVert)) pbEnabledVert = v
-  elseif c == 'atEnabledVert' then print('atEnabledVert ' .. tostring(atEnabledVert)) atEnabledVert = v
-  elseif c == 'cAtEnabledVert' then print('cAtEnabledVert ' .. tostring(cAtEnabledVert)) cAtEnabledVert = v
-  elseif c == 'modEnabledVert' then print('modEnabledVert ' .. tostring(modEnabledVert)) modEnabledVert = v
+  if c == 'pbEnabledHorz' then pbEnabledHorz = v
+  elseif c == 'atEnabledHorz' then atEnabledHorz = v
+  elseif c == 'cAtEnabledHorz' then cAtEnabledHorz = v
+  elseif c == 'modEnabledHorz' then modEnabledHorz = v
+  elseif c == 'pbEnabledVert' then pbEnabledVert = v
+  elseif c == 'atEnabledVert' then atEnabledVert = v
+  elseif c == 'cAtEnabledVert' then cAtEnabledVert = v
+  elseif c == 'modEnabledVert' then modEnabledVert = v
   elseif c == 'pbSensitivity' then pbSensitivity = v
   elseif c == 'pbMaxValue' then pbMaxValue = v
   end

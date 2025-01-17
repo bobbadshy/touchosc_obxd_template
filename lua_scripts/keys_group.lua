@@ -34,28 +34,34 @@ local pressed = 0
 local modulation = 0
 local pressure = 63
 
-keysModulationHorz = false
-keysModulationVert = false
-keysPitchbendHorz = false
-keysPitchbendVert = false
-keysChannelPressureHorz = false
-keysChannelPressureVert = false
-keysPolyphonicHorz = false
-keysPolyphonicVert = false
+local keysModulationHorz = false
+local keysModulationVert = false
+local keysPitchbendHorz = false
+local keysPitchbendVert = false
+local keysChannelPressureHorz = false
+local keysChannelPressureVert = false
+local keysPolyphonicHorz = false
+local keysPolyphonicVert = false
+-- local modulationSlider = false
 
 function init()
   setOctave(octave)
   setTranspose(transpose)
   keysModulationHorz = kbdSettings.children.btnModulationHorz.values.x == 1
   keysModulationVert = kbdSettings.children.btnModulationVert.values.x == 1
+  buttons.children.btnModEnable.values.x = keysModulationVert and 1 or 0
+  --
   keysPitchbendHorz = kbdSettings.children.btnPitchbendHorz.values.x == 1
   keysPitchbendVert = kbdSettings.children.btnPitchbendVert.values.x == 1
+  --
   keysChannelPressureHorz = kbdSettings.children.btnChannelPressureHorz.values.x == 1
   keysChannelPressureVert = kbdSettings.children.btnChannelPressureVert.values.x == 1
+  --
   keysPolyphonicHorz = kbdSettings.children.btnPolyphonicHorz.values.x == 1
   keysPolyphonicVert = kbdSettings.children.btnPolyphonicVert.values.x == 1
-  keysPolyphonicVert = kbdSettings.children.btnPolyphonicVert.values.x == 1
-  buttons.children.btnModEnable.values.x = keysModulationVert and 1 or 0
+  --
+  modulationSlider = kbdSettings.children.btnModulationSlider.values.x == 1
+  self.parent.children.modulationSlider.children.slider:notify('modulationSlider', modulationSlider)
   for i=1,#w do
     w[i]:notify('modEnabledHorz', keysModulationHorz)
     w[i]:notify('modEnabledVert', keysModulationVert)
