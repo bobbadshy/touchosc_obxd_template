@@ -6,8 +6,8 @@ local w = self.children.white.children
 local b = self.children.black.children
 local octave = 4
 local transpose = 0
-local afterTouchPitchBendSensitivity = 1
-local afterTouchPitchBendMaxValue = 8192*0.75
+local afterTouchPitchBendSensitivity = 2
+local afterTouchPitchBendMaxValue = 16384*0.75
 
 local keys =
 {

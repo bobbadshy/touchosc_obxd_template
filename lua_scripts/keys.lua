@@ -83,9 +83,10 @@ end
 function applyPitchBend(pos, start, range)
   local d = (pos - start) / (range/2)
   local i = math.min(1, math.abs(d) ^ pbSensitivity) * pbMaxValue
-  if i == pb then return end
-  if d <= 0 then i = pbMaxValue - i else i = pbMaxValue + i end
-  pb = i
+  if math.abs(pb-i) < pb*0.01 then return end
+  if d <= 0 then i = 8192 - i else i = 8192 + i end
+  i = math.max(0, math.min(16383, i))
+  pb = 0.5*(pb+i)
   local data = self.messages.MIDI[PB_MSG]:data()
   data[2] = math.floor(math.fmod(i, 128)) --lsb
   data[3] = math.floor(i / 128)           --msb
