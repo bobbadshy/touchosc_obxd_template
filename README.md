@@ -24,7 +24,7 @@ The layout and functionality of this template were created using OB-Xd versions
 
 ## Screenshots
 
-![image](https://github.com/user-attachments/assets/493e5e03-a45f-44b0-95d1-2519832f6de6)
+![Screenshot_2025-01-17-07-45-46-065](https://github.com/user-attachments/assets/842959d7-abb3-408b-81fd-209be42b5dc0)
 
 ## Supported features
 
