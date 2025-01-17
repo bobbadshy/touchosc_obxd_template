@@ -9,7 +9,7 @@ CMD_CONFIG = 'cmdConfig'
 
 local config = {
   sens = 1.5,
-  lblControlName = nil,
+  lblControlName = 'midi',
   low = 0,
   high = 127,
   min = nil,
@@ -57,10 +57,6 @@ function onReceiveNotify(c,v)
 end
 
 function onValueChanged(k)
-  if not configSet then
-    print('ERROR! No input curve config present! Aborting!')
-    return
-  end
   -- Check for double-tap
   if k == 'touch' and not self.values.touch then _checkForDoubleTap() end
   -- Send true value to label control

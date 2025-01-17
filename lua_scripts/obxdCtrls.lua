@@ -166,7 +166,7 @@ local ctrlConfigs = {
     tapDelay = 300,
   },
   ctrlGroupOscillators_pw_ctrl = {
-    sens = 3,
+    sens = 1.5,
     lblControlName = 'midi',
     low = 0,
     high = 127,
@@ -192,7 +192,7 @@ local ctrlConfigs = {
     tapDelay = 300,
   },
   ctrlGroupOscillators_detune_ctrl = {
-    sens = 3,
+    sens = 1.5,
     lblControlName = 'midi',
     low = 0,
     high = 127,
@@ -205,7 +205,7 @@ local ctrlConfigs = {
     tapDelay = 300,
   },
   ctrlGroupOscillators_pitchEnvAmt_ctrl = {
-    sens = 3,
+    sens = 1.5,
     lblControlName = 'midi',
     low = 0,
     high = 127,
@@ -218,7 +218,7 @@ local ctrlConfigs = {
     tapDelay = 300,
   },
   ctrlGroupOscillators_crossMod_ctrl = {
-    sens = 3,
+    sens = 1.5,
     lblControlName = 'midi',
     low = 0,
     high = 127,
@@ -231,7 +231,7 @@ local ctrlConfigs = {
     tapDelay = 300,
   },
   ctrlGroupOscillators_pwEnvAmt_ctrl = {
-    sens = 3,
+    sens = 1.5,
     lblControlName = 'midi',
     low = 0,
     high = 127,
@@ -244,7 +244,7 @@ local ctrlConfigs = {
     tapDelay = 300,
   },
   ctrlGroupOscillators_brightAmt_ctrl = {
-    sens = 3,
+    sens = 1.5,
     lblControlName = 'midi',
     low = 0,
     high = 127,
@@ -257,7 +257,7 @@ local ctrlConfigs = {
     tapDelay = 300,
   },
   ctrlGroupOscillators_osc2PwOffset_ctrl = {
-    sens = 3,
+    sens = 1.5,
     lblControlName = 'midi',
     low = 0,
     high = 127,
@@ -271,22 +271,6 @@ local ctrlConfigs = {
   },
   -- ####################
   -- Control
-  ctrlGroupOscillators_osc1_ctrl = {
-    sens = 3,
-    lblControlName = 'midi',
-    low = -24,
-    high = 24,
-    min = nil,
-    max = nil,
-    unit = '',
-    decimals = 1,
-    type = LINEAR,
-    doubleTap = true,
-    tapDelay = 300,
-  },
-
-
-  
 }
 
 function init()
