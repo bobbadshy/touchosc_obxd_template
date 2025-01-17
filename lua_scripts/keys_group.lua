@@ -49,7 +49,6 @@ function init()
   setTranspose(transpose)
   keysModulationHorz = kbdSettings.children.btnModulationHorz.values.x == 1
   keysModulationVert = kbdSettings.children.btnModulationVert.values.x == 1
-  buttons.children.btnModEnable.values.x = keysModulationVert and 1 or 0
   --
   keysPitchbendHorz = kbdSettings.children.btnPitchbendHorz.values.x == 1
   keysPitchbendVert = kbdSettings.children.btnPitchbendVert.values.x == 1
