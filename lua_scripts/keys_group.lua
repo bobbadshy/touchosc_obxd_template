@@ -1,4 +1,7 @@
 ---@diagnostic disable: lowercase-global, undefined-global, undefined-field
+local kbdSettings = self.parent.children.kbdSettings
+local buttons = self.parent.children.buttons
+
 local w = self.children.white.children
 local b = self.children.black.children
 local octave = 4
@@ -31,22 +34,49 @@ local pressed = 0
 local modulation = 0
 local pressure = 63
 
+keysModulationHorz = false
+keysModulationVert = false
+keysPitchbendHorz = false
+keysPitchbendVert = false
+keysChannelPressureHorz = false
+keysChannelPressureVert = false
+keysPolyphonicHorz = false
+keysPolyphonicVert = false
+
 function init()
   setOctave(octave)
   setTranspose(transpose)
+  keysModulationHorz = kbdSettings.children.btnModulationHorz.values.x == 1
+  keysModulationVert = kbdSettings.children.btnModulationVert.values.x == 1
+  keysPitchbendHorz = kbdSettings.children.btnPitchbendHorz.values.x == 1
+  keysPitchbendVert = kbdSettings.children.btnPitchbendVert.values.x == 1
+  keysChannelPressureHorz = kbdSettings.children.btnChannelPressureHorz.values.x == 1
+  keysChannelPressureVert = kbdSettings.children.btnChannelPressureVert.values.x == 1
+  keysPolyphonicHorz = kbdSettings.children.btnPolyphonicHorz.values.x == 1
+  keysPolyphonicVert = kbdSettings.children.btnPolyphonicVert.values.x == 1
+  keysPolyphonicVert = kbdSettings.children.btnPolyphonicVert.values.x == 1
+  buttons.children.btnModEnable.values.x = keysModulationVert and 1 or 0
   for i=1,#w do
-    w[i]:notify('pbEnabled', false)
-    w[i]:notify('atEnabled', false)
-    w[i]:notify('cAtEnabled', false)
-    w[i]:notify('modEnabled', false)
+    w[i]:notify('modEnabledHorz', keysModulationHorz)
+    w[i]:notify('modEnabledVert', keysModulationVert)
+    w[i]:notify('pbEnabledHorz', keysPitchbendHorz)
+    w[i]:notify('pbEnabledVert', keysPitchbendVert)
+    w[i]:notify('cAtEnabledHorz', keysChannelPressureHorz)
+    w[i]:notify('cAtEnabledVert', keysChannelPressureVert)
+    w[i]:notify('atEnabledHorz', keysPolyphonicHorz)
+    w[i]:notify('atEnabledVert', keysPolyphonicVert)
     w[i]:notify('pbSensitivity', afterTouchPitchBendSensitivity)
     w[i]:notify('pbMaxValue', afterTouchPitchBendMaxValue)
   end
   for i=1,#b do
-    w[i]:notify('pbEnabled', false)
-    w[i]:notify('atEnabled', false)
-    w[i]:notify('cAtEnabled', false)
-    w[i]:notify('modEnabled', false)
+    b[i]:notify('modEnabledHorz', keysModulationHorz)
+    b[i]:notify('modEnabledVert', keysModulationVert)
+    b[i]:notify('pbEnabledHorz', keysPitchbendHorz)
+    b[i]:notify('pbEnabledVert', keysPitchbendVert)
+    b[i]:notify('cAtEnabledHorz', keysChannelPressureHorz)
+    b[i]:notify('cAtEnabledVert', keysChannelPressureVert)
+    b[i]:notify('atEnabledHorz', keysPolyphonicHorz)
+    b[i]:notify('atEnabledVert', keysPolyphonicVert)
     b[i]:notify('pbSensitivity', afterTouchPitchBendSensitivity)
     b[i]:notify('pbMaxValue', afterTouchPitchBendMaxValue)
   end
@@ -160,12 +190,13 @@ function onReceiveNotify(key, value)
   elseif(key == 'channel') then
     setChannel(value-1)
   elseif(key == 'modEnabled') then
-    print(value)
     for i=1,#w do
       w[i]:notify('modEnabled', value)
     end
     for i=1,#b do
       w[i]:notify('modEnabled', value)
     end
+  elseif(key == 'settings') then
+    init()
   end
 end

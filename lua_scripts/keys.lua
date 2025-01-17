@@ -7,21 +7,21 @@ local PB_MSG = 2
 local AT_MSG = 3
 -- #
 -- local state
-local range_pb = self.frame.w / 2
-local range_at = self.frame.h
-local start_x = range_pb
+local range_x = self.frame.w
+local range_y = self.frame.h
+local start_x = range_x / 2
 -- #
--- pitchbend on touch wiggle
-local pbEnabled = false
+local modEnabledHorz = true
+local modEnabledVert = true
+local pbEnabledHorz = false
+local pbEnabledVert = false
+local cAtEnabledHorz = false
+local cAtEnabledVert = false
+local atEnabledHorz = false
+local atEnabledVert = false
+
 local pbSensitivity = 2
 local pbMaxValue = 8192 * 0.75
--- #
--- aftertouch on touch slide up/down
-local atEnabled = false
--- channel aftertouch on touch slide up/down
-local cAtEnabled = false
--- modulation on touch slide up/down
-local modEnabled = true
 -- #
 -- ##########
 
@@ -31,14 +31,16 @@ local modulation = 0
 local pb = 8192
 
 function onReceiveNotify(c, v)
-  if c == 'pbEnabled' then pbEnabled = v
-  elseif c == 'atEnabled' then atEnabled = v
-  elseif c == 'cAtEnabled' then cAtEnabled = v
-  elseif c == 'modEnabled' then modEnabled = v
-  elseif c == 'pbSensitivity' then
-    pbSensitivity = v
-  elseif c == 'pbMaxValue' then
-    pbMaxValue = v
+  if c == 'pbEnabledHorz' then print('pbEnabledHorz ' .. tostring(pbEnabledHorz)) pbEnabledHorz = v
+  elseif c == 'atEnabledHorz' then print('atEnabledHorz ' .. tostring(atEnabledHorz)) atEnabledHorz = v
+  elseif c == 'cAtEnabledHorz' then print('cAtEnabledHorz ' .. tostring(cAtEnabledHorz)) cAtEnabledHorz = v
+  elseif c == 'modEnabledHorz' then print('modEnabledHorz ' .. tostring(modEnabledHorz)) modEnabledHorz = v
+  elseif c == 'pbEnabledVert' then print('pbEnabledVert ' .. tostring(pbEnabledVert)) pbEnabledVert = v
+  elseif c == 'atEnabledVert' then print('atEnabledVert ' .. tostring(atEnabledVert)) atEnabledVert = v
+  elseif c == 'cAtEnabledVert' then print('cAtEnabledVert ' .. tostring(cAtEnabledVert)) cAtEnabledVert = v
+  elseif c == 'modEnabledVert' then print('modEnabledVert ' .. tostring(modEnabledVert)) modEnabledVert = v
+  elseif c == 'pbSensitivity' then pbSensitivity = v
+  elseif c == 'pbMaxValue' then pbMaxValue = v
   end
 end
 
@@ -65,17 +67,21 @@ function onPointer(pointers)
     start_y = p.y
   elseif p_state == PointerState.END then
     -- send pitchbend reset msg on release
-    if pbEnabled then self.messages.MIDI[2]:trigger() end
+    if pbEnabledHorz then self.messages.MIDI[2]:trigger() end
   elseif p_state == PointerState.MOVE then
-    if pbEnabled then applyPitchBend(p.x) end
-    if atEnabled then applyAftertouch(p.y) end
-    if cAtEnabled then applyChannelAftertouch(p.y) end
-    if modEnabled then applyModulation(p.y) end
+    if pbEnabledHorz then applyPitchBend(p.x, start_x, range_x) end
+    if pbEnabledVert then applyPitchBend(p.y, start_y, range_y) end
+    if modEnabledHorz then applyModulation(p.x, start_x, range_x) end
+    if modEnabledVert then applyModulation(p.y, start_y, range_y) end
+    if cAtEnabledHorz then applyChannelAftertouch(p.x, start_x) end
+    if cAtEnabledVert then applyChannelAftertouch(p.y, start_y) end
+    if atEnabledHorz then applyAftertouch(p.x, start_x) end
+    if atEnabledVert then applyAftertouch(p.y, start_y) end
   end
 end
 
-function applyPitchBend(p_x)
-  local d = (p_x - start_x) / range_pb
+function applyPitchBend(pos, start, range)
+  local d = (pos - start) / (range/2)
   local i = math.min(1, math.abs(d) ^ pbSensitivity) * pbMaxValue
   if i == pb then return end
   if d <= 0 then i = pbMaxValue - i else i = pbMaxValue + i end
@@ -86,8 +92,8 @@ function applyPitchBend(p_x)
   sendMIDI(data)
 end
 
-function applyAftertouch(p_y)
-  local d = p_y / range_at
+function applyAftertouch(pos, range)
+  local d = pos / range
   local i = math.min(1, math.max(0, d))
   if i == at then return end
   at = i
@@ -96,8 +102,8 @@ function applyAftertouch(p_y)
   sendMIDI(data)
 end
 
-function applyChannelAftertouch(p_y)
-  local d = p_y / range_at
+function applyChannelAftertouch(pos,range)
+  local d = pos / range
   local i = math.min(1, math.max(0, d))
   i = math.floor(i*127)
   if i == cAt then return end
@@ -105,8 +111,8 @@ function applyChannelAftertouch(p_y)
   self.parent.parent:notify('pressure', cAt)
 end
 
-function applyModulation(p_y)
-  local d = math.abs(2 * ((p_y - start_y) / range_at)^2)
+function applyModulation(pos, start, range)
+  local d = math.abs(2 * ((pos - start) / range)^2)
   local i = math.min(1, math.max(0, d))
   i = math.floor(i*127)
   if i == modulation then return end
