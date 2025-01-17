@@ -69,8 +69,8 @@ function onPointer(pointers)
     -- send pitchbend reset msg on release
     if pbEnabledHorz then self.messages.MIDI[2]:trigger() end
   elseif p_state == PointerState.MOVE then
-    if pbEnabledHorz then applyPitchBend(p.x, start_x, range_x) end
-    if pbEnabledVert then applyPitchBend(p.y, start_y, range_y) end
+    if pbEnabledHorz then applyPitchBend(p.x-start_x, range_x) end
+    if pbEnabledVert then applyPitchBend(start_y-p.y, range_y) end
     if modEnabledHorz then applyModulation(p.x, start_x, range_x) end
     if modEnabledVert then applyModulation(p.y, start_y, range_y) end
     if cAtEnabledHorz then applyChannelAftertouch(p.x, start_x) end
@@ -80,8 +80,8 @@ function onPointer(pointers)
   end
 end
 
-function applyPitchBend(pos, start, range)
-  local d = (pos - start) / (range/2)
+function applyPitchBend(delta, range)
+  local d = delta / (range/2)
   local i = math.min(1, math.abs(d) ^ pbSensitivity) * pbMaxValue
   if math.abs(pb-i) < pb*0.01 then return end
   if d <= 0 then i = 8192 - i else i = 8192 + i end
