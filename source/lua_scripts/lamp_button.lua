@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local btn = self.children.lamp
 local midi = self.children.midi
 

@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local l1 = self.children.l1.properties
 local l2l = self.children.l2l.properties
 local l2r = self.children.l2r.properties

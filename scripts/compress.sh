@@ -12,6 +12,7 @@ t="build/"
 
 mkdir -p "$t"
 
+# shellcheck disable=SC2044
 for f in $(find $s -type f -name '*.xml'); do
   echo "Compressing $f to $t"
   # shellcheck disable=SC2086
