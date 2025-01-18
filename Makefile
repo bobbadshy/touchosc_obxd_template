@@ -14,3 +14,7 @@ build:				## Build into .tosc
 
 extract:			## Extract .tosc from repo root intro ./export folder
 	$(SCRIPTS_DIR)/decompress.sh
+
+overwrite-xml:			## Save the current .tosc as .xml in ./source
+	$(SCRIPTS_DIR)/overwrite.sh
+

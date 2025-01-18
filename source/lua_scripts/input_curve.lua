@@ -51,7 +51,6 @@ function onReceiveNotify(c,v)
     config.max = tonumber(config.max)
     config.decimals = tonumber(config.decimals)
     config.unit = tostring(config.unit)
-    print(config,type)
     configSet = true
   end
 end

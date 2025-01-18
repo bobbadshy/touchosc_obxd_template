@@ -43,4 +43,5 @@ luac.out
 
 build/
 export/
+source/xml/*.xml.bak
 
