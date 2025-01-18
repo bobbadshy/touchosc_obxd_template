@@ -207,7 +207,7 @@ frequency, resonance mix, or to other available synthesizer controls..
 
 ## Usage
 
-- Download and open the `.tosc` file in TouchOSC.
+- Download the latest release, and open `obxd.tosc` in TouchOSC.
 - Start up OB-Xd and the rest of your music setup and enjoy!
 
 
