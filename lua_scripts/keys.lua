@@ -20,6 +20,7 @@ local cAtEnabledVert = false
 local atEnabledHorz = false
 local atEnabledVert = false
 local midiCCHorzEnabled = false
+
 local midiCCVertEnabled = false
 
 local pbSensitivity = 2
@@ -32,6 +33,7 @@ local cAt = 0
 local modulation = 0
 local pb = 8192
 local midiCCHorz = 0.0
+
 local midiCCVert = 0.0
 
 function onReceiveNotify(c, v)
@@ -43,8 +45,8 @@ function onReceiveNotify(c, v)
   elseif c == 'cAtEnabledVert' then cAtEnabledVert = v
   elseif c == 'modEnabledHorz' then modEnabledHorz = v
   elseif c == 'modEnabledVert' then modEnabledVert = v
-  elseif c == 'midiCCHorzEnabled' then print(v) midiCCHorzEnabled = v
-  elseif c == 'midiCCVertEnabled' then print(v) midiCCVertEnabled = v
+  elseif c == 'midiCCHorzEnabled' then midiCCHorzEnabled = v
+  elseif c == 'midiCCVertEnabled' then midiCCVertEnabled = v
   elseif c == 'pbSensitivity' then pbSensitivity = v
   elseif c == 'pbMaxValue' then pbMaxValue = v
   end
@@ -58,9 +60,9 @@ function onValueChanged(k)
       cAt = 0
       modulation = 0
       pb = 8192
+      midiCCHorz = 0.0
+      midiCCVert = 0.0
       self.parent.parent:notify('press')
-      -- if midiCCHorzEnabled then applyMidiCCHorz(start_x) end
-      -- if midiCCVertEnabled then applyMidiCCVert(start_y) end
       else
       self.parent.parent:notify('release')
     end
@@ -132,19 +134,22 @@ function applyModulation(pos, start, range)
 end
 
 function applyMidiCCHorz(pos)
-  local i = (pos -start_x) / range_x
-  if i < 0 then i = -1*i^2 else i = i^2 end
-  if i == midiCCHorz then return end
-  midiCCHorz = i
-  self.parent.parent:notify('midiCCHorz', midiCCHorz)
+  midiCCHorz = applyMidiCC(pos - start_x, range_x, midiCCHorz)
+  self.parent.parent:notify('midiCCHorz', midiCCHorz/2)
 end
 
 function applyMidiCCVert(pos)
-  local i = (start_y - pos) / range_y
+  midiCCVert = applyMidiCC(start_y - pos, range_y, midiCCVert)
+  self.parent.parent:notify('midiCCVert', midiCCVert/2)
+end
+
+function applyMidiCC(delta, range, base)
+  local i = 2*delta/range
   if i < 0 then i = -1*i^2 else i = i^2 end
-  if i == midiCCVert then return end
-  midiCCVert = i
-  self.parent.parent:notify('midiCCVert', midiCCVert)
+  if math.abs(math.floor(64*(base - i))) > 12 then
+    return 0.5*(base + i)
+  end
+  return i
 end
 -- #
 -- # end keys.lua

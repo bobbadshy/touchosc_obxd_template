@@ -35,8 +35,12 @@ local modulation = 0
 local pressure = 63
 local midiCCHorzBase = nil
 local midiCCVertBase = nil
+local midiCCVertBase2 = nil
+local midiCCVertBase3 = nil
+local midiCCVertBase4 = nil
 local midiCCHorz = 0
-local midiCCVert = 0
+
+local midiCCVert = {0, 0, 0, 0}
 
 local keysModulationHorz = false
 local keysModulationVert = false
@@ -48,6 +52,9 @@ local keysPolyphonicHorz = false
 local keysPolyphonicVert = false
 local keysMidiCCHorz = false
 local keysMidiCCVert = false
+local keysMidiCCVert2 = false
+local keysMidiCCVert3 = false
+local keysMidiCCVert4 = false
 -- local modulationSlider = false
 
 function init()
@@ -65,10 +72,18 @@ function init()
   keysPolyphonicHorz = kbdSettings.children.btnPolyphonicHorz.values.x == 1
   keysPolyphonicVert = kbdSettings.children.btnPolyphonicVert.values.x == 1
   --
-  keysMidiCCHorz = tonumber(kbdSettings.children.midiCCHorz.children.label.values.text) ~= 0
-  keysMidiCCVert = tonumber(kbdSettings.children.midiCCVert.children.label.values.text) ~= 0
+  keysMidiCCHorz = tonumber(kbdSettings.children.midiCCHorz.tag) ~= 0
   midiCCHorzBase = nil
+  keysMidiCCVert = (
+    tonumber(kbdSettings.children.midiCCVert.tag) +
+    tonumber(kbdSettings.children.midiCCVert2.tag) +
+    tonumber(kbdSettings.children.midiCCVert3.tag) +
+    tonumber(kbdSettings.children.midiCCVert4.tag)
+  ) > 0
   midiCCVertBase = nil
+  midiCCVertBase2 = nil
+  midiCCVertBase3 = nil
+  midiCCVertBase4 = nil
   --
   modulationSlider = kbdSettings.children.btnModulationSlider.values.x == 1
   self.parent.children.modulationSlider.children.slider:notify('modulationSlider', modulationSlider)
@@ -106,13 +121,30 @@ function reset(k)
   -- reset all modulation when no keys pressed
   pressure = 63
   if midiCCHorzBase == nil then
-    midiCCHorzBase = kbdSettings.children.midiCCHorz.children.midiValue.values.x
+    midiCCHorzBase = kbdSettings.children.midiCCHorz.children.midi.values.x
   end
   midiCCHorz = midiCCHorzBase
   if midiCCVertBase == nil then
-    midiCCVertBase = kbdSettings.children.midiCCVert.children.midiValue.values.x
+    midiCCVertBase = kbdSettings.children.midiCCVert.children.midi.values.x
   end
-  midiCCVert = midiCCVertBase
+  midiCCVert[1] = midiCCVertBase
+  if midiCCVertBase2 == nil then
+    midiCCVertBase2 = kbdSettings.children.midiCCVert2.children.midi.values.x
+  end
+  midiCCVert[2] = midiCCVertBase2
+  if midiCCVertBase3 == nil then
+    midiCCVertBase3 = kbdSettings.children.midiCCVert3.children.midi.values.x
+  else
+    kbdSettings.children.midiCCVert3.children.midi.values.x = midiCCVertBase3
+  end
+  midiCCVert[3] = midiCCVertBase3
+  if midiCCVertBase4 == nil then
+    midiCCVertBase4 = kbdSettings.children.midiCCVert4.children.midi.values.x
+  else
+    kbdSettings.children.midiCCVert4.children.midi.values.x = midiCCVertBase4
+  end
+  midiCCVert[4] = midiCCVertBase4
+
   modulation = 0
   calcChannelPressure(63)
   calcModulation(0)
@@ -120,8 +152,9 @@ end
 
 function release()
   if pressed == 0 then
-    kbdSettings.children.midiCCHorz.children.midiValue.values.x = midiCCHorzBase
-    kbdSettings.children.midiCCVert.children.midiValue.values.x = midiCCVertBase
+    kbdSettings.children.midiCCHorz.children.midi.values.x = midiCCHorzBase
+    kbdSettings.children.midiCCVert.children.midi.values.x = midiCCVertBase
+    kbdSettings.children.midiCCVert2.children.midi.values.x = midiCCVertBase2
   end
 end
 
@@ -204,16 +237,22 @@ function calcModulation(value)
 end
 
 function calcMidiCCHorz(value, c)
+  local t = kbdSettings.children.midiCCHorzScale.values.x^2
+  t = (t-0.5)*2
+  t = t<0 and -1.8*(t^2)-0.2 or 1.8*t^2+0.2
   c.values.x = math.min(1,
     math.max(0,
-      midiCCHorz + (kbdSettings.children.midiCCHorzScale.values.x+0.05) * 2 * value
+    midiCCHorz + t*value
   ))
 end
 
-function calcMidiCCVert(value, c)
+function calcMidiCCVert(value, k, c, s)
+  local t = s.values.x
+  t = (t-0.5)*2
+  t = t<0 and -1.8*(t^2)-0.2 or 1.8*t^2+0.2
   c.values.x = math.min(1,
     math.max(0,
-      midiCCVert + (kbdSettings.children.midiCCVertScale.values.x+0.05) * 2 * value
+      midiCCVert[k] + t*value
   ))
 end
 
@@ -222,18 +261,39 @@ function onReceiveNotify(key, value)
     calcChannelPressure(value)
   elseif(key == 'press') then
     pressed = pressed + 1
-    if pressed == 1 then
-      reset()
-    end
+    if pressed == 1 then reset() end
   elseif(key == 'release') then
     pressed = pressed - 1
-    release()
+    if pressed == 0 then release() end
   elseif(key == 'modulation') then
     calcModulation(value)
   elseif(key == 'midiCCHorz') then
-    calcMidiCCHorz(value, kbdSettings.children.midiCCHorz.children.midiValue)
+    calcMidiCCHorz(value, kbdSettings.children.midiCCHorz.children.midi)
   elseif(key == 'midiCCVert') then
-    calcMidiCCVert(value, kbdSettings.children.midiCCVert.children.midiValue)
+    if tonumber(kbdSettings.children.midiCCVert.tag) > 0 then
+      calcMidiCCVert(
+        value, 1,
+        kbdSettings.children.midiCCVert.children.midi,
+        kbdSettings.children.midiCCVertScale)
+      end
+    if tonumber(kbdSettings.children.midiCCVert2.tag) > 0 then
+      calcMidiCCVert(
+        value, 2,
+        kbdSettings.children.midiCCVert2.children.midi,
+        kbdSettings.children.midiCCVertScale2)
+      end
+    if tonumber(kbdSettings.children.midiCCVert3.tag) > 0 then
+      calcMidiCCVert(
+        value, 3,
+        kbdSettings.children.midiCCVert3.children.midi,
+        kbdSettings.children.midiCCVertScale3)
+      end
+    if tonumber(kbdSettings.children.midiCCVert4.tag) > 0 then
+      calcMidiCCVert(
+        value, 4,
+        kbdSettings.children.midiCCVert4.children.midi,
+        kbdSettings.children.midiCCVertScale4)
+    end
   elseif(key == 'sustain') then
     applySustain(value)
   elseif(key == 'octave') then
