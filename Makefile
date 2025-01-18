@@ -1,4 +1,4 @@
-.PHONY: help
+.PHONY: help build extract
 
 CWD=$(shell pwd)
 
@@ -9,8 +9,8 @@ SCRIPTS_DIR=./scripts
 
 export
 
-build:
+build:				## Build into .tosc
 	$(SCRIPTS_DIR)/build.sh
 
-extract:
+extract:			## Extract .tosc from repo root intro ./export folder
 	$(SCRIPTS_DIR)/decompress.sh
