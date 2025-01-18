@@ -11,6 +11,7 @@ xml="../../source/xml/obxd.xml"
 
 cp -a "$xml" "$target"
 
+# shellcheck disable=SC2045
 for each in $(ls -1); do
   echo -n "Replacing $each in $(basename $target) ... "
   mv "$target" "$target.tmp"
