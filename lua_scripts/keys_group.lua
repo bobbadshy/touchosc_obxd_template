@@ -33,6 +33,10 @@ local held_notes = {}
 local pressed = 0
 local modulation = 0
 local pressure = 63
+local midiCCHorzBase = nil
+local midiCCVertBase = nil
+local midiCCHorz = 0
+local midiCCVert = 0
 
 local keysModulationHorz = false
 local keysModulationVert = false
@@ -42,6 +46,8 @@ local keysChannelPressureHorz = false
 local keysChannelPressureVert = false
 local keysPolyphonicHorz = false
 local keysPolyphonicVert = false
+local keysMidiCCHorz = false
+local keysMidiCCVert = false
 -- local modulationSlider = false
 
 function init()
@@ -59,6 +65,11 @@ function init()
   keysPolyphonicHorz = kbdSettings.children.btnPolyphonicHorz.values.x == 1
   keysPolyphonicVert = kbdSettings.children.btnPolyphonicVert.values.x == 1
   --
+  keysMidiCCHorz = tonumber(kbdSettings.children.midiCCHorz.children.label.values.text) ~= 0
+  keysMidiCCVert = tonumber(kbdSettings.children.midiCCVert.children.label.values.text) ~= 0
+  midiCCHorzBase = nil
+  midiCCVertBase = nil
+  --
   modulationSlider = kbdSettings.children.btnModulationSlider.values.x == 1
   self.parent.children.modulationSlider.children.slider:notify('modulationSlider', modulationSlider)
   for i=1,#w do
@@ -70,6 +81,8 @@ function init()
     w[i]:notify('cAtEnabledVert', keysChannelPressureVert)
     w[i]:notify('atEnabledHorz', keysPolyphonicHorz)
     w[i]:notify('atEnabledVert', keysPolyphonicVert)
+    w[i]:notify('midiCCHorzEnabled', keysMidiCCHorz)
+    w[i]:notify('midiCCVertEnabled', keysMidiCCVert)
     w[i]:notify('pbSensitivity', afterTouchPitchBendSensitivity)
     w[i]:notify('pbMaxValue', afterTouchPitchBendMaxValue)
   end
@@ -82,6 +95,8 @@ function init()
     b[i]:notify('cAtEnabledVert', keysChannelPressureVert)
     b[i]:notify('atEnabledHorz', keysPolyphonicHorz)
     b[i]:notify('atEnabledVert', keysPolyphonicVert)
+    b[i]:notify('midiCCHorzEnabled', keysMidiCCHorz)
+    b[i]:notify('midiCCVertEnabled', keysMidiCCVert)
     b[i]:notify('pbSensitivity', afterTouchPitchBendSensitivity)
     b[i]:notify('pbMaxValue', afterTouchPitchBendMaxValue)
   end
@@ -90,9 +105,24 @@ end
 function reset(k)
   -- reset all modulation when no keys pressed
   pressure = 63
+  if midiCCHorzBase == nil then
+    midiCCHorzBase = kbdSettings.children.midiCCHorz.children.midiValue.values.x
+  end
+  midiCCHorz = midiCCHorzBase
+  if midiCCVertBase == nil then
+    midiCCVertBase = kbdSettings.children.midiCCVert.children.midiValue.values.x
+  end
+  midiCCVert = midiCCVertBase
   modulation = 0
   calcChannelPressure(63)
   calcModulation(0)
+end
+
+function release()
+  if pressed == 0 then
+    kbdSettings.children.midiCCHorz.children.midiValue.values.x = midiCCHorzBase
+    kbdSettings.children.midiCCVert.children.midiValue.values.x = midiCCVertBase
+  end
 end
 
 function applyToKeys()
@@ -173,6 +203,20 @@ function calcModulation(value)
   sendMIDI(d)
 end
 
+function calcMidiCCHorz(value, c)
+  c.values.x = math.min(1,
+    math.max(0,
+      midiCCHorz + (kbdSettings.children.midiCCHorzScale.values.x+0.05) * 2 * value
+  ))
+end
+
+function calcMidiCCVert(value, c)
+  c.values.x = math.min(1,
+    math.max(0,
+      midiCCVert + (kbdSettings.children.midiCCVertScale.values.x+0.05) * 2 * value
+  ))
+end
+
 function onReceiveNotify(key, value)
   if(key == 'pressure') then
     calcChannelPressure(value)
@@ -182,10 +226,14 @@ function onReceiveNotify(key, value)
       reset()
     end
   elseif(key == 'release') then
-    print('down')
     pressed = pressed - 1
+    release()
   elseif(key == 'modulation') then
     calcModulation(value)
+  elseif(key == 'midiCCHorz') then
+    calcMidiCCHorz(value, kbdSettings.children.midiCCHorz.children.midiValue)
+  elseif(key == 'midiCCVert') then
+    calcMidiCCVert(value, kbdSettings.children.midiCCVert.children.midiValue)
   elseif(key == 'sustain') then
     applySustain(value)
   elseif(key == 'octave') then

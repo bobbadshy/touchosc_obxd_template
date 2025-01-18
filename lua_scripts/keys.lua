@@ -19,6 +19,8 @@ local cAtEnabledHorz = false
 local cAtEnabledVert = false
 local atEnabledHorz = false
 local atEnabledVert = false
+local midiCCHorzEnabled = false
+local midiCCVertEnabled = false
 
 local pbSensitivity = 2
 local pbMaxValue = 8192 * 0.75
@@ -29,16 +31,20 @@ local at = 0
 local cAt = 0
 local modulation = 0
 local pb = 8192
+local midiCCHorz = 0.0
+local midiCCVert = 0.0
 
 function onReceiveNotify(c, v)
   if c == 'pbEnabledHorz' then pbEnabledHorz = v
-  elseif c == 'atEnabledHorz' then atEnabledHorz = v
-  elseif c == 'cAtEnabledHorz' then cAtEnabledHorz = v
-  elseif c == 'modEnabledHorz' then modEnabledHorz = v
   elseif c == 'pbEnabledVert' then pbEnabledVert = v
+  elseif c == 'atEnabledHorz' then atEnabledHorz = v
   elseif c == 'atEnabledVert' then atEnabledVert = v
+  elseif c == 'cAtEnabledHorz' then cAtEnabledHorz = v
   elseif c == 'cAtEnabledVert' then cAtEnabledVert = v
+  elseif c == 'modEnabledHorz' then modEnabledHorz = v
   elseif c == 'modEnabledVert' then modEnabledVert = v
+  elseif c == 'midiCCHorzEnabled' then print(v) midiCCHorzEnabled = v
+  elseif c == 'midiCCVertEnabled' then print(v) midiCCVertEnabled = v
   elseif c == 'pbSensitivity' then pbSensitivity = v
   elseif c == 'pbMaxValue' then pbMaxValue = v
   end
@@ -53,7 +59,9 @@ function onValueChanged(k)
       modulation = 0
       pb = 8192
       self.parent.parent:notify('press')
-    else
+      -- if midiCCHorzEnabled then applyMidiCCHorz(start_x) end
+      -- if midiCCVertEnabled then applyMidiCCVert(start_y) end
+      else
       self.parent.parent:notify('release')
     end
   end
@@ -77,6 +85,8 @@ function onPointer(pointers)
     if cAtEnabledVert then applyChannelAftertouch(p.y, start_y) end
     if atEnabledHorz then applyAftertouch(p.x, start_x) end
     if atEnabledVert then applyAftertouch(p.y, start_y) end
+    if midiCCHorzEnabled then applyMidiCCHorz(p.x) end
+    if midiCCVertEnabled then applyMidiCCVert(p.y) end
   end
 end
 
@@ -119,6 +129,22 @@ function applyModulation(pos, start, range)
   if i == modulation then return end
   modulation = i
   self.parent.parent:notify('modulation', modulation)
+end
+
+function applyMidiCCHorz(pos)
+  local i = (pos -start_x) / range_x
+  if i < 0 then i = -1*i^2 else i = i^2 end
+  if i == midiCCHorz then return end
+  midiCCHorz = i
+  self.parent.parent:notify('midiCCHorz', midiCCHorz)
+end
+
+function applyMidiCCVert(pos)
+  local i = (start_y - pos) / range_y
+  if i < 0 then i = -1*i^2 else i = i^2 end
+  if i == midiCCVert then return end
+  midiCCVert = i
+  self.parent.parent:notify('midiCCVert', midiCCVert)
 end
 -- #
 -- # end keys.lua
