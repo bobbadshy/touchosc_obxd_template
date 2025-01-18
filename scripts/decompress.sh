@@ -7,11 +7,20 @@
 # ./scripts/decompress.sh
 #
 
-s="obxd.tosc"
-t=".export"
+MYDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-mkdir -p "$t"
+REPO=$(realpath "$MYDIR/..")
+# shellcheck disable=SC2034
+BUILDDIR=$(realpath "$MYDIR/../build")
+# shellcheck disable=SC2034
+SOURCEDIR=$(realpath "$MYDIR/../source")
 
-echo "Decompressing $s to $t/$(basename $s .tosc).xml .."
+cd "$MYDIR" || exit 1
+mkdir -p "$REPO/export" || exit 1
 
-pigz -c -d < "$s" > "$t/$(basename $s .tosc).xml"
+s="$REPO/obxd.tosc"
+t="$REPO/export/$(basename "$s" .tosc).xml"
+
+echo "Decompressing $s to $t .."
+
+pigz -c -d < "$s" > "$t"

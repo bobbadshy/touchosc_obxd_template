@@ -7,16 +7,19 @@
 # ./scripts/compress.sh
 #
 
+MYDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+# shellcheck disable=SC2034
+REPO=$(realpath "$MYDIR/..")
+BUILDDIR=$(realpath "$MYDIR/../build")
+SOURCEDIR=$(realpath "$MYDIR/../source")
+
+cd "$MYDIR" || exit 1
+
 echo -e "\n == Compress .xml to .tosc ==\n"
 
-s="source/xml"
-t="build/"
+s="$SOURCEDIR/xml/obxd.xml"
+t="$BUILDDIR/$(basename "$s" .xml).tosc"
 
-mkdir -p "$t"
-
-# shellcheck disable=SC2044
-for f in $(find $s -type f -name '*.xml'); do
-  echo -e "Compressing $f >> $t$(basename $f .xml).tosc"
-  # shellcheck disable=SC2086
-  pigz -c -z < "$f" > "$t$(basename $f .xml).tosc"
-done
+echo -e "Compressing $s >> $t"
+pigz -c -z < "$s" > "$t"

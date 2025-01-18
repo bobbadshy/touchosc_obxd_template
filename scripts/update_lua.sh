@@ -2,18 +2,25 @@
 
 echo -e "\n == Replacing .lua in .xml ==\n"
 
-lua_files="build/lua_min"
+MYDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+# shellcheck disable=SC2034
+REPO=$(realpath "$MYDIR/..")
+BUILDDIR=$(realpath "$MYDIR/../build")
+SOURCEDIR=$(realpath "$MYDIR/../source")
+
+lua_files="$BUILDDIR/lua_min"
 
 cd "$lua_files" || exit
 
-target="../../build/obxd.xml"
-xml="../../source/xml/obxd.xml"
+target="$BUILDDIR/obxd.xml"
+xml="$SOURCEDIR/xml/obxd.xml"
 
 cp -a "$xml" "$target"
 
 # shellcheck disable=SC2045
 for each in $(ls -1); do
-  echo -n "Replacing $each in $(basename $target) ... "
+  echo -n "Replacing $each in $(basename "$target") ... "
   mv "$target" "$target.tmp"
   lua="$(<"$each")"
   perl -e '
