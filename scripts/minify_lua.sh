@@ -1,8 +1,13 @@
 #!/bin/bash
 
-cd "lua_scripts" || exit
+echo "Minify lua.."
+
+cd "source/lua_scripts" || exit
+
+t="../../build/lua_min"
+mkdir -p "$t"
 
 # shellcheck disable=SC2045
 for each in $(ls -1); do
-  luamin -f "$each" > ../lua_min"/$each";
+  luamin -f "$each" > "$t/$each";
 done

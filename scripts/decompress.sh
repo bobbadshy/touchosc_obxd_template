@@ -7,10 +7,9 @@
 # ./scripts/decompress.sh
 #
 
-mkdir -p "xml_export"
+t=".export/"
 
-
-t="xml_export/"
+mkdir -p "$t"
 
 for f in $(find . -maxdepth 1 -type f -name '*.tosc'); do
   echo "Decompressing $f to $t .. also formats the .xml a bit better to allow for better showing a git diff on it"
