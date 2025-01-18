@@ -28,6 +28,8 @@ The layout and functionality of this template were created using OB-Xd versions
 
 ## Supported features
 
+### OB-Xd support
+
 - All controls of the OB-Xd virtual synth have been implemented. The control
   layout closely follows the OB-Xd "IIkka Rosma Dark" default skin.
 
@@ -51,6 +53,8 @@ The layout and functionality of this template were created using OB-Xd versions
   Restart OB-Xd. The MIDI menu should now show **"TouchOsc"** as a new MIDI mappings
   option.
 
+### Controls and faders
+
 - All faders use a small lua script to ensure high-precision, smooth input
   curves. This script minimizes sudden value "jumps" when starting to
   manipulate a control, and allows for reliable fine-tuning of each fader's
@@ -68,7 +72,7 @@ The layout and functionality of this template were created using OB-Xd versions
   **Note:** True value displays are only approximations of the actual value in
   OB-Xd. If the value is a little bit off ..just go by ear ;)
 
-- Surface zoom:
+### Surface zoom feature
 
   Double-tap on a section heading or on background/borders to zoom into that
   section. Swipe to move around the surface. Double-tap again to zoom out. (The
@@ -76,7 +80,7 @@ The layout and functionality of this template were created using OB-Xd versions
   [GitHub repository](https://github.com/tshoppa/touchOSC/tree/main) by
   tshoppa!)
 
-- Preset manager:
+### Shiva Preset manager
 
   The template comes with its own preset manager. These presets are not linked
   to the OB-Xd presets, but, if you enable MIDI OUT feedback in OB-Xd (v3.5 and
@@ -91,6 +95,13 @@ The layout and functionality of this template were created using OB-Xd versions
   (I desigend the preset manager to be modular. So, you can also re-use it
   separately for your own TouchOSC surfaces.)
 
+| | Preset manager | |
+| --- | --- | -- |
+| Extended mode | Direct Access mode | Crossfader active |
+| ![image](https://github.com/user-attachments/assets/aa235746-7280-44ee-be2d-0aebed7f6b33) | ![image](https://github.com/user-attachments/assets/921c827b-7dad-419c-ab48-9306ec1c68fd) | ![image](https://github.com/user-attachments/assets/c39d1b43-cac6-4991-aeb2-12b2eca5763a) |
+|  Preset name entry  |  Settings panel  | **Restore Work** button and<br>**\*Changed controls\*** indication |
+| ![image](https://github.com/user-attachments/assets/2b807dd6-0e63-4798-932d-e79e998337fe) | ![image](https://github.com/user-attachments/assets/7442cc59-8bc4-44b9-8bb7-cf9b4213f1bc) | ![image](https://github.com/user-attachments/assets/f8770af0-e73f-4629-b3ae-9d24bb0de329) |
+
 ### Integrated keyboard
 
 The integrated keyboard currently includes:
@@ -101,10 +112,10 @@ The integrated keyboard currently includes:
 
 - Octave and transpose buttons.
 
-- Positional velocity, and optional aftertouch modulation support on the keys.
+#### Positional velocity and aftertouch modulation on keys 
 
-  Velocity is controlled by the initial touch position on the keys: bottom of
-  keys is loudest, top is the most quiet.
+Velocity is controlled by the initial touch position on the keys: bottom of
+keys is loudest, top is the most quiet.
   
   Modulation (MIDI cc1) is engaged by sliding up or down on the keys. The
   modulation will stay active after releasing the keys. It will automatically
