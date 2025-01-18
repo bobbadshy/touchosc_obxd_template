@@ -7,14 +7,29 @@ lua_files="build/lua_min"
 cd "$lua_files" || exit
 
 target="../../build/obxd.xml"
-
 xml="../../source/xml/obxd.xml"
 
-for each in $(ls -1); do
-  echo "Replacing $each ..."
-  lua="$(<"$each")"
-  perl -pe "s|\<value\>\<\!\[CDATA\[--\[\[START $each\]\].+?--\[\[END $each\]\]]\]\>\</value\>|$lua|" \
-    < "$xml" \
-    > "$target"
+cp -a "$xml" "$target"
 
+for each in $(ls -1); do
+  echo -n "Replacing $each in $(basename $target) ... "
+  mv "$target" "$target.tmp"
+  lua="$(<"$each")"
+  perl -e '
+use strict;
+use warnings;
+my $i = 0;
+
+while (<>) {
+  $i += s|--\[\[START '"$each"'\]\].+?--\[\[END '"$each"'\]\]|'"$lua"'|g;
+  print;
+}
+
+END {
+  print STDERR "replaced $i\n";
+};
+' < "$target.tmp" > "$target"
 done
+
+rm "$target.tmp"
+

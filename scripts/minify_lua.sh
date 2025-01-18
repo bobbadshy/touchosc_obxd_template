@@ -9,7 +9,7 @@ mkdir -p "$t"
 
 # shellcheck disable=SC2045
 for each in $(ls -1); do
-  echo "Minifying $each ..."
+  echo -e "Minifying: $each >> $t/$each"
   lua=$(luamin -f "$each")
   echo -n "--[[START $each]]$lua--[[END $each]]" > "$t/$each";
 done
