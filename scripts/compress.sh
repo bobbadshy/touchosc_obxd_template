@@ -7,6 +7,8 @@
 # ./scripts/compress.sh
 #
 
+echo -e "\n == Compress .xml to .tosc ==\n"
+
 s="source/xml"
 t="build/"
 

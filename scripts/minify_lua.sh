@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Minify lua.."
+echo -e "\n == Minify lua ==\n"
 
 cd "source/lua_scripts" || exit
 
@@ -9,5 +9,7 @@ mkdir -p "$t"
 
 # shellcheck disable=SC2045
 for each in $(ls -1); do
-  luamin -f "$each" > "$t/$each";
+  echo "Minifying $each ..."
+  lua=$(luamin -f "$each")
+  echo -n "--[[START $each]]$lua--[[END $each]]" > "$t/$each";
 done
