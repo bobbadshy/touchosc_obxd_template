@@ -29,7 +29,7 @@ please consider supporting development with a small donation! Check out the
 
 ## Screenshots
 
-![Screenshot_2025-01-17-07-45-46-065](https://github.com/user-attachments/assets/842959d7-abb3-408b-81fd-209be42b5dc0)
+![main_view](https://github.com/user-attachments/assets/2a18f685-302e-49fc-8a49-583d0a4ae9cd)
 
 ## Supported features
 
