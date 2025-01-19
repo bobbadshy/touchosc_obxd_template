@@ -47,7 +47,7 @@ The layout and functionality of this template were created using OB-Xd versions
   The template also contains a MIDI mappings XML file for OB-Xd. If some MIDI
   mappings do not work as expected (OB-Xd versions below 3.6), try to copy:
   
-  [./obxd_midi_mapping/TouchOsc.xml](./obxd_midi_mapping/TouchOsc.xml)
+  [./extra_files/obxd_midi_mapping/TouchOsc.xml](./extra_files/obxd_midi_mapping/TouchOsc.xml)
   
   from this template into your documents "discoDSP" folder:
   

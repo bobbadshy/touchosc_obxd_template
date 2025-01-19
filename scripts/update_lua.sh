@@ -1,25 +1,19 @@
 #!/bin/bash
 
+# read config
+. "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/config.sh"
+
 echo -e "\n == Replacing .lua in .xml ==\n"
 
-MYDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+cd "$BUILDDIR_LUA" || exit 1
 
-# shellcheck disable=SC2034
-REPO=$(realpath "$MYDIR/..")
-BUILDDIR=$(realpath "$MYDIR/../build")
-SOURCEDIR=$(realpath "$MYDIR/../source")
+target="$XML_BUILD"
+xml="$XML_SOURCE"
 
-lua_files="$BUILDDIR/lua_min"
-
-cd "$lua_files" || exit
-
-target="$BUILDDIR/obxd.xml"
-xml="$SOURCEDIR/xml/obxd.xml"
-
-cp -a "$xml" "$target"
+cp -a "$xml" "$target" || exit 1
 
 # shellcheck disable=SC2045
-for each in $(ls -1); do
+for each in  $(ls -1); do
   echo -n "Replacing $each in $(basename "$target") ... "
   mv "$target" "$target.tmp"
   lua="$(<"$each")"
@@ -40,4 +34,3 @@ END {
 done
 
 rm "$target.tmp"
-
