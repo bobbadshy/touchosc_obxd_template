@@ -4,8 +4,8 @@
 [Oberheim OB-Xd Virtual Analog Synthesizer](https://www.discodsp.com/obxd/) (and
 possibly other Oberheim OB-X/OB-Xa software emulations).
 
-The layout and functionality of this template were created using OB-Xd versions
-3.5.3 through 3.6. Check out the detailed feature list below!
+Layout and functionality of this template were created using OB-Xd versions 3.5.3
+through 3.6. Check out the detailed feature list below!
 
 If you like this software, and use it frequently or in a commercial context, please
 consider supporting development with a small donation! Check out the
