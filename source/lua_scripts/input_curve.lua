@@ -1,6 +1,5 @@
+--[[START ctrl_midi_lbl.lua]]
 ---@diagnostic disable: lowercase-global, undefined-global
--- ####################
--- input_curve.lua
 
 MIDI = 0
 LINEAR = 1
@@ -197,5 +196,4 @@ function _getScaleFactor()
   end
   return math.max(0, scale, math.min(1, math.abs(rel/max)))
 end
--- input_curve.lua
--- ####################
+--[[END ctrl_midi_lbl.lua]]

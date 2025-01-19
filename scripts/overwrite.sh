@@ -5,5 +5,5 @@
 
 ./decompress.sh || exit 1
 
-mv "$XML_SOURCE" "$XML_SOURCE.bakk"
+mv "$XML_SOURCE" "$XML_SOURCE.bak"
 cp -av "$XML_EXPORT" "$XML_SOURCE"
