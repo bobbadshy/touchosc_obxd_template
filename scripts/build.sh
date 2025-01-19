@@ -7,6 +7,7 @@ mkdir -p "$BUILDDIR" || exit 1
 
 ./minify_lua.sh && \
 ./update_lua.sh && \
+./update_readme.sh && \
 ./compress.sh || exit 1
 
 echo
