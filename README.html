@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>TouchOSC OB-Xd template Redame</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+html {
+	text-align: center;
+}
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 16px);
+	color: #222222;
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+
+	text-align: initial;
+	display: inline-block;
+	max-width: 800pt;
+	min-width: 200pt;
+	/* margin-left:20%;
+	margin-right:20%; */
+	/* display*: inline; ie hack */
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="touchosc-template-for-the-ob-xd-virtual-analog-synthesizer">TouchOSC template for the OB-Xd Virtual Analog Synthesizer</h1>
+<p><a href="https://hexler.net/touchosc/">TouchOSC</a> template for the
+<a href="https://www.discodsp.com/obxd/">Oberheim OB-Xd Virtual Analog Synthesizer</a> (and
+possibly other Oberheim OB-X/OB-Xa software emulations).</p>
+<p>Layout and functionality of this template were created using OB-Xd versions
+3.5.3 through 3.6. Check out the detailed feature list below!</p>
+<p>If you like this software, and use it frequently or in a commercial context,
+please consider supporting development with a small donation! Check out the
+<a href="#donations">Donations</a> section at the end of this Readme. Thank you!
+🙂</p>
+<h2 id="contents">Contents</h2>
+<ul>
+<li><a href="#touchosc-template-for-the-ob-xd-virtual-analog-synthesizer">TouchOSC template for the OB-Xd Virtual Analog Synthesizer</a>
+<ul>
+<li><a href="#contents">Contents</a></li>
+<li><a href="#screenshots">Screenshots</a></li>
+<li><a href="#supported-features">Supported features</a>
+<ul>
+<li><a href="#integrated-keyboard">Integrated keyboard</a></li>
+</ul>
+</li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#download">Download</a></li>
+<li><a href="#bug-reports-feature-suggestions-or-contributing">Bug reports, Feature Suggestions or Contributing</a></li>
+<li><a href="#planned-features">Planned features</a></li>
+<li><a href="#links">Links</a></li>
+<li><a href="#donations">Donations</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="screenshots">Screenshots</h2>
+<p><img src="https://github.com/user-attachments/assets/842959d7-abb3-408b-81fd-209be42b5dc0" alt="Screenshot_2025-01-17-07-45-46-065"></p>
+<h2 id="supported-features">Supported features</h2>
+<ul>
+<li>
+<p>All controls of the OB-Xd virtual synth have been implemented. The control
+layout closely follows the OB-Xd &quot;IIkka Rosma Dark&quot; default skin.</p>
+</li>
+<li>
+<p>MIDI mappings match the default mappings found in OB-Xd v3.6. So all
+controls should work out of the box, with no further setup neccessary.</p>
+<p>The template also contains a MIDI mappings XML file for OB-Xd. If some MIDI
+mappings do not work as expected (OB-Xd versions below 3.6), try to copy:</p>
+<p><a href="./midi_mapping/TouchOsc.xml">./midi_mapping/TouchOsc.xml</a></p>
+<p>from this template into your documents &quot;discoDSP&quot; folder:</p>
+<p>... /discoDSP/OB-Xd 3/MIDI/TouchOsc.xml</p>
+<p><em>The &quot;discoDSP&quot; folder is located in the &quot;Documents&quot; folder in your user's
+<code>$HOME</code> directory. The exact naming and location of the &quot;Documents&quot; folder
+differ between operating systems and distributions. Consult the discoDSP
+documentation if you are unsure about the folder location.</em></p>
+<p>Restart OB-Xd. The MIDI menu should now show <strong>&quot;TouchOsc&quot;</strong> as a new MIDI mappings
+option.</p>
+</li>
+<li>
+<p>All faders use a small lua script to ensure high-precision, smooth input
+curves. This script minimizes sudden value &quot;jumps&quot; when starting to
+manipulate a control, and allows for reliable fine-tuning of each fader's
+current position.</p>
+<ul>
+<li>Double-tapping on a fader will reset it to its default zero or center
+position.</li>
+</ul>
+</li>
+<li>
+<p>MIDI and true value display:</p>
+<p>Upon touch, all faders show a value tooltip with
+the current MIDI value, or for some faders, a true control value to aid in
+fine-tuning.</p>
+<p><strong>Note:</strong> True value displays are only approximations of the actual value in
+OB-Xd. If the value is a little bit off ..just go by ear <img class="emoji" alt="wink" src="data:image/png;base64,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" /></p>
+</li>
+<li>
+<p>Surface zoom:</p>
+<p>Double-tap on a section heading or on background/borders to zoom into that
+section. Swipe to move around the surface. Double-tap again to zoom out. (The
+zoom feature is based on the awesome zoom scripts found in this
+<a href="https://github.com/tshoppa/touchOSC/tree/main">GitHub repository</a> by
+tshoppa!)</p>
+</li>
+<li>
+<p>Preset manager:</p>
+<p>The template comes with its own preset manager. These presets are not linked
+to the OB-Xd presets, but, if you enable MIDI OUT feedback in OB-Xd (v3.5 and
+higher), you can copy over and save your favorite presets into the surface.</p>
+<p>The preset manager offers a direct access mode for live switching between
+existing presets, copy and paste presets between slots, as well as a basic
+preset crossfader.</p>
+<p>For a full feature list and usage description, check out the
+<a href="https://github.com/bobbadshy/touchosc_shiva_preset_manager">Shiva Preset Manager README at GitHub</a>!
+(I desigend the preset manager to be modular. So, you can also re-use it
+separately for your own TouchOSC surfaces.)</p>
+</li>
+</ul>
+<h3 id="integrated-keyboard">Integrated keyboard</h3>
+<p>The integrated keyboard currently includes:</p>
+<ul>
+<li>
+<p>Pitchbend slider, with toggle switch for half or full MIDI range. Full MIDI
+range by default maps to two semitones, so the toggle will switch between one
+semitone and a full tone.</p>
+</li>
+<li>
+<p>Octave and transpose buttons.</p>
+</li>
+<li>
+<p>Positional velocity, and optional aftertouch modulation support on the keys.</p>
+<p>Velocity is controlled by the initial touch position on the keys: bottom of
+keys is loudest, top is the most quiet.</p>
+<p>Modulation (MIDI cc1) is engaged by sliding up or down on the keys. The
+modulation will stay active after releasing the keys. It will automatically
+reset when all keys are released and then a new key is pressed. This behaviour
+seemed the most intuitive, so modulation stays active after releasing the
+keys, but when you continue playing again, it will do so without modulation.</p>
+<p><strong>Extended keyboard features:</strong> In addition, the keyboard also supports global
+MIDI channel pressure, and individual keys polyphonic aftertouch, as well as
+registering <em>horizontal</em> movement on pressed keys. These features are disabled
+by default, since (to my knowledge) OB-Xd does not support MIDI aftertouch. If
+however, you want to play some other synth with the keyboard, you can enable
+these features in the keyboard's settings panel. <img class="emoji" alt="smiley" src="data:image/png;base64,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" /></p>
+</li>
+<li>
+<p>&quot;Keys Sustain&quot; button (MIDI cc66 &quot;Sustenuto pedal&quot;).</p>
+<p>When Sustenuto is engaged, all currently pressed keys <em>are held</em> on releasing
+the keys. So, for example, you can hold a chord, and then play some melody
+over it. The &quot;Keys Sustain&quot; button supports stacking: Tap once to sustain all
+currently pressed keys. Tap again to add new keys. Double-tap or hold and
+release to cancel the sustenuto (hold and release for exactly timed cancel
+upon button release). You can also switch octaves on the keyboard while
+sustain is being held! Play a bass note and sustain it, switch octave, and
+play a melody on top. <img class="emoji" alt="smiley" src="data:image/png;base64,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" /></p>
+</li>
+</ul>
+<p><strong>A note on manipulating the two oscillators:</strong></p>
+<p>Since MIDI has the well-known limitation of only supporting 128 discrete steps
+on normal MIDI CC messages, this resolution is, of course, not enough to allow
+for true continuous manipulation of the available oscillator ranges. However,
+the OB-Xd GUI also does not offer true continuous control of the two
+oscillators. It does have a fine-control setting, but at the current version
+(3.6), this fine-control setting is a bit hard to operate, and is also limited
+to discrete steps. So, while the oscillator controls in OB-Xd offer more fine
+control than this surface, the controls in this surface are <em>almost on-par</em> with
+the resolution available in the OB-Xd GUI. Maybe in a future version, OB-Xd will
+improve the oscillator controls, and also add high resolution MIDI support.
+(MIDI has the option to send high resolution values encoded in MSB and LSB bit
+values, as for example, is the default mode for MIDI pitchbend message.)</p>
+<h2 id="usage">Usage</h2>
+<ul>
+<li>Download and open the <code>.tosc</code> file in TouchOSC.</li>
+<li>Start up OB-Xd and the rest of your music setup and enjoy!</li>
+</ul>
+<h2 id="download">Download</h2>
+<p>Check the <a href="https://github.com/bobbadshy/touchosc_obxd_template/releases">Releases</a> section.</p>
+<h2 id="bug-reports-feature-suggestions-or-contributing">Bug reports, Feature Suggestions or Contributing</h2>
+<p><em>This is currently a brand new project. First RC release was Jan 2025. So, while
+it seems to work well already, please keep in mind that it is <strong>currently in
+testing and not ready for production</strong>. Thank you!</em></p>
+<p>Please file an issue in the <a href="https://github.com/bobbadshy/touchosc_obxd_template/issues">Issues</a> section.</p>
+<p>As this is just a hobby project in my freetime, I cannot promise I will get to
+any of them, but nevertheless, suggestions and bug reports are welcome! 🙂</p>
+<p>If you have any ideas or want to contribute to the project yourself, feel free
+to fork it and submit the changes back to me.</p>
+<h2 id="planned-features">Planned features</h2>
+<ul>
+<li>Light color scheme</li>
+<li>Randomize button, with a toggle to individually include/exclude each controls
+section from randomize. The preset manager actually already has a randomize
+button in its settings panel. However, &quot;Randomize&quot; is a very nice thing to
+have to get started on a sound, and I want to add a button directly next to
+the fader controls.</li>
+<li>More keyboard features:
+<ul>
+<li>Extra panel with xy pad and faders for all midi supported modulations
+(pitch, vibrato, tremolo, etc.)</li>
+<li>Separate keyboard zoom ..less octaves, but bigger keys <img class="emoji" alt="smiley" src="data:image/png;base64,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" /></li>
+</ul>
+</li>
+<li>...</li>
+</ul>
+<h2 id="links">Links</h2>
+<ul>
+<li><a href="https://www.discodsp.com/obxd/">OB-Xd Virtual Analog Synthesizer from discoDSP</a></li>
+<li><a href="https://hexler.net/touchosc">Hexler TouchOSC</a></li>
+<li><a href="https://hexler.net/touchosc/manual/script">TouchOSC Scripting API</a></li>
+<li>Zoom script and many other useful TouchOSC <a href="https://github.com/tshoppa/touchOSC/tree/main">modules and plugins by tshoppa</a></li>
+</ul>
+<h2 id="donations">Donations</h2>
+<p>This is an Open Source software and free to use for everyone under the GPL-3.0 license! 🙂</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>PayPal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>If you feel this software made your life a little easier, and that it is exacly the thing you were looking for, then you can buy me a beer 🍺 (..or beers 🍻..) and I will merrily put out a toast to you for saving yet another evening! 😃<br><br><em>(I currently only have a PayPal button, but I may check out getting a Patreon or some &quot;Buy me a coffee&quot; in the future.)</em></td>
+<td><a href="https://www.paypal.com/donate?hosted_button_id=CGDJVVGG5V8LU&amp;"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" alt="image"></a></td>
+</tr>
+</tbody>
+</table>
+<p>Many Thanks and Enjoy!</p>
+
+</body>
+</html>

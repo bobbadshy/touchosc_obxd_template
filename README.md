@@ -4,8 +4,13 @@
 [Oberheim OB-Xd Virtual Analog Synthesizer](https://www.discodsp.com/obxd/) (and
 possibly other Oberheim OB-X/OB-Xa software emulations).
 
-The layout and functionality of this template were created using OB-Xd versions
-3.5.3 through 3.6.
+Layout and functionality of this template were created using OB-Xd versions
+3.5.3 through 3.6. Check out the detailed feature list below!
+
+If you like this software, and use it frequently or in a commercial context,
+please consider supporting development with a small donation! Check out the
+[Donations](#donations) section at the end of this Readme. Thank you!
+🙂
 
 ## Contents
 
@@ -252,13 +257,11 @@ to fork it and submit the changes back to me.
 
 ## Donations
 
-This is an Open Source software and free to use for everyone in any which way
-possible (..well, as long as it stays Open Source, licensed under GPL-3.0
-license)! 🙂
+This is an Open Source software and free to use for everyone under the GPL-3.0 license! 🙂
 
 |    |  PayPal  |
 | -- | -------- |
-|  If you feel this template made your life a lot easier, and that it is exacly the thing you were looking for, then you can buy me a beer 🍺 (..or beers 🍻..) and I will merrily put out a toast to you for saving yet another evening! 😃<br><br>*(I currently only have a PayPal button, but I may check out getting a Patreon or some "Buy me a coffee" in the future.)* |  [![image](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/donate?hosted_button_id=CGDJVVGG5V8LU&)  |
+|  If you feel this software made your life a little easier, and that it is exacly the thing you were looking for, then you can buy me a beer 🍺 (..or beers 🍻..) and I will merrily put out a toast to you for saving yet another evening! 😃<br><br>*(I currently only have a PayPal button, but I may check out getting a Patreon or some "Buy me a coffee" in the future.)* |  [![image](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/donate?hosted_button_id=CGDJVVGG5V8LU&)  |
 
 
 Many Thanks and Enjoy!
