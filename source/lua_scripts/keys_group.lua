@@ -1,5 +1,5 @@
 ---@diagnostic disable: lowercase-global, undefined-global, undefined-field
-local kbdSettings = self.parent.children.kbdSettings
+local kbdSettings = self.parent.children.kbdSettings.children.scrollable.children
 local buttons = self.parent.children.buttons
 
 local w = self.children.white.children
@@ -60,32 +60,32 @@ local keysMidiCCVert4 = false
 function init()
   setOctave(octave)
   setTranspose(transpose)
-  keysModulationHorz = kbdSettings.children.btnModulationHorz.values.x == 1
-  keysModulationVert = kbdSettings.children.btnModulationVert.values.x == 1
+  keysModulationHorz = kbdSettings.btnModulationHorz.values.x == 1
+  keysModulationVert = kbdSettings.btnModulationVert.values.x == 1
   --
-  keysPitchbendHorz = kbdSettings.children.btnPitchbendHorz.values.x == 1
-  keysPitchbendVert = kbdSettings.children.btnPitchbendVert.values.x == 1
+  keysPitchbendHorz = kbdSettings.btnPitchbendHorz.values.x == 1
+  keysPitchbendVert = kbdSettings.btnPitchbendVert.values.x == 1
   --
-  keysChannelPressureHorz = kbdSettings.children.btnChannelPressureHorz.values.x == 1
-  keysChannelPressureVert = kbdSettings.children.btnChannelPressureVert.values.x == 1
+  keysChannelPressureHorz = kbdSettings.btnChannelPressureHorz.values.x == 1
+  keysChannelPressureVert = kbdSettings.btnChannelPressureVert.values.x == 1
   --
-  keysPolyphonicHorz = kbdSettings.children.btnPolyphonicHorz.values.x == 1
-  keysPolyphonicVert = kbdSettings.children.btnPolyphonicVert.values.x == 1
+  keysPolyphonicHorz = kbdSettings.btnPolyphonicHorz.values.x == 1
+  keysPolyphonicVert = kbdSettings.btnPolyphonicVert.values.x == 1
   --
-  keysMidiCCHorz = tonumber(kbdSettings.children.midiCCHorz.tag) ~= 0
+  keysMidiCCHorz = tonumber(kbdSettings.midiCCHorz.tag) ~= 0
   midiCCHorzBase = nil
   keysMidiCCVert = (
-    tonumber(kbdSettings.children.midiCCVert.tag) +
-    tonumber(kbdSettings.children.midiCCVert2.tag) +
-    tonumber(kbdSettings.children.midiCCVert3.tag) +
-    tonumber(kbdSettings.children.midiCCVert4.tag)
+    tonumber(kbdSettings.midiCCVert.tag) +
+    tonumber(kbdSettings.midiCCVert2.tag) +
+    tonumber(kbdSettings.midiCCVert3.tag) +
+    tonumber(kbdSettings.midiCCVert4.tag)
   ) > 0
   midiCCVertBase = nil
   midiCCVertBase2 = nil
   midiCCVertBase3 = nil
   midiCCVertBase4 = nil
   --
-  modulationSlider = kbdSettings.children.btnModulationSlider.values.x == 1
+  modulationSlider = kbdSettings.btnModulationSlider.values.x == 1
   self.parent.children.modulationSlider.children.slider:notify('modulationSlider', modulationSlider)
   for i=1,#w do
     w[i]:notify('modEnabledHorz', keysModulationHorz)
@@ -121,27 +121,27 @@ function reset(k)
   -- reset all modulation when no keys pressed
   pressure = 63
   if midiCCHorzBase == nil then
-    midiCCHorzBase = kbdSettings.children.midiCCHorz.children.midi.values.x
+    midiCCHorzBase = kbdSettings.midiCCHorz.children.midi.values.x
   end
   midiCCHorz = midiCCHorzBase
   if midiCCVertBase == nil then
-    midiCCVertBase = kbdSettings.children.midiCCVert.children.midi.values.x
+    midiCCVertBase = kbdSettings.midiCCVert.children.midi.values.x
   end
   midiCCVert[1] = midiCCVertBase
   if midiCCVertBase2 == nil then
-    midiCCVertBase2 = kbdSettings.children.midiCCVert2.children.midi.values.x
+    midiCCVertBase2 = kbdSettings.midiCCVert2.children.midi.values.x
   end
   midiCCVert[2] = midiCCVertBase2
   if midiCCVertBase3 == nil then
-    midiCCVertBase3 = kbdSettings.children.midiCCVert3.children.midi.values.x
+    midiCCVertBase3 = kbdSettings.midiCCVert3.children.midi.values.x
   else
-    kbdSettings.children.midiCCVert3.children.midi.values.x = midiCCVertBase3
+    kbdSettings.midiCCVert3.children.midi.values.x = midiCCVertBase3
   end
   midiCCVert[3] = midiCCVertBase3
   if midiCCVertBase4 == nil then
-    midiCCVertBase4 = kbdSettings.children.midiCCVert4.children.midi.values.x
+    midiCCVertBase4 = kbdSettings.midiCCVert4.children.midi.values.x
   else
-    kbdSettings.children.midiCCVert4.children.midi.values.x = midiCCVertBase4
+    kbdSettings.midiCCVert4.children.midi.values.x = midiCCVertBase4
   end
   midiCCVert[4] = midiCCVertBase4
 
@@ -152,9 +152,9 @@ end
 
 function release()
   if pressed == 0 then
-    kbdSettings.children.midiCCHorz.children.midi.values.x = midiCCHorzBase
-    kbdSettings.children.midiCCVert.children.midi.values.x = midiCCVertBase
-    kbdSettings.children.midiCCVert2.children.midi.values.x = midiCCVertBase2
+    kbdSettings.midiCCHorz.children.midi.values.x = midiCCHorzBase
+    kbdSettings.midiCCVert.children.midi.values.x = midiCCVertBase
+    kbdSettings.midiCCVert2.children.midi.values.x = midiCCVertBase2
   end
 end
 
@@ -237,7 +237,7 @@ function calcModulation(value)
 end
 
 function calcMidiCCHorz(value, c)
-  local t = kbdSettings.children.midiCCHorzScale.values.x^2
+  local t = kbdSettings.midiCCHorzScale.values.x^2
   t = (t-0.5)*2
   t = t<0 and -1.8*(t^2)-0.2 or 1.8*t^2+0.2
   c.values.x = math.min(1,
@@ -268,31 +268,31 @@ function onReceiveNotify(key, value)
   elseif(key == 'modulation') then
     calcModulation(value)
   elseif(key == 'midiCCHorz') then
-    calcMidiCCHorz(value, kbdSettings.children.midiCCHorz.children.midi)
+    calcMidiCCHorz(value, kbdSettings.midiCCHorz.children.midi)
   elseif(key == 'midiCCVert') then
-    if tonumber(kbdSettings.children.midiCCVert.tag) > 0 then
+    if tonumber(kbdSettings.midiCCVert.tag) > 0 then
       calcMidiCCVert(
         value, 1,
-        kbdSettings.children.midiCCVert.children.midi,
-        kbdSettings.children.midiCCVertScale)
+        kbdSettings.midiCCVert.children.midi,
+        kbdSettings.midiCCVertScale)
       end
-    if tonumber(kbdSettings.children.midiCCVert2.tag) > 0 then
+    if tonumber(kbdSettings.midiCCVert2.tag) > 0 then
       calcMidiCCVert(
         value, 2,
-        kbdSettings.children.midiCCVert2.children.midi,
-        kbdSettings.children.midiCCVertScale2)
+        kbdSettings.midiCCVert2.children.midi,
+        kbdSettings.midiCCVertScale2)
       end
-    if tonumber(kbdSettings.children.midiCCVert3.tag) > 0 then
+    if tonumber(kbdSettings.midiCCVert3.tag) > 0 then
       calcMidiCCVert(
         value, 3,
-        kbdSettings.children.midiCCVert3.children.midi,
-        kbdSettings.children.midiCCVertScale3)
+        kbdSettings.midiCCVert3.children.midi,
+        kbdSettings.midiCCVertScale3)
       end
-    if tonumber(kbdSettings.children.midiCCVert4.tag) > 0 then
+    if tonumber(kbdSettings.midiCCVert4.tag) > 0 then
       calcMidiCCVert(
         value, 4,
-        kbdSettings.children.midiCCVert4.children.midi,
-        kbdSettings.children.midiCCVertScale4)
+        kbdSettings.midiCCVert4.children.midi,
+        kbdSettings.midiCCVertScale4)
     end
   elseif(key == 'sustain') then
     applySustain(value)
