@@ -1,17 +1,22 @@
 ---@diagnostic disable: undefined-global, lowercase-global
 
-function getAllControls(c)
+--[[function getAllControls(c, recursive)
   if c == nil then
     print('ERROR')
     return
   end
-  for i = 1, #c.children do
-    getAllControls(c.children[i])
+  if recursive then
+    for i = 1, #c.children do
+      getAllControls(c.children[i])
+    end
   end
-  --print(c.parent.name .. '.' .. c.name)
+  if c.type == ControlType.GROUP then
+    print(c.parent.name .. '.' .. c.name)
+  end
 end
-
---getAllControls(self.children.ctrlGroupGlobal)
+for i = 1, #self.children do
+  getAllControls(self.children[i], true)
+end--]]
 
 MIDI = 0
 LINEAR = 1
