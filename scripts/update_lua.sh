@@ -3,7 +3,7 @@
 # read config
 . "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/config.sh"
 
-echo -e "\n == Replacing .lua in .xml ==\n"
+echo -e "\n == Replacing minified .lua in .xml ==\n"
 
 cd "$BUILDDIR_LUA" || exit 1
 
@@ -32,5 +32,6 @@ END {
 };
 ' < "$target.tmp" > "$target"
 done
+  # $i += s|--\[\[START '"$each"'\]\].+?--\[\[END '"$each"'\]\]|'"$lua"'|g;
 
 rm "$target.tmp"
