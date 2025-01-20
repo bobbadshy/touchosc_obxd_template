@@ -1,5 +1,6 @@
 --[[START ctrl_midi_lbl.lua]]
 ---@diagnostic disable: lowercase-global, undefined-global
+local siblings = self.parent.children
 
 MIDI = 0
 LINEAR = 1
@@ -114,7 +115,7 @@ end
 
 function _showTrueValue(val)
   if config.lblControlName == nil then return end
-  local ctrl = self.parent.children[config.lblControlName]
+  local ctrl = siblings[config.lblControlName]
   if ctrl == nil then return end
   local r = _calcRealValue(val)
   local s

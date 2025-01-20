@@ -1,4 +1,5 @@
----@diagnostic disable: undefined-global
+---@diagnostic disable: undefined-global, lowercase-global
+local siblings = self.parent.children
 local l1 = self.children.l1.properties
 local l2l = self.children.l2l.properties
 local l2r = self.children.l2r.properties
@@ -188,11 +189,11 @@ end
 
 function shift()
   local n = 'd' .. tonumber(string.sub(self.name, 2, 2))+1
-  if self.parent.children[n] ~= nil then
+  if siblings[n] ~= nil then
     if current == 'clear' or current == nil then
-      self.parent.children[n]:notify('clear')
+      siblings[n]:notify('clear')
     else
-      self.parent.children[n]:notify('shift', current)
+      siblings[n]:notify('shift', current)
     end
   end
 end

@@ -1,4 +1,5 @@
 ---@diagnostic disable: lowercase-global, undefined-global
+local siblings = self.parent.children
 local delay = 300 -- the maximum elapsed time between taps
 local last = 0
 local blinkDelay = 800
@@ -19,27 +20,27 @@ end
 function enableSensing()
   sensing = true
   self.properties.outline = true
-  self.parent.children.midi.messages.MIDI[1].enabled = false
-  root:notify('keySense', self.parent.children.midi)
+  siblings.midi.messages.MIDI[1].enabled = false
+  root:notify('keySense', siblings.midi)
 end
 
 function disableSensing()
   sensing = false
   self.properties.outline = false
-  self.parent.children.midi.messages.MIDI[1].enabled = true
+  siblings.midi.messages.MIDI[1].enabled = true
   root:notify('keyStop')
 end
 
 function enable()
-  self.parent.children.midi.messages.MIDI[1].enabled = true
+  siblings.midi.messages.MIDI[1].enabled = true
   self.parent.parent.parent.parent.children.keys:notify('settings')
 end
 
 function disable()
-  self.parent.children.midi.messages.MIDI[1].enabled = false
-  self.parent.children.label.values.text = ''
+  siblings.midi.messages.MIDI[1].enabled = false
+  siblings.label.values.text = ''
   self.parent.tag = 0
-  self.parent.children.midi.values.x = 0
+  siblings.midi.values.x = 0
 end
 
 function onValueChanged(k)

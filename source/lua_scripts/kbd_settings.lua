@@ -5,9 +5,10 @@ local scrollDec = .95
 local scrollMin = 3
 local scroll
 
-local scrollbar = self.parent.children.scrollbar
-local slider = self.parent.children.scrollbar.children.slider
-local scrollable = self.parent.children.scrollable.frame
+local siblings = self.parent.children
+local scrollbar = siblings.scrollbar
+local slider = siblings.scrollbar.children.slider
+local scrollable = siblings.pageKbdSettings.frame
 local parent = self.parent.frame
 
 function update()

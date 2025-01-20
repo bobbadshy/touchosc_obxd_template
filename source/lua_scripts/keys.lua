@@ -2,6 +2,7 @@
 -- ##########
 -- # start keys.lua
 -- #
+local keys = self.parent.parent
 -- CONSTANTS
 local PB_MSG = 2
 local AT_MSG = 3
@@ -62,9 +63,9 @@ function onValueChanged(k)
       pb = 8192
       midiCCHorz = 0.0
       midiCCVert = 0.0
-      self.parent.parent:notify('press')
+      keys:notify('press')
       else
-      self.parent.parent:notify('release')
+      keys:notify('release')
     end
   end
 end
@@ -121,7 +122,7 @@ function applyChannelAftertouch(pos,range)
   i = math.floor(i*127)
   if i == cAt then return end
   cAt = i
-  self.parent.parent:notify('pressure', cAt)
+  keys:notify('pressure', cAt)
 end
 
 function applyModulation(pos, start, range)
@@ -130,17 +131,17 @@ function applyModulation(pos, start, range)
   i = math.floor(i*127)
   if i == modulation then return end
   modulation = i
-  self.parent.parent:notify('modulation', modulation)
+  keys:notify('modulation', modulation)
 end
 
 function applyMidiCCHorz(pos)
   midiCCHorz = applyMidiCC(pos - start_x, range_x, midiCCHorz)
-  self.parent.parent:notify('midiCCHorz', midiCCHorz/2)
+  keys:notify('midiCCHorz', midiCCHorz/2)
 end
 
 function applyMidiCCVert(pos)
   midiCCVert = applyMidiCC(start_y - pos, range_y, midiCCVert)
-  self.parent.parent:notify('midiCCVert', midiCCVert/2)
+  keys:notify('midiCCVert', midiCCVert/2)
 end
 
 function applyMidiCC(delta, range, base)

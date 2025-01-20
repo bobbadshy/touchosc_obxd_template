@@ -2,6 +2,7 @@
 -- ##########
 -- # == Check for double tap ==
 -- #
+local siblings = self.parent.children
 
 local tapDelay = 300 -- Delay for registering a double-tap
 local lastTap = 0
@@ -42,7 +43,7 @@ local scrollDec = .95
 local scrollMin = 3
 local scroll
 
-local pz = self.parent.children.app
+local pz = siblings.app
 local pzf = pz.frame
 local parentf = self.parent.frame
 
