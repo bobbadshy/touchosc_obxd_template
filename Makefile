@@ -9,12 +9,18 @@ SCRIPTS_DIR=./scripts
 
 export
 
+start-dev: build														## Build abd start in TouchOsc
+	$(SCRIPTS_DIR)/start-dev.sh
+
 build:				## Build into .tosc
 	$(SCRIPTS_DIR)/build.sh
 
-extract:			## Extract .tosc from repo root intro ./export folder
+extract:																		## Extract .tosc from repo root intro ./export folder
 	$(SCRIPTS_DIR)/decompress.sh
 
-overwrite-xml:			## Save the current .tosc as .xml in ./source
+overwrite-xml:															## Save the current .tosc as .xml in ./source
 	$(SCRIPTS_DIR)/overwrite.sh
+
+minify-lua:																	## Minify all lua scripts
+	$(SCRIPTS_DIR)//minify_lua.sh
 
