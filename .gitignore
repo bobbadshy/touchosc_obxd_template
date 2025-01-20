@@ -41,6 +41,8 @@ luac.out
 
 ##########
 
+!.vscode
+
 _build/
 _export/
 source/xml/*.xml.bak
