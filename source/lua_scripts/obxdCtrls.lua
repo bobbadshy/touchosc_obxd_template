@@ -75,7 +75,7 @@ local ctrlConfigs = {
     doubleTap = true,
     tapDelay = 300,
   },
-  ctrlGroupGlobal_groupUnison_ctrlGlobalVoicesUnison_ctrl = {
+  ctrlGroupGlobal_ctrlGlobalVoicesUnison_ctrl = {
     sens = 1.5,
     lblControlName = 'midi',
     low = 1,
