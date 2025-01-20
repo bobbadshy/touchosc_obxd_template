@@ -6,7 +6,7 @@ local midiCCs = {
   cc2 = { name = "Breath controller", no = 2 },
   cc3 = { name = "Undefined", no = 3 },
   cc4 = { name = "Foot Pedal (MSB)", no = 4 },
-  cc5 = { name = "Portamento Time (MSB)", no = 5 },
+  cc5 = { name = "Portamento Time (MSB) - 'Glide'", no = 5 },
   cc6 = { name = "Data Entry (MSB)", no = 6 },
   cc7 = { name = "Volume (MSB)", no = 7 },
   cc8 = { name = "Balance (MSB", no = 8 },
@@ -136,121 +136,242 @@ local midiMappings = {
     -- #####
     -- == Master
     ctrlGroupMaster = {
-      ctrlMasterVolume = midiCCs.cc71.no,
-      ctrlMasterFine = midiCCs.cc33.no,
-      ctrlMasterCoarse = midiCCs.cc17.no,
+      ctrlMasterVolume = {midiCCs.cc71.no,},
+      ctrlMasterFine = {midiCCs.cc33.no,},
+      ctrlMasterCoarse = {midiCCs.cc17.no,},
     },
     -- #####
     -- == Global
     ctrlGroupGlobal = {
-      ctrlGlobalSpread = midiCCs.cc24.no,
-      ctrlGlobalBtnUnison = midiCCs.cc16.no,
-      ctrlGlobalVoicesUnison = midiCCs.cc123.no,
-      ctrlGlobalGlide = midiCCs.cc23.no,
-      ctrlGlobalVam = midiCCs.cc21.no,
-      ctrlGlobalSampling = midiCCs.cc111.no,
-      grpGlobalLegato = midiCCs.cc35.no,
-      grpGlobalVoices = midiCCs.cc15.no,
+      ctrlGlobalSpread = {midiCCs.cc24.no,},
+      ctrlGlobalBtnUnison = {midiCCs.cc16.no,},
+      ctrlGlobalVoicesUnison = {midiCCs.cc123.no,},
+      ctrlGlobalGlide = {midiCCs.cc23.no,},
+      ctrlGlobalVam = {midiCCs.cc21.no,},
+      ctrlGlobalSampling = {midiCCs.cc111.no,},
+      grpGlobalLegato = {midiCCs.cc35.no,},
+      grpGlobalVoices = {midiCCs.cc15.no,},
     },
     -- #####
     -- == Oscillators
     ctrlGroupOscillators = {
-      osc1 = midiCCs.cc54.no,
-      pw = midiCCs.cc61.no,
-      osc2 = midiCCs.cc55.no,
-      waveSawOsc1 = midiCCs.cc57.no,
-      waveSquOsc1 = midiCCs.cc58.no,
-      wavePlusOsc1 = midiCCs.cc115.no,
-      detune = midiCCs.cc43.no,
-      waveSawOsc2 = midiCCs.cc59.no,
-      waveSquOsc2 = midiCCs.cc60.no,
-      wavePlusOsc2 = midiCCs.cc114.no,
-      pitchEnvAmt = midiCCs.cc63.no,
-      crossMod = midiCCs.cc53.no,
-      pwEnvAmt = midiCCs.cc113.no,
-      brightAmt = midiCCs.cc62.no,
-      butttonSync = midiCCs.cc52.no,
-      buttonStep = midiCCs.cc56.no,
-      osc2PwOffset = midiCCs.cc117.no,
+      osc1 = {midiCCs.cc54.no,},
+      pw = {midiCCs.cc61.no,},
+      osc2 = {midiCCs.cc55.no,},
+      waveSawOsc1 = {midiCCs.cc57.no,},
+      waveSquOsc1 = {midiCCs.cc58.no,},
+      wavePlusOsc1 = {midiCCs.cc115.no,},
+      detune = {midiCCs.cc43.no,},
+      waveSawOsc2 = {midiCCs.cc59.no,},
+      waveSquOsc2 = {midiCCs.cc60.no,},
+      wavePlusOsc2 = {midiCCs.cc114.no,},
+      pitchEnvAmt = {midiCCs.cc63.no,},
+      crossMod = {midiCCs.cc53.no,},
+      pwEnvAmt = {midiCCs.cc113.no,},
+      brightAmt = {midiCCs.cc62.no,},
+      butttonSync = {midiCCs.cc52.no,},
+      buttonStep = {midiCCs.cc56.no,},
+      osc2PwOffset = {midiCCs.cc117.no,},
     },
     -- #####
     -- == Control
     ctrlGroupControl = {
-      bendOctave = midiCCs.cc118.no,
-      bendOsc2 = midiCCs.cc31.no,
-      vibratoRate = midiCCs.cc75.no,
-      fltEnvVelocity = midiCCs.cc76.no,
-      ampEnvVelocity = midiCCs.cc20.no,
+      bendOctave = {midiCCs.cc118.no,},
+      bendOsc2 = {midiCCs.cc31.no,},
+      vibratoRate = {midiCCs.cc75.no,},
+      fltEnvVelocity = {midiCCs.cc76.no,},
+      ampEnvVelocity = {midiCCs.cc20.no,},
     },
     -- #####
     -- == Mixer
     ctrlGroupMixer = {
-      osc1 = midiCCs.cc77.no,
-      osc2 = midiCCs.cc78.no,
-      noise = midiCCs.cc102.no,
+      osc1 = {midiCCs.cc77.no,},
+      osc2 = {midiCCs.cc78.no,},
+      noise = {midiCCs.cc102.no,},
     },
     -- #####
     -- == Filter
     ctrlGroupFilter = {
-      cutoff = midiCCs.cc74.no,
-      resonance = midiCCs.cc42.no,
-      envAmt = midiCCs.cc107.no,
-      keytrack = midiCCs.cc103.no,
-      mixBrBp = midiCCs.cc104.no,
-      bp = midiCCs.cc105.no,
-      push = midiCCs.cc119.no,
-      lp24 = midiCCs.cc106.no,
+      cutoff = {midiCCs.cc74.no,},
+      resonance = {midiCCs.cc42.no,},
+      envAmt = {midiCCs.cc107.no,},
+      keytrack = {midiCCs.cc103.no,},
+      mixBrBp = {midiCCs.cc104.no,},
+      bp = {midiCCs.cc105.no,},
+      push = {midiCCs.cc119.no,},
+      lp24 = {midiCCs.cc106.no,},
     },
     -- #####
     -- == ModLfo
     ctrlGroupModLfo = {
-      sync = midiCCs.cc112.no,
-      lfoRate = midiCCs.cc19.no,
-      freqAmt = midiCCs.cc22.no,
-      pwAmt = midiCCs.cc25.no,
-      lfoSine = midiCCs.cc44.no,
-      freqAmtOsc1 = midiCCs.cc47.no,
-      pwAmtOsc1 = midiCCs.cc50.no,
-      lfoSquare = midiCCs.cc45.no,
-      freqAmtOsc2 = midiCCs.cc48.no,
-      pwAmtOsc2 = midiCCs.cc51.no,
-      lfoRandom = midiCCs.cc46.no,
-      filter = midiCCs.cc49.no,
+      sync = {midiCCs.cc112.no,},
+      lfoRate = {midiCCs.cc19.no,},
+      freqAmt = {midiCCs.cc22.no,},
+      pwAmt = {midiCCs.cc25.no,},
+      lfoSine = {midiCCs.cc44.no,},
+      freqAmtOsc1 = {midiCCs.cc47.no,},
+      pwAmtOsc1 = {midiCCs.cc50.no,},
+      lfoSquare = {midiCCs.cc45.no,},
+      freqAmtOsc2 = {midiCCs.cc48.no,},
+      pwAmtOsc2 = {midiCCs.cc51.no,},
+      lfoRandom = {midiCCs.cc46.no,},
+      filter = {midiCCs.cc49.no,},
     },
     -- #####
     -- == FilterEnvelope
     ctrlGroupFilterEnvelope = {
-      invr = midiCCs.cc116.no,
-      attack = midiCCs.cc38.no,
-      decay = midiCCs.cc39.no,
-      sustain = midiCCs.cc40.no,
-      release = midiCCs.cc41.no,
-      logLin = midiCCs.cc120.no,
+      invr = {midiCCs.cc116.no,},
+      attack = {midiCCs.cc38.no,},
+      decay = {midiCCs.cc39.no,},
+      sustain = {midiCCs.cc40.no,},
+      release = {midiCCs.cc41.no,},
+      logLin = {midiCCs.cc120.no,},
     },
     -- #####
     -- == AmplifierEnvelope
     ctrlGroupAmplifierEnvelope = {
-      attack = midiCCs.cc73.no,
-      decay = midiCCs.cc36.no,
-      sustain = midiCCs.cc37.no,
-      release = midiCCs.cc72.no,
-      logLin = midiCCs.cc121.no,
+      attack = {midiCCs.cc73.no,},
+      decay = {midiCCs.cc36.no,},
+      sustain = {midiCCs.cc37.no,},
+      release = {midiCCs.cc72.no,},
+      logLin = {midiCCs.cc121.no,},
     },
     -- #####
     -- == VoiceVariation
     ctrlGroupVoiceVariation = {
-      fltComp = midiCCs.cc122.no,
-      fltSlop = midiCCs.cc109.no,
-      gldSlop = midiCCs.cc110.no,
-      envSlop = midiCCs.cc108.no,
-      voicePan1 = midiCCs.cc81.no,
-      voicePan2 = midiCCs.cc82.no,
-      voicePan3 = midiCCs.cc83.no,
-      voicePan4 = midiCCs.cc84.no,
-      voicePan5 = midiCCs.cc85.no,
-      voicePan6 = midiCCs.cc86.no,
-      voicePan7 = midiCCs.cc87.no,
-      voicePan8 = midiCCs.cc88.no,
+      fltComp = {midiCCs.cc122.no,},
+      fltSlop = {midiCCs.cc109.no,},
+      gldSlop = {midiCCs.cc110.no,},
+      envSlop = {midiCCs.cc108.no,},
+      voicePan1 = {midiCCs.cc81.no,},
+      voicePan2 = {midiCCs.cc82.no,},
+      voicePan3 = {midiCCs.cc83.no,},
+      voicePan4 = {midiCCs.cc84.no,},
+      voicePan5 = {midiCCs.cc85.no,},
+      voicePan6 = {midiCCs.cc86.no,},
+      voicePan7 = {midiCCs.cc87.no,},
+      voicePan8 = {midiCCs.cc88.no,},
+    },
+  },
+  discovery = {
+    -- #####
+    -- == Master
+    ctrlGroupMaster = {
+      ctrlMasterVolume = {midiCCs.cc7.no, 'VOLUME',},
+      ctrlMasterFine = {midiCCs.cc33.no,},
+      ctrlMasterCoarse = {midiCCs.cc17.no, 'OCTAVE',},
+    },
+    -- #####
+    -- == Global
+    ctrlGroupGlobal = {
+      ctrlGlobalSpread = {midiCCs.cc24.no,},
+      ctrlGlobalBtnUnison = {midiCCs.cc16.no,},
+      ctrlGlobalVoicesUnison = {midiCCs.cc123.no,},
+      ctrlGlobalGlide = {midiCCs.cc5.no, 'GLIDEE',},
+      ctrlGlobalVam = {midiCCs.cc21.no,},
+      ctrlGlobalSampling = {midiCCs.cc111.no,},
+      grpGlobalLegato = {midiCCs.cc35.no,},
+      grpGlobalVoices = {midiCCs.cc15.no,},
+    },
+    -- #####
+    -- == Oscillators
+    ctrlGroupOscillators = {
+      osc1 = {midiCCs.cc54.no,},
+      pw = {midiCCs.cc61.no,},
+      osc2 = {midiCCs.cc55.no,},
+      waveSawOsc1 = {midiCCs.cc57.no,},
+      waveSquOsc1 = {midiCCs.cc58.no,},
+      wavePlusOsc1 = {midiCCs.cc115.no,},
+      detune = {midiCCs.cc43.no,},
+      waveSawOsc2 = {midiCCs.cc59.no,},
+      waveSquOsc2 = {midiCCs.cc60.no,},
+      wavePlusOsc2 = {midiCCs.cc114.no,},
+      pitchEnvAmt = {midiCCs.cc63.no,},
+      crossMod = {midiCCs.cc53.no,},
+      pwEnvAmt = {midiCCs.cc113.no,},
+      brightAmt = {midiCCs.cc62.no,},
+      butttonSync = {midiCCs.cc52.no,},
+      buttonStep = {midiCCs.cc56.no,},
+      osc2PwOffset = {midiCCs.cc117.no,},
+    },
+    -- #####
+    -- == Control
+    ctrlGroupControl = {
+      bendOctave = {midiCCs.cc18.no, 'WHEEL MODE',},
+      bendOsc2 = {midiCCs.cc28.no, 'MOD DEST',},
+      vibratoRate = {midiCCs.cc26.no, 'MOD ATTACK',},
+      fltEnvVelocity = {midiCCs.cc27.no, 'MOD DDECAY',},
+      ampEnvVelocity = {midiCCs.cc29.no, 'MOD AMOUNT',},
+    },
+    -- #####
+    -- == Mixer
+    ctrlGroupMixer = {
+      osc1 = {midiCCs.cc8.no, 'OSC MIX',},
+      osc2 = {midiCCs.cc15.no, 'PLAYMODE',},
+      noise = {midiCCs.cc102.no,},
+    },
+    -- #####
+    -- == Filter
+    ctrlGroupFilter = {
+      cutoff = {midiCCs.cc74.no,},
+      resonance = {midiCCs.cc42.no,},
+      envAmt = {midiCCs.cc107.no,},
+      keytrack = {midiCCs.cc103.no,},
+      mixBrBp = {midiCCs.cc104.no,},
+      bp = {midiCCs.cc105.no,},
+      push = {midiCCs.cc119.no,},
+      lp24 = {midiCCs.cc106.no,},
+    },
+    -- #####
+    -- == Mod LFO
+    ctrlGroupModLfo = {
+      sync = {midiCCs.cc112.no,},
+      lfoRate = {midiCCs.cc19.no, 'LFO1 RATE',},
+      freqAmt = {midiCCs.cc22.no,},
+      pwAmt = {midiCCs.cc25.no,},
+      lfoSine = {midiCCs.cc20.no, 'LFO1 WAVE',},
+      lfoSquare = {midiCCs.cc20.no, 'LFO1 WAVE',},
+      lfoRandom = {midiCCs.cc21.no, 'LFO1 DEST',},
+      freqAmtOsc1 = {midiCCs.cc2.no, 'LFO AMOUNT',},
+      freqAmtOsc2 = {midiCCs.cc48.no,},
+      filter = {midiCCs.cc49.no,},
+      pwAmtOsc1 = {midiCCs.cc50.no,},
+      pwAmtOsc2 = {midiCCs.cc51.no,},
+    },
+    -- #####
+    -- == FilterEnvelope
+    ctrlGroupFilterEnvelope = {
+      invr = {midiCCs.cc116.no,},
+      attack = {midiCCs.cc38.no,},
+      decay = {midiCCs.cc39.no,},
+      sustain = {midiCCs.cc40.no,},
+      release = {midiCCs.cc41.no,},
+      logLin = {midiCCs.cc120.no,},
+    },
+    -- #####
+    -- == AmplifierEnvelope
+    ctrlGroupAmplifierEnvelope = {
+      attack = {midiCCs.cc73.no,},
+      decay = {midiCCs.cc36.no,},
+      sustain = {midiCCs.cc37.no,},
+      release = {midiCCs.cc72.no,},
+      logLin = {midiCCs.cc121.no,},
+    },
+    -- #####
+    -- == VoiceVariation
+    ctrlGroupVoiceVariation = {
+      fltComp = {midiCCs.cc122.no,},
+      fltSlop = {midiCCs.cc109.no,},
+      gldSlop = {midiCCs.cc110.no,},
+      envSlop = {midiCCs.cc108.no,},
+      voicePan1 = {midiCCs.cc81.no,},
+      voicePan2 = {midiCCs.cc82.no,},
+      voicePan3 = {midiCCs.cc83.no,},
+      voicePan4 = {midiCCs.cc84.no,},
+      voicePan5 = {midiCCs.cc85.no,},
+      voicePan6 = {midiCCs.cc86.no,},
+      voicePan7 = {midiCCs.cc87.no,},
+      voicePan8 = {midiCCs.cc88.no,},
     },
   }
 }
@@ -260,11 +381,14 @@ local activeMapping = nil
 
 function init()
   activeMapping = midiMappings[self.tag]
-  for g, cg in pairs(activeMapping) do
-      for c, cc in pairs(cg) do
+  for g, controls in pairs(activeMapping) do
+      for c, values in pairs(controls) do
         -- assign cc to control's tag
-        ctrlGroups[g].children[c].tag = cc
-        -- print("Assigned " .. cc .. " to " .. g .. "." .. c)
+        ctrlGroups[g].children[c].tag = values[1]
+        if values[2] ~= nil then
+          -- print("Assigning " .. values[1] .. " and text " .. values[2] .. " to " .. g .. "." .. c)
+          ctrlGroups[g].children[c].children.label.values.text = values[2]
+        end
       end
   end
 end
