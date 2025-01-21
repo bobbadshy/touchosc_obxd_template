@@ -136,21 +136,21 @@ local midiMappings = {
     -- #####
     -- == Master
     ctrlGroupMaster = {
-      ctrlMasterVolume = {midiCCs.cc71.no,},
-      ctrlMasterFine = {midiCCs.cc33.no,},
-      ctrlMasterCoarse = {midiCCs.cc17.no,},
+      ctrlMasterVolume = {midiCCs.cc71.no, 'VOLUME'},
+      ctrlMasterFine = {midiCCs.cc33.no, 'FINE'},
+      ctrlMasterCoarse = {midiCCs.cc17.no, 'COARSE'},
     },
     -- #####
     -- == Global
     ctrlGroupGlobal = {
-      ctrlGlobalSpread = {midiCCs.cc24.no,},
-      ctrlGlobalBtnUnison = {midiCCs.cc16.no,},
-      ctrlGlobalVoicesUnison = {midiCCs.cc123.no,},
-      ctrlGlobalGlide = {midiCCs.cc23.no,},
-      ctrlGlobalVam = {midiCCs.cc21.no,},
-      ctrlGlobalSampling = {midiCCs.cc111.no,},
-      grpGlobalLegato = {midiCCs.cc35.no,},
-      grpGlobalVoices = {midiCCs.cc15.no,},
+      ctrlGlobalSpread = {midiCCs.cc24.no, 'SPREAD'},
+      ctrlGlobalBtnUnison = {midiCCs.cc16.no, 'UNI'},
+      ctrlGlobalVoicesUnison = {midiCCs.cc123.no, 'VOICES'},
+      ctrlGlobalGlide = {midiCCs.cc23.no, 'GLIDE'},
+      ctrlGlobalVam = {midiCCs.cc21.no, 'VAM'},
+      ctrlGlobalSampling = {midiCCs.cc111.no, 'SAMPLING'},
+      grpGlobalLegato = {midiCCs.cc35.no, 'LEGATO MODE'},
+      grpGlobalVoices = {midiCCs.cc15.no, 'VOICES'},
     },
     -- #####
     -- == Oscillators
@@ -158,12 +158,12 @@ local midiMappings = {
       osc1 = {midiCCs.cc54.no,},
       pw = {midiCCs.cc61.no,},
       osc2 = {midiCCs.cc55.no,},
-      waveSawOsc1 = {midiCCs.cc57.no,},
-      waveSquOsc1 = {midiCCs.cc58.no,},
+      waveSawOsc1 = {midiCCs.cc57.no, ''},
+      waveSquOsc1 = {midiCCs.cc58.no, ''},
       wavePlusOsc1 = {midiCCs.cc115.no,},
       detune = {midiCCs.cc43.no,},
-      waveSawOsc2 = {midiCCs.cc59.no,},
-      waveSquOsc2 = {midiCCs.cc60.no,},
+      waveSawOsc2 = {midiCCs.cc59.no, ''},
+      waveSquOsc2 = {midiCCs.cc60.no, ''},
       wavePlusOsc2 = {midiCCs.cc114.no,},
       pitchEnvAmt = {midiCCs.cc63.no,},
       crossMod = {midiCCs.cc53.no,},
@@ -387,7 +387,10 @@ function init()
         ctrlGroups[g].children[c].tag = values[1]
         if values[2] ~= nil then
           -- print("Assigning " .. values[1] .. " and text " .. values[2] .. " to " .. g .. "." .. c)
-          ctrlGroups[g].children[c].children.label.values.text = values[2]
+          local lbl = ctrlGroups[g].children[c].children.label
+          if lbl ~= nil then
+            lbl.values.text = values[2]
+          end
         end
       end
   end
