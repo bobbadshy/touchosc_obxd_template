@@ -51,6 +51,8 @@ local ctrlConfigs = {
     type = LINEAR,
     doubleTap = true,
     tapDelay = 300,
+    centered = true,
+    default = 0.5,
   },
   ctrlGroupMaster_ctrlMasterCoarse_ctrl = {
     sens = 1.5,
@@ -64,6 +66,8 @@ local ctrlConfigs = {
     type = LINEAR,
     doubleTap = true,
     tapDelay = 300,
+    centered = true,
+    default = 0.5,
   },
   -- ####################
   -- Global

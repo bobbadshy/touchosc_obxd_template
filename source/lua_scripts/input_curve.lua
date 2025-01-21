@@ -19,6 +19,8 @@ local config = {
   type = MIDI,
   doubleTap = true,
   tapDelay = 300,
+  centered = false,
+  deefault = 0.0
 }
 
 local zero_x
@@ -29,7 +31,9 @@ local lastTap = 0
 local configSet = false
 
 function init()
-  siblings.topNotch.values.x = self.values.x*0.8+0.1
+  if siblings.topNotch ~= nil then
+    siblings.topNotch.values.x = self.values.x*0.8+0.1
+  end
   if self.values.y ~= nil then
     siblings.topNotch.values.y = self.values.y
   end
@@ -50,6 +54,8 @@ function onReceiveNotify(c,v)
     if config.type == nil then config.type = MIDI end
     if config.doubleTap == nil then config.doubleTap = true end
     if config.tapDelay == nil then config.tapDelay = 300 end
+    if config.centered == nil then config.centered = false end
+    if config.default == nil then config.default = 0 end
     config.sens = tonumber(config.sens)
     config.lblControlName = tostring(config.lblControlName)
     config.low = tonumber(config.low)
@@ -58,6 +64,10 @@ function onReceiveNotify(c,v)
     config.max = tonumber(config.max)
     config.decimals = tonumber(config.decimals)
     config.unit = tostring(config.unit)
+    self:setValueField('x', ValueField.DEFAULT, config.default)
+    if self.properties.centered ~= nil then
+      self.properties.centered = config.centered
+    end
     configSet = true
   end
 end
