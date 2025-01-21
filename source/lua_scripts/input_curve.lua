@@ -34,9 +34,10 @@ function init()
   if siblings.topNotch ~= nil then
     siblings.topNotch.values.x = self.values.x*0.8+0.1
   end
-  if self.values.y ~= nil then
-    siblings.topNotch.values.y = self.values.y
-  end
+  -- _showTrueValue(self.values['x'])
+  -- if self.values.y ~= nil then
+  --   _showTrueValue(self.values['y'])
+  -- end
 end
 
 function onReceiveNotify(c,v)
@@ -69,6 +70,10 @@ function onReceiveNotify(c,v)
       self.properties.centered = config.centered
     end
     configSet = true
+    -- _showTrueValue(self.values['x'])
+    -- if self.values.y ~= nil then
+    --   _showTrueValue(self.values['y'])
+    -- end
   end
 end
 

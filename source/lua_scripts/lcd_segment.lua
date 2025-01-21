@@ -183,9 +183,9 @@ local matrix = {
   },
 }
 
-function init()
-  applyMatrix('clear')
-end
+-- function init()
+--   applyMatrix('clear')
+-- end
 
 function shift()
   local n = 'd' .. tonumber(string.sub(self.name, 2, 2))+1
