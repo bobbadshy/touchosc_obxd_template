@@ -20,7 +20,7 @@ local config = {
   doubleTap = true,
   tapDelay = 300,
   centered = false,
-  deefault = 0.0
+  default = 0.0,
 }
 
 local zero_x
