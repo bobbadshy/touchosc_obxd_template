@@ -28,6 +28,13 @@ local scale = 0
 local lastTap = 0
 local configSet = false
 
+function init()
+  siblings.topNotch.values.x = self.values.x*0.8+0.1
+  if self.values.y ~= nil then
+    siblings.topNotch.values.y = self.values.y
+  end
+end
+
 function onReceiveNotify(c,v)
   if c == CMD_CONFIG then
     -- print('Got config!')
