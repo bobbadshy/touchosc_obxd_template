@@ -1,6 +1,7 @@
 {
   "Lua.diagnostics.globals": [
     "self",
-    "OutlineStyle"
+    "OutlineStyle",
+    "getMillis"
   ]
 }
