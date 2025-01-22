@@ -218,7 +218,7 @@ local matrix = {
 
 function shift()
   local n = 'd' .. tonumber(string.sub(self.name, 2, 2))+1
-  if siblings[n] ~= nil then
+  if self.parent:findByName(n) ~= nil then
     if current == 'clear' or current == nil then
       siblings[n]:notify('clear')
     else
