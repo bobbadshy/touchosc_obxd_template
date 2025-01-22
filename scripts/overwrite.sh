@@ -7,3 +7,4 @@
 
 mv "$XML_SOURCE" "$XML_SOURCE.bak"
 cp -av "$XML_EXPORT" "$XML_SOURCE"
+cp -av "$XML_EXPORT_PRETTY" "$XML_SOURCE_PRETTY"

@@ -12,3 +12,7 @@
 
 echo "Decompressing $TOSC_FINAL to $XML_EXPORT .."
 pigz -c -d < "$TOSC_FINAL" > "$XML_EXPORT"
+
+echo
+echo "Creating well-formatted copy at $XML_EXPORT_PRETTY .."
+xmllint --format "$XML_EXPORT" > "$XML_EXPORT_PRETTY"

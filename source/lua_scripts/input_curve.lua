@@ -87,10 +87,10 @@ function onValueChanged(k)
   -- initialize orientation
   if horz_x == nil then _getOrientation() end
   -- start smoothing value
-  _calcSmoothValue(k)
+  _applySmoothedValue(k)
 end
 
-function _calcSmoothValue(k)
+function _applySmoothedValue(k)
   if k == 'touch' and self.values.touch then
     _setStartPoint()
   elseif k == 'x' or k == 'y' and self.values.touch then
@@ -99,6 +99,9 @@ function _calcSmoothValue(k)
     local lastValue = self:getValueField(k, ValueField.LAST)
     local delta = (self.values[k] - lastValue) * scale
     self.values[k] = lastValue + delta
+  end
+  if siblings.topNotch ~= nil and k == 'x' then
+    siblings.topNotch.values.x = self.values.x*0.8+0.1
   end
 end
 
