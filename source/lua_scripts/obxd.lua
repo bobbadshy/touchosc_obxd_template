@@ -94,7 +94,7 @@ local ctrlConfigs = {
     tapDelay = 300,
   },
   ctrlGroupGlobal_ctrlGlobalVoicesUnison_ctrl = {
-    sens = 1.5,
+    sens = 2,
     lblControlName = 'midi',
     low = 1,
     high = 16,
@@ -156,7 +156,7 @@ local ctrlConfigs = {
   --   tapDelay = 300,
   -- },
   ctrlGroupGlobal_grpGlobalVoices_ctrl = {
-    sens = 1.5,
+    sens = 2,
     lblControlName = 'midi',
     low = 1,
     high = 32,
