@@ -1,6 +1,6 @@
 ---@diagnostic disable: lowercase-global, undefined-global
-local obxd = root.children.app:findByName('obxdCtrls', true)
-local kbd = root.children.app:findByName('keyboard', true)
+local obxd = root.children.app.children.obxd
+local kbd = root.children.app.children.keyboard
 local allControls = {}
 
 

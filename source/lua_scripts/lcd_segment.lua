@@ -1,4 +1,4 @@
----@diagnostic disable: undefined-global, lowercase-global
+---@diagnostic disable: undefined-global, lowercase-global, cast-local-type
 local siblings = self.parent.children
 local l1 = self.children.l1.properties
 local l2l = self.children.l2l.properties
@@ -11,6 +11,7 @@ local l7 = self.children.l7.properties
 local l8 = self.children.l8.properties
 local l9 = self.children.l9.properties
 local current = 'clear'
+local blink = true
 
 local matrix = {
   clear = {
@@ -30,7 +31,7 @@ local matrix = {
   d0 = {
     8, 8, 8,
     8, 0, 8,
-    8, 0, 8,
+    0, 0, 0,
     8, 0, 8,
     8, 8, 8,
   },
@@ -104,6 +105,20 @@ local matrix = {
     8, 0, 8,
     8, 0, 8,
   },
+  dB = {
+    8, 0, 0,
+    8, 0, 0,
+    8, 8, 8,
+    8, 0, 8,
+    8, 8, 8,
+  },
+  dD = {
+    0, 0, 8,
+    0, 0, 8,
+    8, 8, 8,
+    8, 0, 8,
+    8, 8, 8,
+  },
   dE = {
     8, 8, 8,
     8, 0, 0,
@@ -160,6 +175,13 @@ local matrix = {
     8, 0, 8,
     8, 0, 8,
   },
+  dO = {
+    0, 0, 0,
+    0, 0, 0,
+    8, 8, 8,
+    8, 0, 8,
+    8, 8, 8,
+  },
   dP = {
     8, 8, 8,
     8, 0, 8,
@@ -181,6 +203,13 @@ local matrix = {
     0, 8, 0,
     0, 0, 0,
   },
+  dX = {
+    0, 0, 0,
+    0, 0, 0,
+    0, 0, 0,
+    8, 8, 8,
+    8, 0, 8,
+  }
 }
 
 -- function init()
@@ -211,22 +240,32 @@ function applyMatrix(m)
   if m[14] == 8 then l3.visible = false else l3.visible = true end
 end
 
+function blinkNow()
+  if blink then self.children.button.values.x = 1 end
+end
+
 function onReceiveNotify(c,v)
   if c == 'update' then
-    self.children.button.values.x = 1
+    blinkNow()
     current = v
     local s = 'd' .. current
     applyMatrix(matrix[s])
   elseif c == 'shift' then
     shift()
-    self.children.button.values.x = 1
+    blinkNow()
     current = v
     local s = 'd' .. current
     applyMatrix(matrix[s])
   elseif c == 'clear' then
-    self.children.button.values.x = 1
+    blinkNow()
     current = 'clear'
     applyMatrix(matrix['clear'])
     shift()
+  elseif c == 'blink' then
+    blink = v
+    local n = 'd' .. tonumber(string.sub(self.name, 2, 2))+1
+    if siblings[n] ~= nil then
+      siblings[n]:notify('blink', v)
+    end
   end
 end
