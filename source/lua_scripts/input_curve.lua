@@ -42,7 +42,9 @@ function init()
 end
 
 function onReceiveNotify(c,v)
-  if c == CMD_CONFIG then
+  if c == 'reset' then
+    _resetValuesToDefault()
+  elseif c == CMD_CONFIG then
     -- print('Got config!')
     config = json.toTable(v)
     if config.sens == nil then config.sens = 1.5 end
@@ -81,15 +83,19 @@ end
 function onValueChanged(k)
   -- Check for double-tap
   if k == 'touch' then
-    if not self.values.touch then
-      _checkForDoubleTap()
-    else
+    if config.lblControlName ~= nil then
+      siblings[config.lblControlName].properties.visible = self.values.touch
+    end
+    if self.values.touch then
       _setStartPoint()
     end
   elseif k == 'x' or k == 'y' then
     -- break if we don't have a pointer (programmatic value update)
     if self.pointers[1] == nil then return end
     -- initialize orientation
+    if config.lblControlName ~= nil then
+      siblings[config.lblControlName].properties.visible = true
+    end
     if horz_x == nil then _getOrientation() end
     _applySmoothedValue(k)
     -- handle knobs "movement" (turn slave radial on knob)
@@ -145,8 +151,8 @@ end
 
 function _showTrueValue(val)
   if config.lblControlName == nil then return end
-  local ctrl = siblings[config.lblControlName]
-  if ctrl == nil then return end
+  local label = siblings[config.lblControlName]
+  if label == nil then return end
   local r = _calcRealValue(val)
   local s
   if config.decimals > 0 then
@@ -157,7 +163,7 @@ function _showTrueValue(val)
   if config.unit ~= '' then  
     s = s .. ' ' .. config.unit
   end
-  ctrl.values.text = s
+  label.values.text = s
 end
 
 function _calcRealValue(val)
