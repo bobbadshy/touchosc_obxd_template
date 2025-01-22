@@ -1,6 +1,6 @@
 ---@diagnostic disable: lowercase-global, undefined-global
-local lcdDigitsMain = self.children.lcdDigits
-local lcdDigits = self.children.lcdDigits.children
+local lcdDigitsMain = self.children.clockLcd
+local lcdDigits = self.children.clockLcd.children
 delay = 1000
 last = 0
 
@@ -15,7 +15,7 @@ function update()
     self:notify('update')
     local time = getTime()
     local s = string.format("%02d", time[1]) .. string.format("%02d", time[2])
-    if math.fmod(time[2], 5) ~= 0 then
+    if math.fmod(time[2], 5) > 1 then
       lcdDigits.d0:notify('blink', true)
       lcdDigitsMain.tag = 'OBXD'
       lcdDigits.dots.properties.visible = false
