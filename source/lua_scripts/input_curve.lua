@@ -1,6 +1,7 @@
 --[[START ctrl_midi_lbl.lua]]
 ---@diagnostic disable: lowercase-global, undefined-global
 local siblings = self.parent.children
+local ctrlinfo = root.children.app.children.keyboard.children.buttons.children.midiSendInfo
 
 MIDI = 0
 LINEAR = 1
@@ -79,32 +80,34 @@ end
 
 function onValueChanged(k)
   -- Check for double-tap
-  if k == 'touch' and not self.values.touch then _checkForDoubleTap() end
-  -- Send true value to label control
-  if k == 'x' or k == 'y' then _showTrueValue(self.values[k]) end
-  -- break if we don't have a pointer (programmatic value update)
-  if self.pointers[1] == nil then return end
-  -- initialize orientation
-  if horz_x == nil then _getOrientation() end
-  _applySmoothedValue(k)
+  if k == 'touch' then
+    if not self.values.touch then
+      _checkForDoubleTap()
+    else
+      _setStartPoint()
+    end
+  elseif k == 'x' or k == 'y' then
+    -- break if we don't have a pointer (programmatic value update)
+    if self.pointers[1] == nil then return end
+    -- initialize orientation
+    if horz_x == nil then _getOrientation() end
+    _applySmoothedValue(k)
+    -- handle knobs "movement" (turn slave radial on knob)
+    if siblings.topNotch ~= nil and k == 'x' then
+      siblings.topNotch.values.x = self.values.x*0.8+0.1
+    end
+    ctrlinfo:notify('midiCC', self.values[k])
+    _showTrueValue(self.values[k])
+  end
 end
 
 function _applySmoothedValue(k)
-  if k == 'touch' and self.values.touch then
-    _setStartPoint()
-  elseif k == 'x' or k == 'y' then
-    -- Only process value through input curve on user innput (on touch)
-    if self.values.touch then
-      -- process current pointer position
-      scale = _getScaleFactor()
-      local lastValue = self:getValueField(k, ValueField.LAST)
-      local delta = (self.values[k] - lastValue) * scale
-      self.values[k] = lastValue + delta
-    end
-  end
-  if siblings.topNotch ~= nil and k == 'x' then
-    siblings.topNotch.values.x = self.values.x*0.8+0.1
-  end
+  if not (k == 'x' or k == 'y') then print('Invalid key: ' .. k) return end
+  -- process current pointer position
+  scale = _getScaleFactor()
+  local lastValue = self:getValueField(k, ValueField.LAST)
+  local delta = (self.values[k] - lastValue) * scale
+  self.values[k] = lastValue + delta
 end
 
 function _getOrientation()
