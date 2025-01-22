@@ -37,7 +37,7 @@ please consider supporting development with a small donation! Check out the
 
 ## Screenshots
 
-![alt text](./docs/images/image-1.png)
+![alt text](./docs/images/image-1.jpeg)
 
 ## Supported features
 
@@ -128,9 +128,9 @@ separately for your own TouchOSC surfaces.)
 | | Preset manager | |
 | --- | --- | -- |
 | Extended mode | Direct Access mode | Crossfader active |
-| ![alt text](./docs/images/image-1b.png) | ![alt text](./docs/images/image-1a.png) | ![alt text](./docs/images/image-2a.png) |
+| ![alt text](./docs/images/presets_main.jpeg) | ![alt text](./docs/images/presets_direct.jpeg) | ![alt text](./docs/images/presets_fading.jpeg) |
 |  Preset name entry  |  Settings panel  | "Restore Work" button and<br>**\*changed\*** controls indication |
-| ![alt text](./docs/images/image-3a.png) | ![alt text](./docs/images/image-4.png) | ![alt text](./docs/images/image-5.png) |
+| ![alt text](./docs/images/presets_name_entry.jpeg) | ![alt text](./docs/images/presets_settings.jpeg) | ![alt text](./docs/images/presets_changed_notice.jpeg) |
 
 ## Integrated keyboard
 
