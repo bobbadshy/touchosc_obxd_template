@@ -56,7 +56,7 @@ local keysMidiCCVert = false
 local keysMidiCCVert2 = false
 local keysMidiCCVert3 = false
 local keysMidiCCVert4 = false
--- local modulationSlider = false
+local modulationSlider = false
 
 function init()
   setOctave(octave)
