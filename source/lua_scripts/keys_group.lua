@@ -21,9 +21,10 @@ local keys =
 }
 
 -- my midi messages
-local KEYS_MIDI_NOTE_ON = 1
-local KEYS_MIDI_PITCHBEND = 2
-local KEYS_MIDI_AFTERTOUCH = 3
+local KEYS_MIDI_PITCHBEND = 1
+local KEYS_MIDI_AFTERTOUCH = 2
+local KEYS_MIDI_NOTE_ON = 3
+local KEYS_MIDI_NOTE_OFF = 4
 
 local MIDI_RECV_SUSTAIN = 1
 local MIDI_PRESSURE = 2
@@ -165,10 +166,12 @@ function applyToKeys()
     local note = index + (i-1) + transpose
     keys[i].name = note
     keys[i].visible = (note <= 127)
-    if held_notes[tostring(note)] ~= true then
-      keys[i].messages.MIDI[KEYS_MIDI_NOTE_ON].send = true
-    else
+    if held_notes[tostring(note)] == true then
       keys[i].messages.MIDI[KEYS_MIDI_NOTE_ON].send = false
+      keys[i].messages.MIDI[KEYS_MIDI_NOTE_OFF].send = false
+    else
+      keys[i].messages.MIDI[KEYS_MIDI_NOTE_ON].send = true
+      keys[i].messages.MIDI[KEYS_MIDI_NOTE_OFF].send = true
     end
   end
   self.children.C0.values.text = 'C' .. (octave -1)
@@ -178,30 +181,33 @@ function applyToKeys()
 end
 
 function applySustain(val)
-  for i=1,127 do
-    note = w[i]
-    if note == nil then note = b[i] end
+  local key
+  local note = ''
+  for i=0,127 do
+    note = tostring(i)
+    key = w[note]
+    if key == nil then key = b[note] end
     if val == 127 then
-      if note ~= nil and note.values.touch then
-        note.messages.MIDI[KEYS_MIDI_NOTE_ON].send = false
-        held_notes[note.name] = true
+      if key ~= nil and key.values.touch then
+        key.messages.MIDI[KEYS_MIDI_NOTE_ON].send = false
+        key.messages.MIDI[KEYS_MIDI_NOTE_OFF].send = false
+        held_notes[note] = true
       end
-    elseif val == 0 then
-      if note == nil then
-        if held_notes[tostring(i)] then
-          local d = w[1].messages.MIDI[KEYS_MIDI_NOTE_ON]:data()
+    else
+      if key ~= nil then
+        key.messages.MIDI[KEYS_MIDI_NOTE_ON].send = true
+        key.messages.MIDI[KEYS_MIDI_NOTE_OFF].send = true
+        if not key.values.touch then
+          key.messages.MIDI[KEYS_MIDI_NOTE_OFF]:trigger()
+        end
+      end
+      if held_notes[note] ~= nil then
+        held_notes[note] = nil
+        if key == nil then
+          local d = w[1].messages.MIDI[KEYS_MIDI_NOTE_OFF]:data()
           d[2] = i
           d[3] = 0
           sendMIDI(d)
-          held_notes[i] = nil
-        end
-      else
-        if held_notes[note.name] ~= nil then
-          note.messages.MIDI[KEYS_MIDI_NOTE_ON].send = true
-          if not note.values.touch then
-            note.messages.MIDI[KEYS_MIDI_NOTE_ON]:trigger()
-          end
-          held_notes[i] = nil
         end
       end
     end
