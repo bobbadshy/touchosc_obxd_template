@@ -47,3 +47,4 @@ _build/
 _export/
 source/xml/*.xml.bak
 
+*.tosc.bak

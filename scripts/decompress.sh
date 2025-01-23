@@ -22,7 +22,7 @@ echo -e "Formatting $target ..\n"
 mv "$target" "$target.bak"
 xmllint --format "$target.bak" > "$target"
 
-source="$TOSC_FINAL_PLAIN"
+source="$TOSC_FINAL"
 target="$XML_EXPORT_PLAIN"
 
 echo -e "Decompressing $source to $target ..\n"

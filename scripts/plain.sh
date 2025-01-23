@@ -12,7 +12,8 @@ echo -e "\n == Removing eye-candy from $XML_BUILD_PLAIN ==\n"
 # All eye-candy backgrounds with extra design element were named "backdrop".
 # Here, we manually delete those nodes from the xml file before compressing.
 #
-xmlstarlet ed -d '//children/node[properties/property/value[contains(text(), "backdrop")]]' \
+# xmlstarlet ed -d '//children/node[properties/property/value[contains(text(), "backdrop")]]' \
+xmlstarlet ed -d '//node[@type="GROUP"]/children/node[properties/property[./value/text()="backdrop"]]' \
   <  "$XML_BUILD_PLAIN" \
   > "$XML_BUILD_PLAIN.tmp"
 
