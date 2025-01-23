@@ -7,14 +7,12 @@
 # ./scripts/decompress.sh
 #
 
-mkdir -p "xml_export"
+# read config
+. "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/config.sh"
 
+echo -e "\n == Decompressing $TOSC_FINAL to $XML_EXPORT .."
+pigz -c -d < "$TOSC_FINAL" > "$XML_EXPORT"
 
-t="xml_export/"
+echo -e "\n == Creating well-formatted copy at $XML_EXPORT_PRETTY .."
 
-for f in $(find . -maxdepth 1 -type f -name '*.tosc'); do
-  echo "Decompressing $f to $t .. also formats the .xml a bit better to allow for better showing a git diff on it"
-  # pigz -c -d < "$f" | sed -r 's#(<[a-z]+>)<#\1\n<#g' - > "$t$(basename $f .tosc).xml"
-  # shellcheck disable=SC2086
-  pigz -c -d < "$f" > "$t$(basename $f .tosc).xml"
-done
+xmllint --format "$XML_EXPORT" > "$XML_EXPORT_PRETTY"

@@ -1,0 +1,20 @@
+html {
+	text-align: center;
+}
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 16px);
+	color: #222222;
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+
+	text-align: initial;
+	display: inline-block;
+	max-width: 800pt;
+	min-width: 200pt;
+	/* margin-left:20%;
+	margin-right:20%; */
+	/* display*: inline; ie hack */
+}

@@ -7,13 +7,10 @@
 # ./scripts/compress.sh
 #
 
-s="xml_export/"
-t="newly_packed/"
+# read config
+. "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/config.sh"
 
-mkdir -p "$t"
+echo -e "\n == Compress .xml to .tosc ==\n"
 
-for f in $(find $s -type f -name '*.xml'); do
-  echo "Compressing $f to $t .. also formats the .xml a bit better to allow for better showing a git diff on it"
-  # shellcheck disable=SC2086
-  pigz -c -z < "$f" > "$t$(basename $f .xml).tosc"
-done
+echo -e "Compressing $XML_BUILD >> $TOSC_BUILD"
+pigz -c -z < "$XML_BUILD" > "$TOSC_BUILD"

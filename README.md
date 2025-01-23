@@ -18,7 +18,15 @@ please consider supporting development with a small donation! Check out the
   - [Contents](#contents)
   - [Screenshots](#screenshots)
   - [Supported features](#supported-features)
-    - [Integrated keyboard](#integrated-keyboard)
+    - [OB-Xd support](#ob-xd-support)
+    - [Controls and faders](#controls-and-faders)
+    - [Surface zoom feature](#surface-zoom-feature)
+    - [Shiva Preset manager](#shiva-preset-manager)
+  - [Integrated keyboard](#integrated-keyboard)
+    - [Positional velocity and modulation support](#positional-velocity-and-modulation-support)
+    - [MIDI channelpressure and polyphonic aftertouch](#midi-channelpressure-and-polyphonic-aftertouch)
+    - [Keys Sustain – MIDI cc66 "Sustenuto"](#keys-sustain--midi-cc66-sustenuto)
+    - [Mapping up to five additional MIDI cc controls to keys aftertouch](#mapping-up-to-five-additional-midi-cc-controls-to-keys-aftertouch)
   - [Usage](#usage)
   - [Download](#download)
   - [Bug reports, Feature Suggestions or Contributing](#bug-reports-feature-suggestions-or-contributing)
@@ -29,9 +37,11 @@ please consider supporting development with a small donation! Check out the
 
 ## Screenshots
 
-![main_view](https://github.com/user-attachments/assets/2a18f685-302e-49fc-8a49-583d0a4ae9cd)
+![alt text](./docs/images/image-1.jpeg)
 
 ## Supported features
+
+### OB-Xd support
 
 - All controls of the OB-Xd virtual synth have been implemented. The control
   layout closely follows the OB-Xd "IIkka Rosma Dark" default skin.
@@ -42,7 +52,7 @@ please consider supporting development with a small donation! Check out the
   The template also contains a MIDI mappings XML file for OB-Xd. If some MIDI
   mappings do not work as expected (OB-Xd versions below 3.6), try to copy:
   
-  [./midi_mapping/TouchOsc.xml](./midi_mapping/TouchOsc.xml)
+  [./extra_files/obxd_midi_mapping/TouchOsc.xml](./extra_files/obxd_midi_mapping/TouchOsc.xml)
   
   from this template into your documents "discoDSP" folder:
   
@@ -56,13 +66,30 @@ please consider supporting development with a small donation! Check out the
   Restart OB-Xd. The MIDI menu should now show **"TouchOsc"** as a new MIDI mappings
   option.
 
+- Limitations on manipulating the two oscillators in OB-Xd:
+
+  MIDI has the well-known limitation of only supporting 128 discrete steps on CC
+  messages, this resolution is, of course, not enough for true continuous
+  manipulation of the available oscillator ranges.
+  
+  While OB-Xd does offer a fine-control setting in the GUI, at the current
+  version 3.6, this control is also limited to discrete steps. As such, the
+  controls in this surface are *almost on-par* with the resolution available in
+  the OB-Xd GUI. Maybe in a future version, OB-Xd will improve the oscillator
+  controls, and also add high resolution MIDI support. (MIDI has the option to
+  send high resolution values encoded in MSB and LSB bit values, as for example,
+  is the default mode for MIDI pitchbend message.)
+
+
+### Controls and faders
+
 - All faders use a small lua script to ensure high-precision, smooth input
   curves. This script minimizes sudden value "jumps" when starting to
   manipulate a control, and allows for reliable fine-tuning of each fader's
   current position.
 
-  - Double-tapping on a fader will reset it to its default zero or center
-    position.
+- Double-tapping on a fader will reset it to its default zero or center
+  position.
 
 - MIDI and true value display:
 
@@ -73,30 +100,39 @@ please consider supporting development with a small donation! Check out the
   **Note:** True value displays are only approximations of the actual value in
   OB-Xd. If the value is a little bit off ..just go by ear ;)
 
-- Surface zoom:
+### Surface zoom feature
 
-  Double-tap on a section heading or on background/borders to zoom into that
-  section. Swipe to move around the surface. Double-tap again to zoom out. (The
-  zoom feature is based on the awesome zoom scripts found in this
-  [GitHub repository](https://github.com/tshoppa/touchOSC/tree/main) by
-  tshoppa!)
+Double-tap on a section heading or on background/borders to zoom into that
+section. Swipe to move around the surface. Double-tap again to zoom out.
 
-- Preset manager:
+The zoom feature is based on the awesome zoom scripts found in this
+[GitHub repository](https://github.com/tshoppa/touchOSC/tree/main) by tshoppa!)
 
-  The template comes with its own preset manager. These presets are not linked
-  to the OB-Xd presets, but, if you enable MIDI OUT feedback in OB-Xd (v3.5 and
-  higher), you can copy over and save your favorite presets into the surface.
+### Shiva Preset manager
 
-  The preset manager offers a direct access mode for live switching between
-  existing presets, copy and paste presets between slots, as well as a basic
-  preset crossfader.
+The template comes with its own preset manager. These presets are not linked to
+the OB-Xd presets, but, if you enable MIDI OUT feedback in OB-Xd (v3.5 and
+higher), you can copy over and save your favorite presets into the surface.
 
-  For a full feature list and usage description, check out the
-  [Shiva Preset Manager README at GitHub](https://github.com/bobbadshy/touchosc_shiva_preset_manager)!
-  (I desigend the preset manager to be modular. So, you can also re-use it
-  separately for your own TouchOSC surfaces.)
+The preset manager offers a direct access mode for live switching between
+existing presets, copy and paste presets between slots, as well as a basic
+preset crossfader.
 
-### Integrated keyboard
+For a full feature list and usage description, check out the
+[Shiva Preset Manager README at GitHub](https://github.com/bobbadshy/touchosc_shiva_preset_manager)!
+(I designed the preset manager to be modular. So, you can also re-use it
+separately for your own TouchOSC surfaces.)
+
+**Preset manager screenshots**
+
+| | Preset manager | |
+| --- | --- | -- |
+| Extended mode | Direct Access mode | Crossfader active |
+| ![alt text](./docs/images/presets_main.jpeg) | ![alt text](./docs/images/presets_direct.jpeg) | ![alt text](./docs/images/presets_fading.jpeg) |
+|  Preset name entry  |  Settings panel  | "Restore Work" button and<br>**\*changed\*** controls indication |
+| ![alt text](./docs/images/presets_name_entry.jpeg) | ![alt text](./docs/images/presets_settings.jpeg) | ![alt text](./docs/images/presets_changed_notice.jpeg) |
+
+## Integrated keyboard
 
 The integrated keyboard currently includes:
 
@@ -106,54 +142,77 @@ The integrated keyboard currently includes:
 
 - Octave and transpose buttons.
 
-- Positional velocity, and optional aftertouch modulation support on the keys.
+### Positional velocity and modulation support
 
-  Velocity is controlled by the initial touch position on the keys: bottom of
-  keys is loudest, top is the most quiet.
-  
-  Modulation (MIDI cc1) is engaged by sliding up or down on the keys. The
-  modulation will stay active after releasing the keys. It will automatically
-  reset when all keys are released and then a new key is pressed. This behaviour
-  seemed the most intuitive, so modulation stays active after releasing the
-  keys, but when you continue playing again, it will do so without modulation.
+The keys support registering vertical, as well as horizontal touch movement.
 
-  **Extended keyboard features:** In addition, the keyboard also supports global
-  MIDI channel pressure, and individual keys polyphonic aftertouch, as well as
-  registering *horizontal* movement on pressed keys. These features are disabled
-  by default, since (to my knowledge) OB-Xd does not support MIDI aftertouch. If
-  however, you want to play some other synth with the keyboard, you can enable
-  these features in the keyboard's settings panel. :)
+Velocity is controlled by the initial touch position on the keys: bottom of keys
+is loudest, top is the most quiet.
 
-- "Keys Sustain" button (MIDI cc66 "Sustenuto pedal").
+Modulation (MIDI cc1) is engaged by sliding up or down on the keys. The
+modulation will stay active after releasing the keys. It will reset only after
+all keys have been released, and then when a new key is pressed. This behaviour
+seemed the most intuitive, so modulation stays active on the sound after
+releasing the keys. When playing is continued, modulation will reset to zero.
 
-  When Sustenuto is engaged, all currently pressed keys *are held* on releasing
-  the keys. So, for example, you can hold a chord, and then play some melody
-  over it. The "Keys Sustain" button supports stacking: Tap once to sustain all
-  currently pressed keys. Tap again to add new keys. Double-tap or hold and
-  release to cancel the sustenuto (hold and release for exactly timed cancel
-  upon button release). You can also switch octaves on the keyboard while
-  sustain is being held! Play a bass note and sustain it, switch octave, and
-  play a melody on top. :)
+**Note:** If you wish to have finer, and full manual control of modulation, the
+pitchbend slider can be switched to control modulation instead of pitch.
 
-**A note on manipulating the two oscillators:**
+### MIDI channelpressure and polyphonic aftertouch
 
-Since MIDI has the well-known limitation of only supporting 128 discrete steps
-on normal MIDI CC messages, this resolution is, of course, not enough to allow
-for true continuous manipulation of the available oscillator ranges. However,
-the OB-Xd GUI also does not offer true continuous control of the two
-oscillators. It does have a fine-control setting, but at the current version
-(3.6), this fine-control setting is a bit hard to operate, and is also limited
-to discrete steps. So, while the oscillator controls in OB-Xd offer more fine
-control than this surface, the controls in this surface are *almost on-par* with
-the resolution available in the OB-Xd GUI. Maybe in a future version, OB-Xd will
-improve the oscillator controls, and also add high resolution MIDI support.
-(MIDI has the option to send high resolution values encoded in MSB and LSB bit
-values, as for example, is the default mode for MIDI pitchbend message.)
+The keyboard also supports both global MIDI channel pressure, and individual
+keys polyphonic aftertouch. These options can be enabled in the keyboard
+settings, to control hardware or software instruments with support for these
+features.
 
+- ***Note:** OB-Xd does not support MIDI aftertouch. Read below for alternative
+  options to use aftertouch support with OB-Xd!*
+
+### Keys Sustain – MIDI cc66 "Sustenuto"
+
+The keyboard features a "Keys Sustain" control which engages MIDI cc66
+"Sustenuto".
+
+When Sustenuto is activated, all currently pressed keys *are held* on releasing
+the keys. So, for example, you can hold a chord, and then play some melody over
+it. The "Keys Sustain" button supports stacking: Tap once to sustain all
+currently pressed keys. Tap again to add new keys. Double-tap or hold and
+release to cancel the sustenuto (hold and release for exactly timed cancel upon
+button release). You can also switch octaves on the keyboard while sustain is
+being held! Play a bass note and sustain it, switch octave, and play a melody on
+top. :)
+
+- ***Note:** The keyboard will also respond to MIDI cc66 messages when received
+  over MIDI!*
+
+### Mapping up to five additional MIDI cc controls to keys aftertouch
+
+As an advanced feature, the keyboard supports mapping arbitrary MIDI cc messages
+onto the vertical or horizontal axis. The horizontal axis offers one slot, the
+vertical axis offers to slots that disengage on key release, and two slots that
+disengage on the next key press after releasing all keys (same as the modulation
+feature).
+
+With this advanced feature, you can add aftertouch functionality to any hardware
+or software instruments, and control any aspect of the sound synthesis through
+touch movement. Control aftertouch loudness by binding to the Master volume, the
+amplitude envelope's sustain control, or to the indiviual mixing control of one
+of the oscillators. Manipulate the sound shape by binding to the cutoff
+frequency, resonance mix, or to other available synthesizer controls..
+
+**Keyboard screenshots**
+
+- Main controls:
+
+![alt text](./docs/images/image-3.png)
+
+- Keyboard settings panel:
+
+| ![alt text](./docs/images/image-2.png) |
 
 ## Usage
 
-- Download and open the `.tosc` file in TouchOSC.
+- Download the latest release, and open `obxd.tosc` in TouchOSC.
 - Start up OB-Xd and the rest of your music setup and enjoy!
 
 
