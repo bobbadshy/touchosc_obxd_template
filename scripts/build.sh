@@ -16,7 +16,10 @@ mkdir -p "$BUILDDIR" || exit 1
 
 echo -e "\n == Copying to repo main dir at $REPO ==\n"
 
+cp -av "$TOSC_FINAL" "$TOSC_FINAL.bak"
 cp -av "$TOSC_BUILD" "$TOSC_FINAL"
+
+cp -av "$TOSC_FINAL_PLAIN" "$TOSC_FINAL_PLAIN.bak"
 cp -av "$TOSC_BUILD_PLAIN" "$TOSC_FINAL_PLAIN"
 
 echo -e "\nDone.\n"
