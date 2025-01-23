@@ -4,10 +4,10 @@ local last = 0
 
 function onValueChanged(k)
   if k == 'touch' then
+    self.parent.children.midi.properties.visible = self.values.touch
     if self.values.touch then
       if _checkForDoubleTap() then return end
     end
-    self.parent.children.midi.properties.visible = self.values.touch
   end
 end
 
