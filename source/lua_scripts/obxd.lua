@@ -15,9 +15,9 @@ function getAllControls(c, recursive)
   end
 end
 
-for i = 1, #self.children do
-  getAllControls(self.children[i], true)
-end
+-- for i = 1, #self.children do
+--   getAllControls(self.children[i], true)
+-- end
 
 -- ##########
 -- == COLORS ==

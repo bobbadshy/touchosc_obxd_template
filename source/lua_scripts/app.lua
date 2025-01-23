@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global
 
 
 local colors = {
@@ -80,3 +81,24 @@ local settings = {
     }
   }
 }
+
+function assert(c,s)
+  if not c then error('Assertion failed: ' .. s) end
+end
+
+function buildTest()
+  local debug = root.children.app.children.presetManager.children.presetModule.children.groupRunSettings.children.stBtnEnableDebug
+  assert(
+    debug ~= nil,
+    'Debug option in Preset Manager not found! Preset Manager is missing or not functinal. Cannot continue build test.'
+  )
+  if not debug then
+    print('Debug disabled. Skipping build test.')
+    return
+  end
+  --[[ ...TODO... ]]
+end
+
+function init()
+  buildTest()
+end
