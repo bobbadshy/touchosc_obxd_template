@@ -10,9 +10,26 @@
 # read config
 . "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/config.sh"
 
-echo -e "\n == Decompressing $TOSC_FINAL to $XML_EXPORT .."
-pigz -c -d < "$TOSC_FINAL" > "$XML_EXPORT"
+echo -e "\n == Decompressing .tosc to .xml ==\n"
 
-echo -e "\n == Creating well-formatted copy at $XML_EXPORT_PRETTY .."
+source="$TOSC_FINAL"
+target="$XML_EXPORT"
 
-xmllint --format "$XML_EXPORT" > "$XML_EXPORT_PRETTY"
+echo -e "Decompressing $source to $target ..\n"
+pigz -c -d < "$source" > "$target"
+
+echo -e "Formatting $target ..\n"
+mv "$target" "$target.bak"
+xmllint --format "$target.bak" > "$target"
+
+source="$TOSC_FINAL_PLAIN"
+target="$XML_EXPORT_PLAIN"
+
+echo -e "Decompressing $source to $target ..\n"
+pigz -c -d < "$source" > "$target"
+
+echo -e "Formatting $target ..\n"
+mv "$target" "$target.bak"
+xmllint --format "$target.bak" > "$target"
+
+echo -e "\nDone.\n"

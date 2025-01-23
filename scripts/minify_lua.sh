@@ -13,3 +13,5 @@ for each in $(ls -1); do
   lua=$(luamin -f "$each")
   echo -n "--[[START $each]]$lua--[[END $each]]" > "$BUILDDIR_LUA/$(basename "$each")";
 done
+
+echo -e "\nDone.\n"
