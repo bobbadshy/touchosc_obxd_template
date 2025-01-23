@@ -71,6 +71,7 @@ function endAll()
 end
 
 function onPointer(pointer)
+  if scrollable.h <= parent.h then return end
   if pointer[1].state == PointerState.END or #self.pointers ~= pointnum then
     pointnum = #self.pointers
     scrollbar.properties.visible = true
@@ -104,7 +105,7 @@ end
 
 function updateScrollbar()
   local scale = parent.h/scrollable.h
-  slider.frame.h = math.max(50, scrollbar.frame.h * scale)
+  slider.frame.h = math.min(scrollbar.frame.h, math.max(50, scrollbar.frame.h * scale))
   slider.frame.y = math.abs(scrollable.y) * scale
 end
 
