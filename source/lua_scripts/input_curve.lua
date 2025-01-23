@@ -6,6 +6,9 @@ local ctrlinfo = root.children.app.children.keyboard.children.buttons.children.m
 MIDI = 0
 LINEAR = 1
 LOG = 2
+EXP2 = 3
+EXP3 = 4
+dB = 5
 CMD_CONFIG = 'cmdConfig'
 
 local config = {
@@ -172,7 +175,13 @@ end
 function _calcRealValue(val)
   local v = math.floor(val*127+0.5)/127 -- snap to midi values
   local decimals = 10^config.decimals
-  if config.type == LINEAR then
+  if (
+    config.type == LINEAR or
+    config.type == EXP2 or
+    config.type == EXP3
+  ) then
+    if config.type == EXP2 then v = v^2
+    elseif config.type == EXP3 then v = v^2.7 end
     local low = config.low
     local high = config.high
     if low == nil or high == nil then return _showAsMidi(v) end
@@ -185,8 +194,10 @@ function _calcRealValue(val)
       max, math.max(
         min, math.floor(v * delta * decimals +0.5 ) / decimals + low
     ))
+  elseif config.type == dB then
+    return 25*math.log(v, 10)
   elseif config.type == LOG then
-    return decimals * math.log(v)
+    return math.log(v)
   end
   -- return as MIDI by default
   return _showAsMidi(v)
