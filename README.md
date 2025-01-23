@@ -8,9 +8,8 @@ Layout and functionality of this template were created using OB-Xd versions
 3.5.3 through 3.6. Check out the detailed feature list below!
 
 If you like this software, and use it frequently or in a commercial context,
-please consider supporting development with a small donation! Check out the
-[Donations](#donations) section at the end of this Readme. Thank you!
-🙂
+please consider donating to support further development! Check out the
+[Donations](#donations) section at the end of this Readme. Thank you! 🙂
 
 ## Contents
 
@@ -20,7 +19,7 @@ please consider supporting development with a small donation! Check out the
   - [Supported features](#supported-features)
     - [OB-Xd support](#ob-xd-support)
     - [Controls and faders](#controls-and-faders)
-    - [Surface zoom feature](#surface-zoom-feature)
+    - [Surface zoom](#surface-zoom)
     - [Shiva Preset manager](#shiva-preset-manager)
   - [Integrated keyboard](#integrated-keyboard)
     - [Positional velocity and modulation support](#positional-velocity-and-modulation-support)
@@ -37,7 +36,7 @@ please consider supporting development with a small donation! Check out the
 
 ## Screenshots
 
-![alt text](./docs/images/image-1.jpeg)
+![alt text](./docs/images/main-view-1.jpeg?raw=true)
 
 ## Supported features
 
@@ -52,7 +51,7 @@ please consider supporting development with a small donation! Check out the
   The template also contains a MIDI mappings XML file for OB-Xd. If some MIDI
   mappings do not work as expected (OB-Xd versions below 3.6), try to copy:
   
-  [./extra_files/obxd_midi_mapping/TouchOsc.xml](./extra_files/obxd_midi_mapping/TouchOsc.xml)
+  [./extra_files/obxd_midi_mapping/TouchOsc.xml](./extra_files/obxd_midi_mapping/TouchOsc.xml?raw=true)
   
   from this template into your documents "discoDSP" folder:
   
@@ -100,7 +99,7 @@ please consider supporting development with a small donation! Check out the
   **Note:** True value displays are only approximations of the actual value in
   OB-Xd. If the value is a little bit off ..just go by ear ;)
 
-### Surface zoom feature
+### Surface zoom
 
 Double-tap on a section heading or on background/borders to zoom into that
 section. Swipe to move around the surface. Double-tap again to zoom out.
@@ -128,9 +127,9 @@ separately for your own TouchOSC surfaces.)
 | | Preset manager | |
 | --- | --- | -- |
 | Extended mode | Direct Access mode | Crossfader active |
-| ![alt text](./docs/images/presets_main.jpeg) | ![alt text](./docs/images/presets_direct.jpeg) | ![alt text](./docs/images/presets_fading.jpeg) |
+| ![alt text](./docs/images/presets_main.jpeg?raw=true) | ![alt text](./docs/images/presets_direct.jpeg?raw=true) | ![alt text](./docs/images/presets_fading.jpeg?raw=true) |
 |  Preset name entry  |  Settings panel  | "Restore Work" button and<br>**\*changed\*** controls indication |
-| ![alt text](./docs/images/presets_name_entry.jpeg) | ![alt text](./docs/images/presets_settings.jpeg) | ![alt text](./docs/images/presets_changed_notice.jpeg) |
+| ![alt text](./docs/images/presets_name_entry.jpeg?raw=true) | ![alt text](./docs/images/presets_settings.jpeg?raw=true) | ![alt text](./docs/images/presets_changed_notice.jpeg?raw=true) |
 
 ## Integrated keyboard
 
@@ -193,27 +192,38 @@ vertical axis offers to slots that disengage on key release, and two slots that
 disengage on the next key press after releasing all keys (same as the modulation
 feature).
 
-With this advanced feature, you can add aftertouch functionality to any hardware
-or software instruments, and control any aspect of the sound synthesis through
-touch movement. Control aftertouch loudness by binding to the Master volume, the
-amplitude envelope's sustain control, or to the indiviual mixing control of one
-of the oscillators. Manipulate the sound shape by binding to the cutoff
-frequency, resonance mix, or to other available synthesizer controls..
+- **Important:** This feature is not tied to the controls of this control
+  surface, but uses regular MIDI messages. Because of this, MIDI Input *must be
+  connected* in order to sense the MIDI CC number of a control! If you already
+  have MIDI feedback from OB-Xd routed back to the template, you should be able
+  to sense controls without problems. If you do not have a MIDI input connected,
+  use MIDI Through to loop the control surface *back to itself* so that it can
+  read the MIDI CC messages sent by its controls.
+
+
+With this feature, you can add aftertouch functionality to any hardware or
+software instruments. For example, to control aftertouch volume, bind to Master
+volume, to the envelope's sustain control, or to one of the osclillator mix
+controls. Manipulate the sound shape by binding to the cutoff frequency,
+resonance mix, etc.
 
 **Keyboard screenshots**
 
 - Main controls:
 
-![alt text](./docs/images/image-3.png)
+![alt text](./docs/images/kbd_main_controls.jpeg?raw=true)
 
 - Keyboard settings panel:
 
-| ![alt text](./docs/images/image-2.png) |
+| ![alt text](./docs/images/kbd_settings.jpeg?raw=true) |
 
 ## Usage
 
-- Download the latest release, and open `obxd.tosc` in TouchOSC.
-- Start up OB-Xd and the rest of your music setup and enjoy!
+- Download the latest release.
+- Open `obxd.tosc` or `obxd_plain.tosc` in TouchOSC. The "plain" version uses a
+  simple background, instead of stylized backdrops.
+
+- Start up OB-Xd and the rest of your music setup, and enjoy!
 
 
 ## Download
@@ -223,10 +233,11 @@ Check the [Releases](https://github.com/bobbadshy/touchosc_obxd_template/release
 ## Bug reports, Feature Suggestions or Contributing
 
 *This is currently a brand new project. First RC release was Jan 2025. So, while
-it seems to work well already, please keep in mind that it is **currently in
-testing and not ready for production**. Thank you!*
+it seems to work well already, please keep in mind that it is **currently still
+in testing**. Thank you!*
 
-Please file an issue in the [Issues](https://github.com/bobbadshy/touchosc_obxd_template/issues) section.
+Please file issues or feature suggestions in the
+[Issues](https://github.com/bobbadshy/touchosc_obxd_template/issues) section.
 
 As this is just a hobby project in my freetime, I cannot promise I will get to
 any of them, but nevertheless, suggestions and bug reports are welcome! 🙂
