@@ -4,8 +4,10 @@
 -- #
 local keys = self.parent.parent
 -- CONSTANTS
-local PB_MSG = 2
-local AT_MSG = 3
+local PB_MSG = 1
+local AT_MSG = 2
+local NOTE_ON = 3
+local NOTE_OFF = 4
 -- #
 -- local state
 local range_x = self.frame.w
@@ -53,8 +55,20 @@ function onReceiveNotify(c, v)
   end
 end
 
+local sent = false
+
 function onValueChanged(k)
-  if k == 'touch' then
+  if k == 'x' then
+    local last = self:getValueField('x', ValueField.LAST)
+    if self.values.touch then
+      sent = false
+      if self.values.x == 0 then self.values.x = last end
+      self.messages.MIDI[NOTE_ON]:trigger()
+    elseif not sent then
+      self.messages.MIDI[NOTE_OFF]:trigger()
+      sent = true
+    end
+  elseif k == 'touch' then
     if self.values.touch then
       -- reset start values
       at = 0
@@ -64,7 +78,7 @@ function onValueChanged(k)
       midiCCHorz = 0.0
       midiCCVert = 0.0
       keys:notify('press')
-      else
+    else
       keys:notify('release')
     end
   end
@@ -78,7 +92,7 @@ function onPointer(pointers)
     start_y = p.y
   elseif p_state == PointerState.END then
     -- send pitchbend reset msg on release
-    if pbEnabledHorz then self.messages.MIDI[2]:trigger() end
+    if pbEnabledHorz then self.messages.MIDI[PB_MSG]:trigger() end
   elseif p_state == PointerState.MOVE then
     if pbEnabledHorz then applyPitchBend(p.x-start_x, range_x) end
     if pbEnabledVert then applyPitchBend(start_y-p.y, range_y) end
