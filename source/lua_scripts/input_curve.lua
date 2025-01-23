@@ -91,7 +91,10 @@ function onValueChanged(k)
     end
   elseif k == 'x' or k == 'y' then
     -- break if we don't have a pointer (programmatic value update)
-    if self.pointers[1] == nil then return end
+    if self.pointers[1] == nil then
+      _showTrueValue(self.values[k])
+      return
+    end
     -- initialize orientation
     if config.lblControlName ~= nil then
       siblings[config.lblControlName].properties.visible = true
