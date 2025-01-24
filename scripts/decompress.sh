@@ -18,9 +18,9 @@ target="$XML_EXPORT"
 echo -e "Decompressing $source to $target ..\n"
 pigz -c -d < "$source" > "$target"
 
-echo -e "Formatting $target ..\n"
-mv "$target" "$target.bak"
-xmllint --format "$target.bak" > "$target"
+# echo -e "Formatting $target ..\n"
+# mv "$target" "$target.bak"
+# xmllint --format "$target.bak" > "$target"
 
 source="$TOSC_FINAL"
 target="$XML_EXPORT_PLAIN"

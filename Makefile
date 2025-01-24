@@ -15,11 +15,14 @@ extract:															## Extract .tosc from repo root into ./export folder.
 overwrite-xml:	extract								## Extract and write to /source/xml as new reference.
 	$(SCRIPTS_DIR)/overwrite.sh
 
-build:																## Full build from xml and lua into .tosc file in repo root.
+build:																## Full build of xml and lua into build dir.
 	$(SCRIPTS_DIR)/build.sh
 
-start-dev: build											## Build and open directly in TouchOsc.
+start-dev: build											## Build and open build directly in TouchOsc.
 	$(SCRIPTS_DIR)/start-dev.sh
+
+deploy: build													## Full build and copy to repo root.
+	$(SCRIPTS_DIR)/deploy.sh
 
 minify-lua:														## Minify all lua scripts.
 	$(SCRIPTS_DIR)/minify_lua.sh
