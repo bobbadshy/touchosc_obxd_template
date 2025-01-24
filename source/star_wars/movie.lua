@@ -1,4 +1,6 @@
-local delay = 30000
+local d1 = 30000
+local d2 = 90000
+local delay = d1
 local last = 0
 local frame = 1
 local presetManager = self.parent.parent.parent.children.presetModule.children
@@ -33,16 +35,16 @@ function update()
   if isPaused() then
     self.parent.visible = false
     curtain(true)
-    delay = 30000 --when paused, check every 30 seconds
+    delay = d1 --when paused, check every 30 seconds
     last = now
     return
   end
-  if delay == 30000 then
-    delay = 90000 --after pause, wait another 90 seconds
+  if delay == d1 then
+    delay = d2 --after pause, wait another 90 seconds
     last = now
     return
   end
-  if delay == 90000 then
+  if delay == d2 then
     -- start again after pause or film ended
     self.parent.visible = true
     curtain(false)
@@ -53,10 +55,10 @@ function update()
   if frames[frame] == nil then
     -- The End..
     frame = 1
-    delay = 30000
+    delay = d1
     curtain(true)
   else
-    self.values.text = frames[frame].frame
+    self.values.text = '\n' .. frames[frame].frame
     delay = frames[frame].length * 100
     frame = frame + 1
   end
@@ -66,7 +68,7 @@ end
 
 frames = {
   [1] = {
-    length = 2,
+    length = 15,
     frame = [===[
 
 
