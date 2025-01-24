@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global
 local d1 = 30000
 local d2 = 90000
 local delay = d1
@@ -6,8 +7,11 @@ local frame = 1
 local presetManager = self.parent.parent.parent.children.presetModule.children
 
 function init()
-  frame = tonumber(self.tag)
+---@diagnostic disable-next-line: param-type-mismatch
+  frame = tonumber(self.tag, 10)
   if frame == nil then frame = 1 end
+  delay = d1
+  self.parent.visible = false
   curtain(true)
 end
 
@@ -30,7 +34,7 @@ function curtain(b)
 end
 
 function update()
-  now = getMillis()
+  local now = getMillis()
   if now - last < delay then return end
   if isPaused() then
     self.parent.visible = false

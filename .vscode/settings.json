@@ -3,6 +3,7 @@
     "self",
     "OutlineStyle",
     "getMillis",
-    "onValueChanged"
+    "onValueChanged",
+    "ValueField"
   ]
 }
