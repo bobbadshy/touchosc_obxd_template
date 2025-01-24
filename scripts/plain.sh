@@ -6,7 +6,9 @@
 # read config
 . "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/config.sh"
 
-echo -e "\n == Removing eye-candy from $XML_BUILD_PLAIN ==\n"
+target="$XML_EXPORT_PLAIN"
+
+echo -e "\n == Removing eye-candy from $target ==\n"
 
 #####
 # All eye-candy backgrounds with extra design element were named "backdrop".
@@ -14,9 +16,9 @@ echo -e "\n == Removing eye-candy from $XML_BUILD_PLAIN ==\n"
 #
 # xmlstarlet ed -d '//children/node[properties/property/value[contains(text(), "backdrop")]]' \
 xmlstarlet ed -d '//node[@type="GROUP"]/children/node[properties/property[./value/text()="backdrop"]]' \
-  <  "$XML_BUILD_PLAIN" \
-  > "$XML_BUILD_PLAIN.tmp"
+  <  "$target" \
+  > "$target.tmp"
 
-mv "$XML_BUILD_PLAIN.tmp" "$XML_BUILD_PLAIN"
+mv "$target.tmp" "$target"
 
 echo -e "\nDone.\n"

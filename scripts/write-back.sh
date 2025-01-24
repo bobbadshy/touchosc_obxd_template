@@ -8,14 +8,14 @@ echo -e "\n == Overwriting source .xml with newly exported versions ..\n"
 source="$XML_EXPORT"
 target="$XML_SOURCE"
 
-echo -e "Overwriting $target with $source ..\n"
+echo -e "Overwriting $target with $source .."
 mv "$target" "$target.bak"
 cp -av "$source" "$target"
-
+echo
 source="$XML_EXPORT_PLAIN"
 target="$XML_SOURCE_PLAIN"
 
-echo -e "Overwriting $target with $source ..\n"
+echo -e "Overwriting $target with $source .."
 mv "$target" "$target.bak"
 cp -av "$source" "$target"
 

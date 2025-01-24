@@ -12,8 +12,8 @@
 
 echo -e "\n == Compress .xml to .tosc ==\n"
 
-echo -e "Compressing $XML_BUILD >> $TOSC_BUILD"
-pigz -c -z < "$XML_BUILD" > "$TOSC_BUILD"
+echo -e "Compressing $XML_EXPORT >> $TOSC_BUILD"
+pigz -c -z < "$XML_EXPORT" > "$TOSC_BUILD"
 
-echo -e "Compressing $XML_BUILD_PLAIN >> $TOSC_BUILD_PLAIN"
-pigz -c -z < "$XML_BUILD_PLAIN" > "$TOSC_BUILD_PLAIN"
+echo -e "Compressing $XML_EXPORT_PLAIN >> $TOSC_BUILD_PLAIN"
+pigz -c -z < "$XML_EXPORT_PLAIN" > "$TOSC_BUILD_PLAIN"

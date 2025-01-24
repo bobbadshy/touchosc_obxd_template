@@ -3,12 +3,12 @@
 # read config
 . "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/config.sh"
 
-echo -e "\n == Replacing minified .lua in .xml ==\n"
+source="$XML_SOURCE"
+target="$XML_EXPORT"
+
+echo -e "\n == Replacing minified .lua in $SOURCEDIR ==\n"
 
 cd "$BUILDDIR_LUA" || exit 1
-
-source="$XML_SOURCE"
-target="$XML_BUILD"
 
 cp -a "$source" "$target" || exit 1
 
@@ -23,7 +23,7 @@ use warnings;
 my $i = 0;
 
 while (<>) {
-  $i += s|--\[\[START '"$each"'\]\].+?--\[\[END '"$each"'\]\]|'"$lua"'|g;
+  $i += s|<!\[CDATA\[--\[\[START '"$each"'\]\].+?--\[\[END '"$each"'\]\]\]\]></value>|<![CDATA['"$lua"']]></value>|g;
   print;
 }
 
@@ -38,7 +38,7 @@ rm "$target.tmp"
 echo
 
 source="$XML_SOURCE_PLAIN"
-target="$XML_BUILD_PLAIN"
+target="$XML_EXPORT_PLAIN"
 
 cp -a "$source" "$target" || exit 1
 
@@ -53,7 +53,7 @@ use warnings;
 my $i = 0;
 
 while (<>) {
-  $i += s|--\[\[START '"$each"'\]\].+?--\[\[END '"$each"'\]\]|'"$lua"'|g;
+  $i += s|<!\[CDATA\[--\[\[START '"$each"'\]\].+?--\[\[END '"$each"'\]\]\]\]></value>|<![CDATA['"$lua"']]></value>|g;
   print;
 }
 

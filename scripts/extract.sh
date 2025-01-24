@@ -2,17 +2,13 @@
 #
 # Uncompresses the .tosc file into .xml
 #
-# IMPORTANT! Run from repo root with:
-#
-# ./scripts/decompress.sh
-#
 
 # read config
 . "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/config.sh"
 
-echo -e "\n == Decompressing .tosc to .xml ==\n"
+echo -e "\n == Decompressing .tosc from $BUILDDIR to .xml in $EXPORTDIR ==\n"
 
-source="$TOSC_FINAL"
+source="$TOSC_BUILD"
 target="$XML_EXPORT"
 
 echo -e "Decompressing $source to $target ..\n"
@@ -22,7 +18,7 @@ pigz -c -d < "$source" > "$target"
 # mv "$target" "$target.bak"
 # xmllint --format "$target.bak" > "$target"
 
-source="$TOSC_FINAL"
+source="$TOSC_BUILD"
 target="$XML_EXPORT_PLAIN"
 
 echo -e "Decompressing $source to $target ..\n"

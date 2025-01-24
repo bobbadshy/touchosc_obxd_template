@@ -9,11 +9,11 @@ SCRIPTS_DIR=./scripts
 
 export
 
-extract:															## Extract .tosc from repo root into ./export folder.
-	$(SCRIPTS_DIR)/decompress.sh
+extract:															## Extract build .tosc into ./export folder.
+	$(SCRIPTS_DIR)/extract.sh
 
-overwrite-xml:	extract								## Extract and write to /source/xml as new reference.
-	$(SCRIPTS_DIR)/overwrite.sh
+write-back:	extract										## Extract and write build back to /source/xml as new reference.
+	$(SCRIPTS_DIR)/write-back.sh
 
 build:																## Full build of xml and lua into build dir.
 	$(SCRIPTS_DIR)/build.sh
