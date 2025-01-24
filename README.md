@@ -1,7 +1,7 @@
-# TouchOSC template for the OB-Xd Virtual Analog Synthesizer
+# TouchOSC template for the OB-Xd Virtual Synthesizer
 
 [TouchOSC](https://hexler.net/touchosc/) template for the
-[Oberheim OB-Xd Virtual Analog Synthesizer](https://www.discodsp.com/obxd/) (and
+[Oberheim OB-Xd Virtual Synthesizer](https://www.discodsp.com/obxd/) (and
 possibly other Oberheim OB-X/OB-Xa software emulations).
 
 Layout and functionality of this template were created using OB-Xd versions
@@ -13,7 +13,7 @@ please consider donating to support further development! Check out the
 
 ## Contents
 
-- [TouchOSC template for the OB-Xd Virtual Analog Synthesizer](#touchosc-template-for-the-ob-xd-virtual-analog-synthesizer)
+- [TouchOSC template for the OB-Xd Virtual Synthesizer](#touchosc-template-for-the-ob-xd-virtual-synthesizer)
   - [Contents](#contents)
   - [Screenshots](#screenshots)
   - [Supported features](#supported-features)
