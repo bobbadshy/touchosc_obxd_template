@@ -1,4 +1,4 @@
-local delay = 4000
+local delay = 30000
 local last = 0
 local frame = 1
 local presetManager = self.parent.parent.parent.children.presetModule.children
@@ -53,7 +53,7 @@ function update()
   if frames[frame] == nil then
     -- The End..
     frame = 1
-    delay = 90000
+    delay = 30000
     curtain(true)
   else
     self.values.text = frames[frame].frame
