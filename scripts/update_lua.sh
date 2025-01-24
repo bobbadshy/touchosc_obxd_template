@@ -23,7 +23,7 @@ use warnings;
 my $i = 0;
 
 while (<>) {
-  $i += s|<!\[CDATA\[--\[\[START '"$each"'\]\].+?--\[\[END '"$each"'\]\]\]\]></value>|<![CDATA['"$lua"']]></value>|g;
+  $i += s|<!\[CDATA\[--\[\[START '"$each"'\]\].+--\[\[END '"$each"'\]\]\]\]></value>|<![CDATA['"$lua"']]></value>|g;
   print;
 }
 
@@ -53,7 +53,7 @@ use warnings;
 my $i = 0;
 
 while (<>) {
-  $i += s|<!\[CDATA\[--\[\[START '"$each"'\]\].+?--\[\[END '"$each"'\]\]\]\]></value>|<![CDATA['"$lua"']]></value>|g;
+  $i += s|<!\[CDATA\[--\[\[START '"$each"'\]\].+--\[\[END '"$each"'\]\]\]\]></value>|<![CDATA['"$lua"']]></value>|g;
   print;
 }
 
