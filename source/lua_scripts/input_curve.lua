@@ -1,4 +1,3 @@
---[[START ctrl_midi_lbl.lua]]
 ---@diagnostic disable: lowercase-global, undefined-global
 local siblings = self.parent.children
 local ctrlinfo = root.children.app.children.keyboard.children.buttons.children.midiSendInfo
@@ -38,10 +37,7 @@ function init()
   if siblings.topNotch ~= nil then
     siblings.topNotch.values.x = self.values.x*0.8+0.1
   end
-  -- _showTrueValue(self.values['x'])
-  -- if self.values.y ~= nil then
-  --   _showTrueValue(self.values['y'])
-  -- end
+  _showTrueValue(self.values.x)
 end
 
 function onReceiveNotify(c,v)
@@ -76,10 +72,7 @@ function onReceiveNotify(c,v)
       self.properties.centered = config.centered
     end
     configSet = true
-    -- _showTrueValue(self.values['x'])
-    -- if self.values.y ~= nil then
-    --   _showTrueValue(self.values['y'])
-    -- end
+    _showTrueValue(self.values.x)
   end
 end
 
@@ -248,4 +241,3 @@ function _getScaleFactor()
   end
   return math.max(0, scale, math.min(1, math.abs(rel/max)))
 end
---[[END ctrl_midi_lbl.lua]]
