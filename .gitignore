@@ -48,3 +48,4 @@ _export/
 source/xml/*.xml.bak
 
 *.tosc.bak
+/source/star_wars/frames
