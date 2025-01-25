@@ -29,7 +29,7 @@ end
 function isPaused()
   return (
     presetManager.groupRunSettings.visible or
-    presetManager.groupKeyboard.visible or
+    root.children.app.children.keyboard.children.groupKeyboard.visible or
     presetManager.groupDirectLoadButtons.visible or
     presetManager.grpManager.visible or
     (not self.parent.visible and self.parent.tag == 'found')
