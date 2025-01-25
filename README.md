@@ -36,7 +36,7 @@ please consider donating to support further development! Check out the
 
 ## Screenshots
 
-![alt text](./docs/images/main-view-1.jpeg?raw=true)
+![alt text](./docs/images/main-view-logo.png?raw=true)
 
 ## Supported features
 
