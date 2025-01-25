@@ -73,7 +73,8 @@ local shiva = {
   dspDirectInfo = presetModule.groupDirectLoad.children.dspDirectInfo,
   -- Menus
   menuContext = presetModule.menuContext,
-  movie = presetModuleMain.parent.children.background.children.starwars
+  obxdMovie = presetModuleMain.parent.children.background.children.starwars,
+  obxdLogo = presetModuleMain.parent.children.background.children.logo
 }
 -- LOCAL
 local handlers = {}
@@ -660,7 +661,6 @@ function prgSwitchDirect(up)
 end
 
 function pageSwitchDirect()
-  print('###################')
   local presetNo = getSelectedPreset() or 0
   local bankPage = shiva.groupDirectLoadButtons.pagerDirectPageLoad.values.x
   local result = math.floor(presetNo - math.fmod(presetNo, state.bankSize) + bankPage * 10)
@@ -783,18 +783,29 @@ end
 
 -- === GUI HANDLERS ===
 
+function hideObxdLogo()
+  shiva.obxdMovie.properties.visible = false
+  shiva.obxdLogo.properties.visible = false
+end
+
+function showObxdLogo()
+  shiva.obxdMovie.properties.visible = false
+  shiva.obxdLogo.properties.visible = true
+end
+
 function hideAllPages()
   saveLastPage()
   for i=1,#shiva.allPages do shiva.allPages[i].properties.visible = false end
   shiva.lblDirectHeading.properties.visible = true
   shiva.borderGroupBottom.properties.visible = false
+  showObxdLogo()
 end
 
 function showEditor()
   hideAllPages()
   shiva.borderGroupBottom.visible = true
   shiva.grpManagerMain.visible = true
-  shiva.movie.properties.visible = false
+  hideObxdLogo()
 end
 
 function showDirectLoad()
@@ -802,7 +813,7 @@ function showDirectLoad()
   shiva.lblDirectHeading.visible = false
   shiva.borderGroupBottom.visible = true
   shiva.groupDirectLoadButtonsMain.visible = true
-  shiva.movie.properties.visible = false
+  hideObxdLogo()
 end
 
 function showCollapsed()
@@ -813,7 +824,7 @@ function showRunSettings()
   hideAllPages()
   shiva.borderGroupBottom.visible = true
   shiva.groupRunSettingsMain.visible = true
-  shiva.movie.properties.visible = false
+  hideObxdLogo()
 end
 
 function showLastPage()
@@ -867,6 +878,7 @@ function showKeyboard()
   hideAllPages()
   shiva.borderGroupBottom.visible = true
   shiva.groupKeyboardMain.visible = true
+  hideObxdLogo()
 end
 
 function startKeyboard(target, text)
@@ -973,7 +985,7 @@ function setActivePreset(presetNo)
 end
 
 function activateSelectedPreset()
-  shiva.dspInfo.tag = getSelectedPreset()
+  setActivePreset(getSelectedPreset())
   setActivePresetName(getSelectedPresetName())
   lcdMessage(getActivePresetName())
 end
