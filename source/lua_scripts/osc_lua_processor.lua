@@ -163,7 +163,7 @@ function initDebug()
 end
 
 function initShiva()
-  local gs = presetModuleMain.parent.parent.children[globalPresetStoreName]
+  local gs = root:findByName(globalPresetStoreName, true)
   if gs ~= nil then
     local s = gs.parent.name .. '.' .. gs.name
     log('FOUND GLOBAL PRESET STORE TABLE: ' .. s)
@@ -664,7 +664,7 @@ function pageSwitchDirect()
   local presetNo = getSelectedPreset() or 0
   local bankPage = shiva.groupDirectLoadButtons.pagerDirectPageLoad.values.x
   local result = math.floor(presetNo - math.fmod(presetNo, state.bankSize) + bankPage * 10)
-  log('Switching bank: ' .. result)
+  logDebug('Switching bank: ' .. result)
   selectPreset(result)
   updateDirectLoadButtons(result)
 end
