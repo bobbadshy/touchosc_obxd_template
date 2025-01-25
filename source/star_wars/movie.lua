@@ -10,9 +10,20 @@ function init()
 ---@diagnostic disable-next-line: param-type-mismatch
   frame = tonumber(self.tag, 10)
   if frame == nil then frame = 1 end
+  if self.parent.tag == 'found' then
+    d2 = 5000
+  end
   delay = d1
   self.parent.visible = false
   curtain(true)
+end
+
+function onValueChanged(k)
+  if k == 'touch' and not self.values.touch then
+    self.parent.visible = false
+    self.parent.tag = 'found'
+    self.parent.parent.children.logo.visible = true
+  end
 end
 
 function isPaused()
@@ -20,7 +31,8 @@ function isPaused()
     presetManager.groupRunSettings.visible or
     presetManager.groupKeyboard.visible or
     presetManager.groupDirectLoadButtons.visible or
-    presetManager.grpManager.visible
+    presetManager.grpManager.visible or
+    (not self.parent.visible and self.parent.tag == 'found')
   )
 end
 
@@ -51,6 +63,7 @@ function update()
   if delay == d2 then
     -- start again after pause or film ended
     self.parent.visible = true
+    self.parent.parent.children.logo.visible = false
     curtain(false)
     delay = 100
     last = now
