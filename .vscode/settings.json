@@ -4,6 +4,8 @@
     "OutlineStyle",
     "getMillis",
     "onValueChanged",
-    "ValueField"
+    "ValueField",
+    "root",
+    "ControlType"
   ]
 }
