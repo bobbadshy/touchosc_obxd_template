@@ -4,6 +4,9 @@
     "OutlineStyle",
     "getMillis",
     "onValueChanged",
-    "ValueField"
+    "ValueField",
+    "sendMIDI",
+    "Color",
+    "Colors"
   ]
 }
