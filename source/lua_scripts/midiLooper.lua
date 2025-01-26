@@ -1,24 +1,11 @@
 ---@diagnostic disable: lowercase-global
-local delaydoubbleTap = 300
+local delayDoubleTap = 300
 local last = 0
 local lastLongTap = 0
 local delayBlink = 1000
 local lastBlink = 0
 local initialColor = nil
 local resetColor = nil
--- whether initial tab has happend, usually mapped to "record" on looper
-local armed = false
-local started = false
--- toggle between record/overdub and play state o single tap
-local recording = false
-local overdubbing = false
-local muted = false
-local longTapped = false
-local doubleLongTapped = false
-local undone = false
-local paused = false
-local primed = nil
-
 MIDI_CC_CHANNEL = 0x9A
 
 MIDI_RECORD_CTRL = 48
@@ -44,7 +31,7 @@ MIDI_UNDO_COLOR = Colors.yellow
 MIDI_REDO_CTRL = 52
 MIDI_REDO_ENABLE = 127
 MIDI_REDO_DISABLE = 0
-MIDI_REDO_COLOR = Colors.purple
+MIDI_REDO_COLOR = Colors.violet
 
 MIDI_PLAY_COLOR = Colors.green
 
@@ -52,6 +39,23 @@ MIDI_PAUSE_CTRL = 53
 MIDI_PAUSE_ENABLE = 127
 MIDI_PAUSE_DISABLE = 0
 MIDI_PAUSE_COLOR = nil
+
+local handled = false
+
+local armed = false
+local loopPresent = false
+
+local muted = false
+local paused = true
+local playing = false
+
+local primed = nil
+local recording = false
+local overdubbing = false
+
+local longTapped = false
+local doubleLongTapped = false
+local undone = false
 
 function init()
   self.properties.outline = false
@@ -63,29 +67,28 @@ end
 
 function update()
   local now = getMillis()
-  if (
-    ((now - lastBlink) > delayBlink) and
-    (
-      (armed and not started) or
-      muted
-      or primed ~= nil
-    )
-  ) then
+  if (now - lastBlink) > delayBlink then
+    if (
+      armed and loopPresent and
+      paused or muted or primed ~= nil
+    ) then
+      self.values.x = math.min(1, self:getValueField('x', ValueField.DEFAULT)*2)
+    end
     lastBlink = now
-    self.values.x = 0.2
   end
 end
 
 function onPointer()
   local now = getMillis()
   if self.values.touch then
+    -- TODO: Clean up this delay condition, there must be a more correct way.. ;)
     if (
       now - self.pointers[1].created > 800 and
       now - lastLongTap > 800 and
       not longTapped
     ) then
       lastLongTap = now + 2400
-      if (self.pointers[1].created - last) < delaydoubbleTap then
+      if (self.pointers[1].created - last) < delayDoubleTap then
         last = now
         if doubleLongTapped then
           extraLongTap()
@@ -100,76 +103,58 @@ function onPointer()
 end
 
 function onValueChanged(k)
-  if k ~= 'touch' then return end
-  if self.values.touch then return end
+  -- tap should only register on touch release
+  if k ~= 'touch' or self.values.touch then return end
   local now = getMillis()
-  if (now - last) < delaydoubbleTap then
-    doubleTap()
-    return
-  end
+  if (now - last) < delayDoubleTap then doubleTap() return end
   last = now
-  if doubleLongTapped then
-    self.properties.color = resetColor
-    doubleLongTapped = false
+  if handled then
+    if resetColor ~= nil then self.properties.color = Color.fromHexString(resetColor) end
+    handled = false
     return
   end
-  if recording then
-    longTapped = false
+  handled = (
+    arm() or
+    start() or
+    overdubPrime() or
+    overdubStart() or
+    overdubStop() or
+    recordStart() or
     recordStop()
-    return
-  end
-  if overdubbing then
-    longTapped = false
-    overdubStop()
-    return
-  end
-  if longTapped and primed ~= nil then
-    longTapped = false
-    return
-  end
-  if longTapped then
-    self.properties.color = resetColor
-    longTapped = false
-    return
-  end
-  if not armed then arm() return end
-  if not started then start() return end
-  if primed == 'overdub' then overdubStart() end
-  if primed == 'record' then recordStart() end
-  if not (recording or overdubbing) then overdubPrime() end
+  )
+  handled = false
+end
+
+function doubleTap()
+  -- functions to perform on double-tap
+  print('double-tap')
+  handled = (
+    muteStart() or
+    muteStop()
+  )
 end
 
 function longTap()
   -- functions to perform on double-tap
   print('long-tap')
-  longTapped = true
-  resetColor = Color.fromHexString(Color.toHexString(self.properties.color))
-  if armed and started then
-    if primed ~= nil then
-      primed = nil
-      resetColor = MIDI_PLAY_COLOR
-      self.properties.color = MIDI_PLAY_COLOR
-    elseif not (recording or overdubbing) then
-      undoRedo()
-    end
-  elseif armed then
-    pause()
-    unarm()
-  else
+  handled = (
+    unarm() or
+    primeStop() or
+    undoRedo() or
     arm()
-  end
+  )
 end
 
 function doubleLongTap()
   -- functions to perform on double-tap
   print('double long-tap')
   doubleLongTapped = true
-  if armed and started then
+  if armed and loopPresent then
     resetColor = MIDI_RECORD_COLOR
     recordPrime()
   else
     pause()
-    started = false
+    loopPresent = false
     resetColor = initialColor
   end
 end
@@ -187,152 +172,169 @@ function extraLongTap()
   end
 end
 
-function doubleTap()
-  -- functions to perform on double-tap
-  print('double-tap')
-  if not started then return end
-  if muted then
-    muteStop()
-  else
-    muteStart()
-  end
+function start()
+  if loopPresent then return false end
+  print('started')
+  return recordPrime()
 end
 
 function arm()
-  -- this will usually start initial "record" on loopers
+  if armed then return false end
+  -- also pause (reset) looper when arming
+  pause()
   armed = true
   self.properties.outline = true
-  self.properties.color = initialColor
-  self:setValueField('x', ValueField.DEFAULT, 0.4)
-  self.values.x = 1
+  setButton(0.4, initialColor)
   print('armed')
+  return true
 end
 
 function unarm()
+  if not armed or loopPresent or primed ~= nil then return false end
+  -- always pause looper when disarming
+  pause()
   armed = false
-  recording = false
-  overdubbing = false
-  started = false
-  primed = nil
   self.properties.outline = false
-  self.properties.color = initialColor
-  self:setValueField('x', ValueField.DEFAULT, 0)
-  self.values.x = 0.5
+  setButton(0, initialColor)
   print('unarmed')
-end
-
-function start()
-  print('start')
-  started = true
-  recordStart()
+  return true
 end
 
 function pause()
+  if paused then return false end
+  resetPlayStates()
   paused = true
-  recording = false
-  overdubbing = false
-  primed = nil
-  self.properties.color = MIDI_PAUSE_COLOR
+  setButton(0.4, MIDI_PAUSE_COLOR)
   sendMIDI({ MIDI_CC_CHANNEL, MIDI_PAUSE_CTRL, MIDI_PAUSE_ENABLE })
   print('Pause')
+  return true
 end
 
 function unpause()
-  paused = false
-  self.properties.color = initialColor
+  if not paused then return false end
+  resetPlayStates()
+  playing = true
+  setButton(0.4, MIDI_PLAY_COLOR)
   sendMIDI({ MIDI_CC_CHANNEL, MIDI_PAUSE_CTRL, MIDI_PAUSE_DISABLE })
   print('Unpause')
+  return true
+end
+
+function primeStop()
+  if primed == nil then return false end
+  primed = nil
+  setButton(0.4, paused and MIDI_PAUSE_COLOR or MIDI_PLAY_COLOR)
+  return true
 end
 
 function recordPrime()
+  if recording or overdubbing or primed ~= nil then return false end
   primed = 'record'
-  self.properties.color = MIDI_RECORD_COLOR
+  setButton(0.4, MIDI_RECORD_COLOR)
+  return true
 end
 
 function recordStart()
-  -- start "record" new loop from scratch
-  recording = true
-  primed = nil
+  if primed ~= 'record' then return false end
+  -- We have a first loop in the looper once we starte the first recording
+  loopPresent = true
+  resetPlayStates()
   undone = false
-  -- looper should self-disable mute state on "record" start
-  muted = false
-  self.properties.color = MIDI_RECORD_COLOR
-  self:setValueField('x', ValueField.DEFAULT, 0.8)
-  self.values.x = 1
+  recording = true
+  setButton(0.8, MIDI_RECORD_COLOR)
   sendMIDI({ MIDI_CC_CHANNEL, MIDI_RECORD_CTRL, MIDI_RECORD_ENABLE })
   print('Recording START')
-end  
+  return true
+end
 
 function recordStop()
-  recording = false
-  self:setValueField('x', ValueField.DEFAULT, 0.4)
-  self.properties.color = armed and MIDI_PLAY_COLOR or initialColor
+  if not recording then return false end
+  resetPlayStates()
+  playing = true
+  setButton(0.4, MIDI_PLAY_COLOR)
   sendMIDI({ MIDI_CC_CHANNEL, MIDI_RECORD_CTRL, MIDI_RECORD_DISABLE })
   print('Recording STOP')
-end  
+  return true
+end
 
 function overdubPrime()
+  if not loopPresent or recording or overdubbing  or primed ~= nil then return false end
   primed = 'overdub'
-  self.properties.color = MIDI_OVERDUB_COLOR
+  setButton(0.4, MIDI_OVERDUB_COLOR)
+  return true
 end
 
 function overdubStart()
-  -- Add to the existing loop
-  overdubbing = true
-  primed = nil
+  if primed ~= 'overdub' then return false end
+  resetPlayStates()
   undone = false
-  -- looper should self-disable mute state on "record" start
-  muted = false
-  self.properties.color = MIDI_OVERDUB_COLOR
-  self:setValueField('x', ValueField.DEFAULT, 0.8)
-  self.values.x = 1
+  overdubbing = true
+  setButton(0.8, MIDI_OVERDUB_COLOR)
   sendMIDI({ MIDI_CC_CHANNEL, MIDI_OVERDUB_CTRL, MIDI_OVERDUB_ENABLE })
   print('Overdub START')
+  return true
 end
 
 function overdubStop()
-  overdubbing = false
-  self:setValueField('x', ValueField.DEFAULT, 0.4)
-  self.properties.color = armed and MIDI_PLAY_COLOR or initialColor
+  if not overdubbing then return false end
+  resetPlayStates()
+  playing = true
+  setButton(0.4, MIDI_PLAY_COLOR)
   sendMIDI({ MIDI_CC_CHANNEL, MIDI_OVERDUB_CTRL, MIDI_OVERDUB_DISABLE })
   print('Overdub STOP')
+  return true
 end
 
 function muteStart()
-  -- keep playing the loop, but mute it
+  if muted or not loopPresent or recording or overdubbing then return false end
+  resetPlayStates()
   muted = true
-  primed = nil
-  -- looper should self-disable record/overdub on "mute" start
-  recording = false
-  overdubbing = false
-  self.properties.color = MIDI_MUTE_COLOR
-  self.values.x = 1
+  -- TODO: This behaviour might be different on other loopers!
+  playing = true
+  setButton(0.4, MIDI_MUTE_COLOR)
   sendMIDI({ MIDI_CC_CHANNEL, MIDI_MUTE_CTRL, MIDI_MUTE_ENABLE })
   print('Mute START')
+  return true
 end
 
 function muteStop()
-  muted = false
-  unmuted = true
-  primed = nil
-  self.properties.color = armed and MIDI_PLAY_COLOR or initialColor
-  self.values.x = 1
+  if not muted or not loopPresent then return false end
+  resetPlayStates()
+  -- TODO: This behaviour might be different on other loopers!
+  playing = true
+  setButton(0.4, MIDI_PLAY_COLOR)
   sendMIDI({ MIDI_CC_CHANNEL, MIDI_MUTE_CTRL, MIDI_MUTE_DISABLE })
   print('Mute STOP')
+  return true
 end
 
 function undoRedo()
-  primed = nil
+  if not loopPresent or recording or overdubbing then return false end
   if not undone then
     undone = true
-    self.properties.color = MIDI_UNDO_COLOR
-    self.values.x = 1
+    setButton(0.4, MIDI_UNDO_COLOR, true)
     sendMIDI({ MIDI_CC_CHANNEL, MIDI_UNDO_CTRL, MIDI_UNDO_ENABLE })
     print('Undo')
   else
     undone = false
-    self.properties.color = MIDI_REDO_COLOR
-    self.values.x = 1
+    setButton(0.4, MIDI_REDO_COLOR, true)
     sendMIDI({ MIDI_CC_CHANNEL, MIDI_REDO_CTRL, MIDI_REDO_ENABLE })
   end
+  return true
+end
+
+function resetPlayStates()
+  paused = false
+  playing = false
+  muted = false
+  recording = false
+  overdubbing =  false
+  primed = nil
+end
+
+function setButton(level, color, prev)
+  resetColor = prev == true and Color.toHexString(self.properties.color) or nil
+  self:setValueField('x', ValueField.DEFAULT, level)
+  self.properties.color = color
+  self.values.x = math.min(1, level*2)
 end

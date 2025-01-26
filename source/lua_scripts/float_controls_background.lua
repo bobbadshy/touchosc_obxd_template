@@ -4,8 +4,8 @@ local scrollable = nil
 local parent = nil
 
 function init()
-  scrollable = self.frame
-  parent = self.parent.frame
+  scrollable = self.parent.frame
+  parent = self.parent.parent.frame
   last = { x = scrollable.w / 2, y = scrollable.h / 2 }
 end
 
