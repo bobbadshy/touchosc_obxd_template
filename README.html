@@ -353,7 +353,7 @@ code {
 }
 
 </style>
-<link rel="stylesheet" href="./docs/html/readme.css" type="text/css">
+<link rel="stylesheet" href="file:///home/sven/Git-Repos/touchosc_obxd_template/docs/html/readme.css" type="text/css">
 <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
 </head>
 <body>
@@ -390,10 +390,17 @@ please consider donating to support further development! Check out the
 </li>
 <li><a href="#integrated-keyboard">Integrated keyboard</a>
 <ul>
+<li><a href="#keyboard-settings-panel">Keyboard settings panel</a></li>
 <li><a href="#positional-velocity-and-modulation-support">Positional velocity and modulation support</a></li>
 <li><a href="#midi-channelpressure-and-polyphonic-aftertouch">MIDI channelpressure and polyphonic aftertouch</a></li>
 <li><a href="#keys-sustain--midi-cc66-sustenuto">Keys Sustain – MIDI cc66 &quot;Sustenuto&quot;</a></li>
 <li><a href="#mapping-up-to-five-additional-midi-cc-controls-to-keys-aftertouch">Mapping up to five additional MIDI cc controls to keys aftertouch</a></li>
+<li><a href="#midi-looper-control-button">MIDI Looper control button</a>
+<ul>
+<li><a href="#loop-button-configuration">Loop button configuration</a></li>
+</ul>
+</li>
+<li><a href="#floating-keyboard-controls-panel">Floating keyboard controls panel</a></li>
 </ul>
 </li>
 <li><a href="#usage">Usage</a></li>
@@ -524,6 +531,10 @@ semitone and a full tone.</p>
 <p>Octave and transpose buttons.</p>
 </li>
 </ul>
+<h3 id="keyboard-settings-panel">Keyboard settings panel</h3>
+<p>The keyboard features can be configured on the &quot;Keyboard settings&quot; panel. Tap
+the arrow button on the right of the keyboard controls section to show or hide
+the panel.</p>
 <h3 id="positional-velocity-and-modulation-support">Positional velocity and modulation support</h3>
 <p>The keys support registering vertical, as well as horizontal touch movement.</p>
 <p>Velocity is controlled by the initial touch position on the keys: bottom of keys
@@ -570,15 +581,44 @@ feature).</p>
 surface, but uses regular MIDI messages. Because of this, MIDI Input <em>must be
 connected</em> in order to sense the MIDI CC number of a control! If you already
 have MIDI feedback from OB-Xd routed back to the template, you should be able
-to sense controls without problems. If you do not have a MIDI input connected,
+to sense controls without problems. If you do not have MIDI input connected,
 use MIDI Through to loop the control surface <em>back to itself</em> so that it can
 read the MIDI CC messages sent by its controls.</li>
 </ul>
-<p>With this feature, you can add aftertouch functionality to any hardware or
-software instruments. For example, to control aftertouch volume, bind to Master
-volume, to the envelope's sustain control, or to one of the osclillator mix
-controls. Manipulate the sound shape by binding to the cutoff frequency,
-resonance mix, etc.</p>
+<p>With this feature, you can add aftertouch functionality when playing any
+hardware or software instrument. For example, to control aftertouch volume,
+bind to Master volume, to the envelope's sustain control, or to one of the
+osclillator mix controls. Manipulate the sound shape by binding to the cutoff
+frequency, resonance mix, etc.</p>
+<h3 id="midi-looper-control-button">MIDI Looper control button</h3>
+<p>The keyboard offers an optional &quot;MIDI Looper&quot; button that can be used to control
+external looping software over MIDI. The button uses a complex control scheme to
+allow manipulating all essential looping operations through a single control.</p>
+<p>The button's control scheme is based on control schemes commonly found on
+single-button hardware loopers, and it offers some extra functionality usually
+not available in single-button operation. It was programmed and tested in detail
+with the <a href="https://sonosaurus.com/sooperlooper/features.html">SooperLooper</a>
+software on Linux.</p>
+<p>This template contains a ready-made MIDI mappings file for SooperLooper at:</p>
+<ul>
+<li><a href="extra_files/sooperlooper/midi.slb">extra_files/sooperlooper/midi.slb</a></li>
+</ul>
+<p>Open &quot;Preferences&quot; &gt; &quot;MIDI Bindings&quot; in SooperLooper to load the MIDI mappings.
+After loading, all button operations should work fine SooperLooper.</p>
+<h4 id="loop-button-configuration">Loop button configuration</h4>
+<p>The loop button uses a MIDI channel that is separate from the template's main
+channel. Open the &quot;Keyboard settings&quot; panel, and scroll down to the &quot;Looper&quot;
+section to edit the MIDI channel for the loop button.</p>
+<h3 id="floating-keyboard-controls-panel">Floating keyboard controls panel</h3>
+<p>The keyboard features an additional floating controls panel. This panel offers
+bigger controls for some of the keyboard functions. Currently, the panel
+includes bigger versions of the &quot;Keys Sustain&quot; and the &quot;Midi Looper&quot; control
+button.</p>
+<p><em>(In future versions, I will probably also add an XY pad, and maybe some other
+faders to the floating panel, to allow easy control of modulation and filter
+parameters.)</em></p>
+<p>Tap the detach button on the right of the keyboard controls section to show or
+hide the floating controls panel.</p>
 <p><strong>Keyboard screenshots</strong></p>
 <ul>
 <li>Main controls:</li>

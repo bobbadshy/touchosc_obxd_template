@@ -106,7 +106,7 @@ end
 function updateScrollbar()
   local scale = parent.h/scrollable.h
   slider.frame.h = math.min(scrollbar.frame.h, math.max(50, scrollbar.frame.h * scale))
-  slider.frame.y = math.abs(scrollable.y) * scale
+  slider.frame.y = scrollbar.frame.h - slider.frame.h + scrollable.y * scale
 end
 
 function reset()

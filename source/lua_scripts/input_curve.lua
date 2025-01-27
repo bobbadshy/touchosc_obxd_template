@@ -13,6 +13,7 @@ CMD_CONFIG = 'cmdConfig'
 local config = {
   sens = 1.5,
   lblControlName = 'midi',
+  lblShow = true,
   low = 0,
   high = 127,
   min = nil,
@@ -48,6 +49,7 @@ function onReceiveNotify(c,v)
     config = json.toTable(v)
     if config.sens == nil then config.sens = 1.5 end
     if config.lblControlName == nil then config.lblControlName = nil end
+    if config.lblShow == nil then config.lblShow = true end
     if config.low == nil then config.low = 0 end
     if config.high == nil then config.high = 127 end
     if config.min == nil then config.min = nil end
@@ -79,15 +81,15 @@ end
 function onValueChanged(k)
   -- Check for double-tap
   if k == 'touch' then
+    if config.lblShow then
+      siblings[config.lblControlName].properties.visible = self.values.touch
+    end
     if self.values.touch then
-      siblings[config.lblControlName].properties.visible = true
       _setStartPoint()
-    else
-      siblings[config.lblControlName].properties.visible = false
     end
   elseif k == 'x' or k == 'y' then
     -- break if we don't have a pointer (programmatic value update)
-    if self.pointers[1] == nil then
+    if self.pointers[1] == nil and config.lblShow then
       _showTrueValue(self.values[k])
       siblings[config.lblControlName].properties.visible = false
       return

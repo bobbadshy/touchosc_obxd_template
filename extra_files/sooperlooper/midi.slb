@@ -1,7 +1,6 @@
-10 n 48  susnote record -3  0 1  norm 0 127
-10 n 49  susnote overdub -3  0 1  norm 0 127
-10 n 50  susnote mute -3  0 1  norm 0 127
-10 n 51  susnote undo -3  0 1  norm 0 127
-10 n 52  susnote redo -3  0 1  norm 0 127
-10 n 53  noteon pause -3  0 1  norm 0 127
-10 n 53  susnote pause_on -3  0 1  norm 0 127
+10 n 36  susnote record -3  0 1  norm 0 127
+10 n 37  susnote overdub -3  0 1  norm 0 127
+10 n 38  susnote mute -3  0 1  norm 0 127
+10 n 39  susnote undo -3  0 1  norm 0 127
+10 n 40  susnote redo -3  0 1  norm 0 127
+10 n 41  susnote pause_on -3  0 1  norm 0 127

@@ -22,10 +22,14 @@ please consider donating to support further development! Check out the
     - [Surface zoom](#surface-zoom)
     - [Shiva Preset manager](#shiva-preset-manager)
   - [Integrated keyboard](#integrated-keyboard)
+    - [Keyboard settings panel](#keyboard-settings-panel)
     - [Positional velocity and modulation support](#positional-velocity-and-modulation-support)
     - [MIDI channelpressure and polyphonic aftertouch](#midi-channelpressure-and-polyphonic-aftertouch)
     - [Keys Sustain – MIDI cc66 "Sustenuto"](#keys-sustain--midi-cc66-sustenuto)
     - [Mapping up to five additional MIDI cc controls to keys aftertouch](#mapping-up-to-five-additional-midi-cc-controls-to-keys-aftertouch)
+    - [MIDI Looper control button](#midi-looper-control-button)
+      - [Loop button configuration](#loop-button-configuration)
+    - [Floating keyboard controls panel](#floating-keyboard-controls-panel)
   - [Usage](#usage)
   - [Download](#download)
   - [Bug reports, Feature Suggestions or Contributing](#bug-reports-feature-suggestions-or-contributing)
@@ -141,6 +145,12 @@ The integrated keyboard currently includes:
 
 - Octave and transpose buttons.
 
+### Keyboard settings panel
+
+The keyboard features can be configured on the "Keyboard settings" panel. Tap
+the arrow button on the right of the keyboard controls section to show or hide
+the panel.
+
 ### Positional velocity and modulation support
 
 The keys support registering vertical, as well as horizontal touch movement.
@@ -196,16 +206,54 @@ feature).
   surface, but uses regular MIDI messages. Because of this, MIDI Input *must be
   connected* in order to sense the MIDI CC number of a control! If you already
   have MIDI feedback from OB-Xd routed back to the template, you should be able
-  to sense controls without problems. If you do not have a MIDI input connected,
+  to sense controls without problems. If you do not have MIDI input connected,
   use MIDI Through to loop the control surface *back to itself* so that it can
   read the MIDI CC messages sent by its controls.
 
+With this feature, you can add aftertouch functionality when playing any
+hardware or software instrument. For example, to control aftertouch volume,
+bind to Master volume, to the envelope's sustain control, or to one of the
+osclillator mix controls. Manipulate the sound shape by binding to the cutoff
+frequency, resonance mix, etc.
 
-With this feature, you can add aftertouch functionality to any hardware or
-software instruments. For example, to control aftertouch volume, bind to Master
-volume, to the envelope's sustain control, or to one of the osclillator mix
-controls. Manipulate the sound shape by binding to the cutoff frequency,
-resonance mix, etc.
+### MIDI Looper control button
+
+The keyboard offers an optional "MIDI Looper" button that can be used to control
+external looping software over MIDI. The button uses a complex control scheme to
+allow manipulating all essential looping operations through a single control.
+
+The button's control scheme is based on control schemes commonly found on
+single-button hardware loopers, and it offers some extra functionality usually
+not available in single-button operation. It was programmed and tested in detail
+with the [SooperLooper](https://sonosaurus.com/sooperlooper/features.html)
+software on Linux.
+
+This template contains a ready-made MIDI mappings file for SooperLooper at:
+
+- [extra_files/sooperlooper/midi.slb](extra_files/sooperlooper/midi.slb)
+
+Open "Preferences" > "MIDI Bindings" in SooperLooper to load the MIDI mappings. 
+After loading, all button operations should work fine SooperLooper.
+
+#### Loop button configuration
+
+The loop button uses a MIDI channel that is separate from the template's main
+channel. Open the "Keyboard settings" panel, and scroll down to the "Looper"
+section to edit the MIDI channel for the loop button.
+
+### Floating keyboard controls panel
+
+The keyboard features an additional floating controls panel. This panel offers
+bigger controls for some of the keyboard functions. Currently, the panel
+includes bigger versions of the "Keys Sustain" and the "Midi Looper" control
+button. 
+
+*(In future versions, I will probably also add an XY pad, and maybe some other
+faders to the floating panel, to allow easy control of modulation and filter
+parameters.)*
+
+Tap the detach button on the right of the keyboard controls section to show or
+hide the floating controls panel.
 
 **Keyboard screenshots**
 
