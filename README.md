@@ -239,11 +239,15 @@ hide the floating controls panel.
 
 - Main controls:
 
-![alt text](./docs/images/kbd_main_controls.jpeg?raw=true)
+![alt text](./docs/images/kbd_main_controls.png?raw=true)
 
 - Keyboard settings panel:
 
-| ![alt text](./docs/images/kbd_settings.jpeg?raw=true) |
+![alt text](./docs/images/kbd_settings.jpeg?raw=true)
+
+- Keyboard floating controls panel:
+
+![alt text](./docs/images/kbd-floating-controls.png?raw=true)
 
 ## MIDI Looper control button
 
