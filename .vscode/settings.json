@@ -8,6 +8,8 @@
     "sendMIDI",
     "Color",
     "Colors",
-    "PointerState"
+    "PointerState",
+    "json",
+    "root"
   ]
 }
