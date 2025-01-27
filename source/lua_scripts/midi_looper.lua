@@ -1,4 +1,7 @@
----@diagnostic disable: lowercase-global
+---@diagnostic disable: lowercase-global, undefined-field
+
+local settings = nil
+
 local delayDoubleTap = 300
 local last = 0
 local lastLongTap = 0
@@ -6,7 +9,6 @@ local delayBlink = 1000
 local lastBlink = 0
 local initialColor = nil
 local resetColor = nil
-MIDI_CC_CHANNEL = 0x9A
 
 colorOrange = Color.fromHexString('FF8400FF')
 colorGreen = Color.fromHexString('8BFF1BFF')
@@ -61,11 +63,17 @@ local doubleLongTapped = false
 local undone = false
 
 function init()
+  settings = root:findByName('pageKbdSettings', true)
   self.properties.outline = false
   initialColor = Color.fromHexString('44B3FFFF')
   self.properties.color = initialColor
   MIDI_PAUSE_COLOR = initialColor
   self:setValueField('x', ValueField.DEFAULT, 0)
+end
+
+function getMidiNoteCode()
+  ---@diagnostic disable-next-line: need-check-nil
+  return math.floor(144+tonumber(settings.children.midiLoopChannel.children.label.values.text-1))
 end
 
 function onReceiveNotify(c,v)
@@ -217,7 +225,7 @@ function pause()
   resetPlayStates()
   paused = true
   setButton(0.4, MIDI_PAUSE_COLOR)
-  sendMIDI({ MIDI_CC_CHANNEL, MIDI_PAUSE_CTRL, MIDI_PAUSE_ENABLE })
+  sendMIDI({ getMidiNoteCode(), MIDI_PAUSE_CTRL, MIDI_PAUSE_ENABLE })
   print('Pause')
   return true
 end
@@ -226,7 +234,7 @@ function unpause()
   if not paused then return false end
   resetPlayStates()
   setButton(0.4, MIDI_PLAY_COLOR)
-  sendMIDI({ MIDI_CC_CHANNEL, MIDI_PAUSE_CTRL, MIDI_PAUSE_DISABLE })
+  sendMIDI({ getMidiNoteCode(), MIDI_PAUSE_CTRL, MIDI_PAUSE_DISABLE })
   print('Unpause')
   return true
 end
@@ -253,7 +261,7 @@ function recordStart()
   undone = false
   recording = true
   setButton(0.8, MIDI_RECORD_COLOR)
-  sendMIDI({ MIDI_CC_CHANNEL, MIDI_RECORD_CTRL, MIDI_RECORD_ENABLE })
+  sendMIDI({ getMidiNoteCode(), MIDI_RECORD_CTRL, MIDI_RECORD_ENABLE })
   print('Recording START')
   return true
 end
@@ -262,7 +270,7 @@ function recordStop()
   if not recording then return false end
   resetPlayStates()
   setButton(0.4, MIDI_PLAY_COLOR)
-  sendMIDI({ MIDI_CC_CHANNEL, MIDI_RECORD_CTRL, MIDI_RECORD_DISABLE })
+  sendMIDI({ getMidiNoteCode(), MIDI_RECORD_CTRL, MIDI_RECORD_DISABLE })
   print('Recording STOP')
   --[[
     maybe nice feature, but we can also stop and mute with double-tapping,
@@ -286,7 +294,7 @@ function overdubStart()
   undone = false
   overdubbing = true
   setButton(0.8, MIDI_OVERDUB_COLOR)
-  sendMIDI({ MIDI_CC_CHANNEL, MIDI_OVERDUB_CTRL, MIDI_OVERDUB_ENABLE })
+  sendMIDI({ getMidiNoteCode(), MIDI_OVERDUB_CTRL, MIDI_OVERDUB_ENABLE })
   print('Overdub START')
   return true
 end
@@ -295,7 +303,7 @@ function overdubStop()
   if not overdubbing then return false end
   resetPlayStates()
   setButton(0.4, MIDI_PLAY_COLOR)
-  sendMIDI({ MIDI_CC_CHANNEL, MIDI_OVERDUB_CTRL, MIDI_OVERDUB_DISABLE })
+  sendMIDI({ getMidiNoteCode(), MIDI_OVERDUB_CTRL, MIDI_OVERDUB_DISABLE })
   print('Overdub STOP')
   --[[
     maybe nice feature, but we can also stop and mute with double-tapping,
@@ -312,7 +320,7 @@ function muteStart()
   muted = true
   -- TODO: This behaviour might be different on other loopers!
   setButton(0.4, MIDI_MUTE_COLOR)
-  sendMIDI({ MIDI_CC_CHANNEL, MIDI_MUTE_CTRL, MIDI_MUTE_ENABLE })
+  sendMIDI({ getMidiNoteCode(), MIDI_MUTE_CTRL, MIDI_MUTE_ENABLE })
   print('Mute START')
   return true
 end
@@ -322,7 +330,7 @@ function muteStop()
   resetPlayStates()
   -- TODO: This behaviour might be different on other loopers!
   setButton(0.4, MIDI_PLAY_COLOR)
-  sendMIDI({ MIDI_CC_CHANNEL, MIDI_MUTE_CTRL, MIDI_MUTE_DISABLE })
+  sendMIDI({ getMidiNoteCode(), MIDI_MUTE_CTRL, MIDI_MUTE_DISABLE })
   print('Mute STOP')
   return true
 end
@@ -332,12 +340,12 @@ function undoRedo()
   if not undone then
     undone = true
     setButton(0.4, MIDI_UNDO_COLOR, true)
-    sendMIDI({ MIDI_CC_CHANNEL, MIDI_UNDO_CTRL, MIDI_UNDO_ENABLE })
+    sendMIDI({ getMidiNoteCode(), MIDI_UNDO_CTRL, MIDI_UNDO_ENABLE })
     print('Undo')
   else
     undone = false
     setButton(0.4, MIDI_REDO_COLOR, true)
-    sendMIDI({ MIDI_CC_CHANNEL, MIDI_REDO_CTRL, MIDI_REDO_ENABLE })
+    sendMIDI({ getMidiNoteCode(), MIDI_REDO_CTRL, MIDI_REDO_ENABLE })
   end
   return true
 end
@@ -351,8 +359,10 @@ function resetPlayStates()
 end
 
 function setButton(level, color, prev)
-  if resetColor == nil then
-    resetColor = prev == true and Color.toHexString(self.properties.color) or nil
+  if prev == true and resetColor == nil then
+    resetColor = Color.toHexString(self.properties.color)
+  else
+    resetColor = nil
   end
   self:setValueField('x', ValueField.DEFAULT, level)
   self.properties.color = color
