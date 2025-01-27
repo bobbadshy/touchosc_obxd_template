@@ -168,6 +168,7 @@ function longTap()
   -- tap on release when we already handled the event.
   handled = result
   longTapped = true
+  syncState()
 end
 
 function extraLongTap()
@@ -178,6 +179,7 @@ function extraLongTap()
   )
   handled = true
   extraLongTapped = true
+  syncState()
 end
 
 function doubleLongTap()
@@ -188,6 +190,7 @@ function doubleLongTap()
   )
   handled = true
   doubleLongTapped = true
+  syncState()
 end
 
 function start()
@@ -208,7 +211,7 @@ function arm()
 end
 
 function unarm()
-  if not armed then return false end
+  if not armed or recording or overdubbing then return false end
   -- always pause looper when disarming
   pause()
   resetPlayStates()
