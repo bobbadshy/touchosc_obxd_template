@@ -79,11 +79,11 @@ end
 function onValueChanged(k)
   -- Check for double-tap
   if k == 'touch' then
-    if config.lblControlName ~= nil then
-      siblings[config.lblControlName].properties.visible = self.values.touch
-    end
     if self.values.touch then
+      siblings[config.lblControlName].properties.visible = true
       _setStartPoint()
+    else
+      siblings[config.lblControlName].properties.visible = false
     end
   elseif k == 'x' or k == 'y' then
     -- break if we don't have a pointer (programmatic value update)
@@ -93,9 +93,6 @@ function onValueChanged(k)
       return
     end
     -- initialize orientation
-    if config.lblControlName ~= nil then
-      siblings[config.lblControlName].properties.visible = true
-    end
     if horz_x == nil then _getOrientation() end
     _applySmoothedValue(k)
     -- handle knobs "movement" (turn slave radial on knob)
