@@ -34,6 +34,7 @@ please consider donating to support further development! Check out the
     - [Loop button configuration](#loop-button-configuration)
     - [Loop button states](#loop-button-states)
     - [Loop button operation](#loop-button-operation)
+    - [Planned loop button features](#planned-loop-button-features)
   - [Usage](#usage)
   - [Download](#download)
   - [Bug reports, Feature Suggestions or Contributing](#bug-reports-feature-suggestions-or-contributing)
@@ -248,16 +249,15 @@ hide the floating controls panel.
 
 The keyboard offers an optional "MIDI Looper" button that can be used to control
 external looping software over MIDI. The button uses a complex control scheme to
-allow manipulating all essential looping operations through a single control.
-
-The button's control scheme is based on control schemes commonly found on
-single-button hardware loopers, and it offers some extra functionality usually
-not available in single-button operation.
+allow manipulating most looping operations through a single control. The
+button's control scheme is based on control schemes commonly found on
+single-button hardware loopers.
 
 ### Supported looper software
 
 The loop button should work with most looping software, as long as the software
-supports binding to its functions with MIDI note_on messages. To be used with the button, the software needs to expose all or a subset of these functions:
+supports binding to its functions with MIDI note_on messages. To be used with
+the button, the software needs to expose all or a subset of these functions:
 
 - Record start/stop
   - Bind to MIDI note_on 36, value 0/127
@@ -390,6 +390,17 @@ triggered:
     depending on what the looper supports, this can be bound to the looper's
     "pause" or "reset" function.
 
+### Planned loop button features
+
+- Additional buttons to extend the supported range of functions, e.g. multiple
+  loops with solo and mute support, record in "replace" or "multiply" mode etc.
+- Test with other looper software to ensure the MIDI message scheme plays well
+  also with other loopers.
+- Add support (switchable option) for loopers that go from record stop directly
+  back into overdub mode. (For now, please configure your software to switch to
+  normal play after record stop, for it to stay in sync with the loop button
+  state.)
+- ...
 
 
 ## Usage
