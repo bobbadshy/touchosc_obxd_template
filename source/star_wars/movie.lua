@@ -4,8 +4,6 @@ local d2 = 90000
 local delay = d1
 local last = 0
 local frame = 1
-local presetManager = root:findByName('presetModule', true).children
-local groupKeyboard = root:findByName('groupKeyboard', true)
 
 function init()
 ---@diagnostic disable-next-line: param-type-mismatch
@@ -29,11 +27,8 @@ end
 
 function isPaused()
   return (
-    presetManager.groupRunSettings.visible or
-    groupKeyboard.visible or
-    presetManager.groupDirectLoadButtons.visible or
-    presetManager.grpManager.visible or
-    (not self.parent.visible and self.parent.tag == 'found')
+    not (self.parent.parent.children.logo.visible or self.parent.visible) or
+    (self.parent.parent.children.logo.visible and self.parent.tag == 'found')
   )
 end
 
