@@ -14,7 +14,7 @@ function update()
   ) then
     self.children.starwars.properties.visible = false
     self.children.logo.properties.visible = false
-  else
+  elseif not self.children.starwars.properties.visible then
     self.children.logo.properties.visible = true
   end
 end

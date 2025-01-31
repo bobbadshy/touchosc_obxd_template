@@ -1,6 +1,7 @@
 ---@diagnostic disable: lowercase-global
 local d1 = 30000
 local d2 = 90000
+local d3 = 234
 local delay = d1
 local last = 0
 local frame = 1
@@ -52,11 +53,11 @@ function update()
     return
   end
   if delay == d1 then
-    delay = d2 --after pause, wait another 90 seconds
+    delay = self.parent.tag == 'found' and d3 or d2
     last = now
     return
   end
-  if delay == d2 then
+  if delay == d2 or delay == d3 then
     -- start again after pause or film ended
     self.parent.visible = true
     self.parent.parent.children.logo.visible = false
