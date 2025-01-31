@@ -1,7 +1,7 @@
 ---@diagnostic disable: lowercase-global, undefined-global
 local last
-local scrollable = nil
-local parent = nil
+local scrollable
+local parent
 
 function init()
   scrollable = self.parent.frame

@@ -156,7 +156,7 @@ local midiMappings = {
     -- == Oscillators
     ctrlGroupOscillators = {
       osc1 = {midiCCs.cc54.no, 'OSCC1'},
-      pw = {midiCCs.cc61.no, 'PULSE\\nWIDTH'},
+      pw = {midiCCs.cc61.no, 'PULSE\nWIDTH'},
       osc2 = {midiCCs.cc55.no, 'OSCC2'},
       waveSawOsc1 = {midiCCs.cc57.no, ''},
       waveSquOsc1 = {midiCCs.cc58.no, ''},
@@ -165,22 +165,22 @@ local midiMappings = {
       waveSawOsc2 = {midiCCs.cc59.no, ''},
       waveSquOsc2 = {midiCCs.cc60.no, ''},
       wavePlusOsc2 = {midiCCs.cc114.no, '1+2'},
-      pitchEnvAmt = {midiCCs.cc63.no, 'PITCH\\nENV AMT'},
-      crossMod = {midiCCs.cc53.no, 'CROSS\\nMOD'},
-      pwEnvAmt = {midiCCs.cc113.no, 'PW ENV\\nAMT'},
-      brightAmt = {midiCCs.cc62.no, 'BRIGHT\\nAMT'},
+      pitchEnvAmt = {midiCCs.cc63.no, 'PITCH\nENV AMT'},
+      crossMod = {midiCCs.cc53.no, 'CROSS\nMOD'},
+      pwEnvAmt = {midiCCs.cc113.no, 'PW ENV\nAMT'},
+      brightAmt = {midiCCs.cc62.no, 'BRIGHT\nAMT'},
       butttonSync = {midiCCs.cc52.no, 'SYNC'},
       buttonStep = {midiCCs.cc56.no, 'STEP'},
-      osc2PwOffset = {midiCCs.cc117.no, 'OSC2 PW\\nOFFSET'},
+      osc2PwOffset = {midiCCs.cc117.no, 'OSC2 PW\nOFFSET'},
     },
     -- #####
     -- == Control
     ctrlGroupControl = {
-      bendOctave = {midiCCs.cc118.no, 'BEND\\nOCTAVE'},
-      bendOsc2 = {midiCCs.cc31.no, 'BEND\\nOSC2'},
-      vibratoRate = {midiCCs.cc75.no, 'VIBRATO\\nRATE'},
-      fltEnvVelocity = {midiCCs.cc76.no, 'FLT ENV\\nVELOCITY'},
-      ampEnvVelocity = {midiCCs.cc20.no, 'AMP ENV\\nVELOCITY'},
+      bendOctave = {midiCCs.cc118.no, 'BEND\nOCTAVE'},
+      bendOsc2 = {midiCCs.cc31.no, 'BEND\nOSC2'},
+      vibratoRate = {midiCCs.cc75.no, 'VIBRATO\nRATE'},
+      fltEnvVelocity = {midiCCs.cc76.no, 'FLT ENV\nVELOCITY'},
+      ampEnvVelocity = {midiCCs.cc20.no, 'AMP ENV\nVELOCITY'},
     },
     -- #####
     -- == Mixer

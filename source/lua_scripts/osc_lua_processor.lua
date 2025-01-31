@@ -1,4 +1,4 @@
----@diagnostic disable: lowercase-global, undefined-global
+---@diagnostic disable: lowercase-global, undefined-global, undefined-field
 
 -- ##########
 -- # == Configuration ==
