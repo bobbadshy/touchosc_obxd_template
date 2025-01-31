@@ -14,25 +14,10 @@ cp -a "$source" "$target" || exit 1
 
 # shellcheck disable=SC2045
 for each in  $(ls -1); do
-  echo "Replacing $each in $(basename "$target") ... "
-
-  lua="$(<"$each")"
-  xmlstarlet ed --inplace -u \
-    '//property/value[starts-with(text(), "--[[START '"$each"']]")]' \
-    -v "$lua" \
-    "$target"
-done
-
-echo
-
-source="$XML_SOURCE_PLAIN"
-target="$XML_EXPORT_PLAIN"
-
-cp -a "$source" "$target" || exit 1
-
-# shellcheck disable=SC2045
-for each in  $(ls -1); do
-  echo "Replacing $each in $(basename "$target") ... "
+  count=$(xmlstarlet sel -t -c \
+    'count(//property/value[starts-with(text(), "--[[START '"$each"']]")])' \
+    "$target")
+  echo "Replacing $count times $each in $(basename "$target") ... "
 
   lua="$(<"$each")"
   xmlstarlet ed --inplace -u \
