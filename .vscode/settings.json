@@ -11,6 +11,8 @@
     "PointerState",
     "json",
     "root",
-    "init"
+    "init",
+    "onReceiveNotify",
+    "update"
   ]
 }
