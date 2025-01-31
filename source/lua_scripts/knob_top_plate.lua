@@ -6,12 +6,12 @@ function onValueChanged(k)
   if k == 'touch' then
     self.parent.children.midi.properties.visible = self.values.touch
     if self.values.touch then
-      if _checkForDoubleTap() then return end
+      if checkForDoubleTap() then return end
     end
   end
 end
 
-function _checkForDoubleTap()
+function checkForDoubleTap()
   local now = getMillis()
   if(now - last < delay) then
     self.parent.children.ctrl:notify('reset')
