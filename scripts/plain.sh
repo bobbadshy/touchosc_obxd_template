@@ -19,4 +19,8 @@ xmlstarlet ed -d '//node[@type="GROUP"]/children/node[properties/property[./valu
   <  "$source" \
   > "$target"
 
+xmlstarlet ed -d '//node[@type="GROUP"]/properties/property[value="starwars"]' \
+  <  "$source" \
+  > "$target"
+
 echo -e "\nDone.\n"

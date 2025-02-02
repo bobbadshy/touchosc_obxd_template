@@ -12,9 +12,11 @@ function update()
     self.parent.children.presetModule.children.groupManager.visible or
     self.parent.children.groupKeyboardLarge.visible
   ) then
-    self.children.starwars.properties.visible = false
+    if self.children.starwars ~= nil then
+      self.children.starwars.properties.visible = false
+    end
     self.children.logo.properties.visible = false
-  elseif not self.children.starwars.properties.visible then
+  elseif self.children.starwars == nil or not self.children.starwars.properties.visible then
     self.children.logo.properties.visible = true
   end
 end
