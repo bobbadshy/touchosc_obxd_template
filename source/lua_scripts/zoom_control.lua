@@ -196,7 +196,7 @@ function onPointer(pointer)
         endAll()
       else
         -- init zoom
-        scroll = nill
+        scroll = nil
         dist = calcDistance(self.pointers[1].x, self.pointers[2].x, self.pointers[1].y, self.pointers[2].y)
       end
     elseif #self.pointers == 1 then

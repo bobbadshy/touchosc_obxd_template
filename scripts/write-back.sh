@@ -11,12 +11,5 @@ target="$XML_SOURCE"
 echo -e "Overwriting $target with $source .."
 mv "$target" "$target.bak"
 cp -av "$source" "$target"
-echo
-source="$XML_EXPORT_PLAIN"
-target="$XML_SOURCE_PLAIN"
-
-echo -e "Overwriting $target with $source .."
-mv "$target" "$target.bak"
-cp -av "$source" "$target"
 
 echo -e "\nDone.\n"

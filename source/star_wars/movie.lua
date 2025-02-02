@@ -1,11 +1,10 @@
 ---@diagnostic disable: lowercase-global
 local d1 = 30000
 local d2 = 90000
+local d3 = 234
 local delay = d1
 local last = 0
 local frame = 1
-local presetManager = root:findByName('presetModule', true).children
-local groupKeyboard = root:findByName('groupKeyboard', true)
 
 function init()
 ---@diagnostic disable-next-line: param-type-mismatch
@@ -29,11 +28,8 @@ end
 
 function isPaused()
   return (
-    presetManager.groupRunSettings.visible or
-    groupKeyboard.visible or
-    presetManager.groupDirectLoadButtons.visible or
-    presetManager.grpManager.visible or
-    (not self.parent.visible and self.parent.tag == 'found')
+    not (self.parent.parent.children.logo.visible or self.parent.visible) or
+    (self.parent.parent.children.logo.visible and self.parent.tag == 'found')
   )
 end
 
@@ -57,11 +53,11 @@ function update()
     return
   end
   if delay == d1 then
-    delay = d2 --after pause, wait another 90 seconds
+    delay = self.parent.tag == 'found' and d3 or d2
     last = now
     return
   end
-  if delay == d2 then
+  if delay == d2 or delay == d3 then
     -- start again after pause or film ended
     self.parent.visible = true
     self.parent.parent.children.logo.visible = false

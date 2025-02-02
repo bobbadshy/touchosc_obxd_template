@@ -6,7 +6,9 @@
 echo -e "\n == Copying to repo main dir at $REPO ==\n"
 
 cp -av "$TOSC_BUILD" "$TOSC_FINAL"
-
 cp -av "$TOSC_BUILD_PLAIN" "$TOSC_FINAL_PLAIN"
+
+/opt/touchosc/TouchOSC "$TOSC_FINAL"
+/opt/touchosc/TouchOSC "$TOSC_FINAL_PLAIN"
 
 echo -e "\nDone.\n"

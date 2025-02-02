@@ -1,18 +1,19 @@
 ---@diagnostic disable: lowercase-global, undefined-global
-local siblings = self.parent.children
-local ctrlinfo = root.children.app.children.keyboard.children.buttons.children.midiSendInfo
 
+-- CONSTANTS
 MIDI = 0
 LINEAR = 1
 LOG = 2
 EXP2 = 3
 EXP3 = 4
 dB = 5
-CMD_CONFIG = 'cmdConfig'
 
+-- CONFIG
+local globalMidiLabel = root.children.app.children.keyboard.children.buttons.children.midiSendInfo
 local config = {
   sens = 1.5,
   lblControlName = 'midi',
+  lblShow = true,
   low = 0,
   high = 127,
   min = nil,
@@ -26,104 +27,131 @@ local config = {
   default = 0.0,
 }
 
-local zero_x
-local zero_y
-local horz_x = nil
-local scale = 0
-local lastTap = 0
-local configSet = false
+-- STATE
+local start = {
+  scale = 0,
+  x = 0,
+  y = 0,
+}
+local siblings = self.parent.children
+local handlers = {}
+local label
+local horizontal = nil
+local last = 0
+local initialized = false
+
+function registerHandlers()
+  handlers =  {
+    reset = resetValuesToDefault,
+    cmdConfig = applyConfigFromJson,
+  }
+end
+
+-- === CALLBACK HANDLERS ===
 
 function init()
-  if siblings.topNotch ~= nil then
-    siblings.topNotch.values.x = self.values.x*0.8+0.1
-  end
-  _showTrueValue(self.values.x)
+  registerHandlers()
+  syncKnobPlate()
+  initLabel()
+  getOrientation()
+  initialized = true
 end
 
 function onReceiveNotify(c,v)
-  if c == 'reset' then
-    _resetValuesToDefault()
-  elseif c == CMD_CONFIG then
-    -- print('Got config!')
-    config = json.toTable(v)
-    if config.sens == nil then config.sens = 1.5 end
-    if config.lblControlName == nil then config.lblControlName = nil end
-    if config.low == nil then config.low = 0 end
-    if config.high == nil then config.high = 127 end
-    if config.min == nil then config.min = nil end
-    if config.max == nil then config.max = nil end
-    if config.decimals == nil then config.decimals = 0 end
-    if config.unit == nil then config.unit = '' end
-    if config.type == nil then config.type = MIDI end
-    if config.doubleTap == nil then config.doubleTap = true end
-    if config.tapDelay == nil then config.tapDelay = 300 end
-    if config.centered == nil then config.centered = false end
-    if config.default == nil then config.default = 0 end
-    config.sens = tonumber(config.sens)
-    config.lblControlName = tostring(config.lblControlName)
-    config.low = tonumber(config.low)
-    config.high = tonumber(config.high)
-    config.min = tonumber(config.min)
-    config.max = tonumber(config.max)
-    config.decimals = tonumber(config.decimals)
-    config.unit = tostring(config.unit)
-    self:setValueField('x', ValueField.DEFAULT, config.default)
-    if self.properties.centered ~= nil then
-      self.properties.centered = config.centered
-    end
-    configSet = true
-    _showTrueValue(self.values.x)
-  end
+  if not initialized then init() end
+  if handlers[c] == nil then return end
+  handlers[c](v)
 end
 
 function onValueChanged(k)
-  -- Check for double-tap
-  if k == 'touch' then
-    if config.lblControlName ~= nil then
-      siblings[config.lblControlName].properties.visible = self.values.touch
-    end
-    if self.values.touch then
-      _setStartPoint()
-    end
-  elseif k == 'x' or k == 'y' then
-    -- break if we don't have a pointer (programmatic value update)
-    if self.pointers[1] == nil then
-      _showTrueValue(self.values[k])
-      siblings[config.lblControlName].properties.visible = false
-      return
-    end
-    -- initialize orientation
-    if config.lblControlName ~= nil then
-      siblings[config.lblControlName].properties.visible = true
-    end
-    if horz_x == nil then _getOrientation() end
-    _applySmoothedValue(k)
-    -- handle knobs "movement" (turn slave radial on knob)
-    if siblings.topNotch ~= nil and k == 'x' then
-      siblings.topNotch.values.x = self.values.x*0.8+0.1
-    end
-    ctrlinfo:notify('midiCC', self.values[k])
-    _showTrueValue(self.values[k])
+  if self.pointers[1] == nil or not (k == 'x' or k == 'y') then return end
+  applySmoothedValue(k)
+  if k == 'x' then syncKnobPlate() end
+  notifyGlobalMidiLabel(self.values[k])
+  showTrueValue(self.values[k])
+end
+
+function onPointer(pointers)
+  local p = pointers[1]
+  if p.state == PointerState.BEGIN then
+    setStartPoint()
+    showlLabel(true)
+  elseif p.state == PointerState.MOVE then
+    showlLabel(true)
+  elseif p.state == PointerState.END then
+    showlLabel(false)
   end
 end
 
-function _applySmoothedValue(k)
+-- === FUNCTIONS ===
+
+function syncKnobPlate()
+  -- sync top notch to value on knobs that have it
+  if siblings.topNotch == nil then return end
+  siblings.topNotch.values.x = self.values.x*0.8+0.1
+end
+
+function initLabel()
+  if not (config.lblControlName ~= nil and config.lblShow) then return end
+  label = siblings[config.lblControlName]
+end
+
+function showlLabel(visible)
+  if label ~= nil then label.properties.visible = visible end
+end
+
+function notifyGlobalMidiLabel(midiValue)
+  globalMidiLabel:notify('midiCC', midiValue)
+end
+
+function applyConfigFromJson(data)
+  config = json.toTable(data)
+  if config.sens == nil then config.sens = 1.5 end
+  if config.lblControlName == nil then config.lblControlName = nil end
+  if config.lblShow == nil then config.lblShow = true end
+  if config.low == nil then config.low = 0 end
+  if config.high == nil then config.high = 127 end
+  if config.min == nil then config.min = nil end
+  if config.max == nil then config.max = nil end
+  if config.decimals == nil then config.decimals = 0 end
+  if config.unit == nil then config.unit = '' end
+  if config.type == nil then config.type = MIDI end
+  if config.doubleTap == nil then config.doubleTap = true end
+  if config.tapDelay == nil then config.tapDelay = 300 end
+  if config.centered == nil then config.centered = false end
+  config.sens = tonumber(config.sens)
+  config.lblControlName = tostring(config.lblControlName)
+  config.low = tonumber(config.low)
+  config.high = tonumber(config.high)
+  config.min = tonumber(config.min)
+  config.max = tonumber(config.max)
+  config.decimals = tonumber(config.decimals)
+  config.unit = tostring(config.unit)
+  if config.default ~= nil then
+    self:setValueField('x', ValueField.DEFAULT, config.default)
+  end
+  if self.properties.centered ~= nil then
+    self.properties.centered = config.centered
+  end
+  initLabel()
+end
+
+function applySmoothedValue(k)
   if not (k == 'x' or k == 'y') then print('Invalid key: ' .. k) return end
-  -- process current pointer position
-  scale = _getScaleFactor()
+  start.scale = getScaleFactor()
   local lastValue = self:getValueField(k, ValueField.LAST)
-  local delta = (self.values[k] - lastValue) * scale
+  local delta = (self.values[k] - lastValue) * start.scale
   self.values[k] = lastValue + delta
 end
 
-function _getOrientation()
-  horz_x = true
+function getOrientation()
+  horizontal = true
   if (
     self.properties.orientation == Orientation.NORTH or
     self.properties.orientation == Orientation.SOUTH
   ) then
     -- vertical fader!
-    if self.type == ControlType.FADER then horz_x = false end
+    if self.type == ControlType.FADER then horizontal = false end
   else
     -- 90 degrees rotated XY control!
     if (
@@ -131,12 +159,12 @@ function _getOrientation()
       self.type == ControlType.RADIAL or
       self.type == ControlType.ENCODER
     ) then
-      horz_x = false
+      horizontal = false
     end
   end
 end
 
-function _resetValuesToDefault()
+function resetValuesToDefault()
   local k ={ 'x', 'y' }
   for i=1,2 do
     if self.values[k[i]] ~= nil then
@@ -149,11 +177,9 @@ function _resetValuesToDefault()
   end
 end
 
-function _showTrueValue(val)
-  if config.lblControlName == nil then return end
-  local label = siblings[config.lblControlName]
+function showTrueValue(val)
   if label == nil then return end
-  local r = _calcRealValue(val)
+  local r = calcRealValue(val)
   local s
   if config.decimals > 0 then
     s = string.format('%.' .. config.decimals .. 'f', r)
@@ -166,7 +192,7 @@ function _showTrueValue(val)
   label.values.text = s
 end
 
-function _calcRealValue(val)
+function calcRealValue(val)
   local v = math.floor(val*127+0.5)/127 -- snap to midi values
   local decimals = 10^config.decimals
   if (
@@ -178,7 +204,7 @@ function _calcRealValue(val)
     elseif config.type == EXP3 then v = v^2.7 end
     local low = config.low
     local high = config.high
-    if low == nil or high == nil then return _showAsMidi(v) end
+    if low == nil or high == nil then return showAsMidi(v) end
     local min = config.min
     local max = config.max
     if min == nil then min = low end
@@ -194,50 +220,50 @@ function _calcRealValue(val)
     return math.log(v)
   end
   -- return as MIDI by default
-  return _showAsMidi(v)
+  return showAsMidi(v)
 end
 
-function _showAsMidi(val)
+function showAsMidi(val)
   return math.floor(0.5+val*127)
 end
 
-function _checkForDoubleTap()
+function checkForDoubleTap()
   if config.doubleTap then
     local now = getMillis()
-    if(now - lastTap < config.tapDelay) then
-      _resetValuesToDefault()
-      lastTap = 0
+    if(now - last < config.tapDelay) then
+      resetValuesToDefault()
+      last = 0
     else
-      lastTap = now
+      last = now
     end
   end
 end
 
-function _setStartPoint()
-  zero_x = self.pointers[1].x
-  zero_y = self.pointers[1].y
-  scale = 0.0
+function setStartPoint()
+  start.x = self.pointers[1].x
+  start.y = self.pointers[1].y
+  start.scale = 0.0
 end
 
-function _getScaleFactor()
+function getScaleFactor()
   local rel, max
   if (
     self.type == ControlType.RADIAL or
     self.type == ControlType.ENCODER
   ) then
     max = ((self.frame.h * config.sens)^2 + (self.frame.w * config.sens)^2)^0.5
-    rel = ((self.pointers[1].y - zero_y)^2 + (self.pointers[1].x - zero_x)^2)^0.5
-  elseif (k == 'x' and not horz_x) or (k == 'y' and horz_x) then
+    rel = ((self.pointers[1].y - start.y)^2 + (self.pointers[1].x - start.x)^2)^0.5
+  elseif (k == 'x' and not horizontal) or (k == 'y' and horizontal) then
     max = self.frame.h * config.sens
-    rel = self.pointers[1].y - zero_y
+    rel = self.pointers[1].y - start.y
   else
     max = self.frame.w * config.sens
-    rel = self.pointers[1].x - zero_x
+    rel = self.pointers[1].x - start.x
   end
   if math.abs(rel) <= 0 then
-    -- If not moved, yet, use value delta to calculate scale
+    -- If not moved, yet, use value delta to calculate start.scale
     -- For absolute faders, this ensures movement start on touch begin
-    rel = rel + (max * (scale + 0.02) / config.sens)
+    rel = rel + (max * (start.scale + 0.02) / config.sens)
   end
-  return math.max(0, scale, math.min(1, math.abs(rel/max)))
+  return math.max(0, start.scale, math.min(1, math.abs(rel/max)))
 end

@@ -390,10 +390,25 @@ please consider donating to support further development! Check out the
 </li>
 <li><a href="#integrated-keyboard">Integrated keyboard</a>
 <ul>
+<li><a href="#keyboard-settings-panel">Keyboard settings panel</a></li>
 <li><a href="#positional-velocity-and-modulation-support">Positional velocity and modulation support</a></li>
 <li><a href="#midi-channelpressure-and-polyphonic-aftertouch">MIDI channelpressure and polyphonic aftertouch</a></li>
 <li><a href="#keys-sustain--midi-cc66-sustenuto">Keys Sustain – MIDI cc66 &quot;Sustenuto&quot;</a></li>
 <li><a href="#mapping-up-to-five-additional-midi-cc-controls-to-keys-aftertouch">Mapping up to five additional MIDI cc controls to keys aftertouch</a></li>
+<li><a href="#floating-keyboard-controls-panel">Floating keyboard controls panel</a></li>
+</ul>
+</li>
+<li><a href="#midi-looper-control-button">MIDI Looper control button</a>
+<ul>
+<li><a href="#supported-looper-software">Supported looper software</a>
+<ul>
+<li><a href="#tested-software">Tested software</a></li>
+</ul>
+</li>
+<li><a href="#loop-button-configuration">Loop button configuration</a></li>
+<li><a href="#loop-button-states">Loop button states</a></li>
+<li><a href="#loop-button-operation">Loop button operation</a></li>
+<li><a href="#planned-loop-button-features">Planned loop button features</a></li>
 </ul>
 </li>
 <li><a href="#usage">Usage</a></li>
@@ -524,6 +539,10 @@ semitone and a full tone.</p>
 <p>Octave and transpose buttons.</p>
 </li>
 </ul>
+<h3 id="keyboard-settings-panel">Keyboard settings panel</h3>
+<p>The keyboard features can be configured on the &quot;Keyboard settings&quot; panel. Tap
+the arrow button on the right of the keyboard controls section to show or hide
+the panel.</p>
 <h3 id="positional-velocity-and-modulation-support">Positional velocity and modulation support</h3>
 <p>The keys support registering vertical, as well as horizontal touch movement.</p>
 <p>Velocity is controlled by the initial touch position on the keys: bottom of keys
@@ -570,24 +589,220 @@ feature).</p>
 surface, but uses regular MIDI messages. Because of this, MIDI Input <em>must be
 connected</em> in order to sense the MIDI CC number of a control! If you already
 have MIDI feedback from OB-Xd routed back to the template, you should be able
-to sense controls without problems. If you do not have a MIDI input connected,
+to sense controls without problems. If you do not have MIDI input connected,
 use MIDI Through to loop the control surface <em>back to itself</em> so that it can
 read the MIDI CC messages sent by its controls.</li>
 </ul>
-<p>With this feature, you can add aftertouch functionality to any hardware or
-software instruments. For example, to control aftertouch volume, bind to Master
-volume, to the envelope's sustain control, or to one of the osclillator mix
-controls. Manipulate the sound shape by binding to the cutoff frequency,
-resonance mix, etc.</p>
+<p>With this feature, you can add aftertouch functionality when playing any
+hardware or software instrument. For example, to control aftertouch volume,
+bind to Master volume, to the envelope's sustain control, or to one of the
+osclillator mix controls. Manipulate the sound shape by binding to the cutoff
+frequency, resonance mix, etc.</p>
+<h3 id="floating-keyboard-controls-panel">Floating keyboard controls panel</h3>
+<p>The keyboard features an additional floating controls panel. This panel offers
+bigger controls for some of the keyboard functions. Currently, the panel
+includes bigger versions of the &quot;Keys Sustain&quot; and the &quot;Midi Looper&quot; control
+button.</p>
+<p><em>(In future versions, I will probably also add an XY pad, and maybe some other
+faders to the floating panel, to allow easy control of modulation and filter
+parameters.)</em></p>
+<p>Tap the detach button on the right of the keyboard controls section to show or
+hide the floating controls panel.</p>
 <p><strong>Keyboard screenshots</strong></p>
 <ul>
 <li>Main controls:</li>
 </ul>
-<p><img src="./docs/images/kbd_main_controls.jpeg?raw=true" alt="alt text"></p>
+<p><img src="./docs/images/kbd_main_controls.png?raw=true" alt="alt text"></p>
 <ul>
 <li>Keyboard settings panel:</li>
 </ul>
-<p>| <img src="./docs/images/kbd_settings.jpeg?raw=true" alt="alt text"> |</p>
+<p><img src="./docs/images/kbd_settings.jpeg?raw=true" alt="alt text"></p>
+<ul>
+<li>Keyboard floating controls panel:</li>
+</ul>
+<p><img src="./docs/images/kbd-floating-controls.png?raw=true" alt="alt text"></p>
+<h2 id="midi-looper-control-button">MIDI Looper control button</h2>
+<p>The keyboard offers an optional &quot;MIDI Looper&quot; button that can be used to control
+external looping software over MIDI. The button uses a complex control scheme to
+allow manipulating most looping operations through a single control. The
+button's control scheme is based on control schemes commonly found on
+single-button hardware loopers.</p>
+<h3 id="supported-looper-software">Supported looper software</h3>
+<p>The loop button should work with most looping software, as long as the software
+supports binding to its functions with MIDI note_on messages. To be used with
+the button, the software needs to expose all or a subset of these functions:</p>
+<ul>
+<li>Record start/stop
+<ul>
+<li>Bind to MIDI note_on 36, value 0/127</li>
+</ul>
+</li>
+<li>Overdub start/stop
+<ul>
+<li><em>Bind to MIDI note_on 37, value 0/127</em></li>
+</ul>
+</li>
+<li>Mute/Unmute
+<ul>
+<li><em>Bind to MIDI note_on 38, value 0/127</em></li>
+</ul>
+</li>
+<li>Undo
+<ul>
+<li><em>Bind to MIDI note_on 39, value 127</em></li>
+</ul>
+</li>
+<li>Redo
+<ul>
+<li><em>Bind to MIDI note_on 40, value 127</em></li>
+</ul>
+</li>
+<li>Pause_ON (or Reset)
+<ul>
+<li><em>Bind to MIDI note_on 41, value 0/127</em></li>
+</ul>
+</li>
+</ul>
+<h4 id="tested-software">Tested software</h4>
+<p>The loop button was programmed and tested in detail with the
+<a href="https://sonosaurus.com/sooperlooper/features.html">SooperLooper</a> software on
+Linux.</p>
+<p>The template contains a ready-made MIDI mappings file for SooperLooper at:</p>
+<ul>
+<li><a href="extra_files/sooperlooper/midi.slb">extra_files/sooperlooper/midi.slb</a></li>
+</ul>
+<p>Open &quot;Preferences&quot; &gt; &quot;MIDI Bindings&quot; in SooperLooper to load the MIDI mappings.
+After loading, all button operations should work fine with SooperLooper.</p>
+<h3 id="loop-button-configuration">Loop button configuration</h3>
+<p>The loop button uses its own MIDI channel, separate from the template's main
+channel. Open the &quot;Keyboard settings&quot; panel, and scroll down to the &quot;Looper&quot;
+section to edit the MIDI channel for the loop button.</p>
+<h3 id="loop-button-states">Loop button states</h3>
+<p>The button will indidcate several different play and recording states through
+color and/or pulsing.</p>
+<p><strong>The possible button states are:</strong></p>
+<ul>
+<li>
+<p><strong>Initialized</strong> – Corners shown, and half-lit in base color:</p>
+<p><em>No initial loop has been recorded, yet.</em></p>
+</li>
+<li>
+<p><strong>Playing</strong> – Button lights up green:</p>
+<p><em>Recorded loop material is being played.</em></p>
+</li>
+<li>
+<p><strong>Muted</strong> – Button pulses green:</p>
+<p><em>The loop continues playing, but output is muted.</em></p>
+</li>
+<li>
+<p><strong>Record armed</strong> – Button pulses red:</p>
+<p><em>When recording starts, previous loop material will be replaced with the new loop.</em></p>
+</li>
+<li>
+<p><strong>Record</strong> – Button lights up red:</p>
+<p><em>Material is being recorded into a new loop.</em></p>
+</li>
+<li>
+<p><strong>Overdub armed</strong> – Button pulses orange:</p>
+<p><em>When recording starts, new material will be added to existing loop.</em></p>
+</li>
+<li>
+<p><strong>Overdub</strong> – Button lights up orange:</p>
+<p><em>Material is being added to the existing loop.</em></p>
+</li>
+<li>
+<p><strong>Undo triggered</strong> – Button lights up yellow:</p>
+<p><em>If the looper supports it, the last recorded material is removed form the
+loop.</em></p>
+</li>
+<li>
+<p><strong>Redo triggered</strong> – Button lights up purple:</p>
+<p><em>If the looper supports it, the previously removed material is is re-added to the loop.</em></p>
+<p><strong>Important:</strong> The button will toggle between Undo and Redo based on its own
+internal state, and will not process any feedback info from the looper.
+Usually, this should not present a problem, as long as the Undo and Redo
+actions are correctly bound to and processed by the respective functions in
+the looper.</p>
+</li>
+</ul>
+<h3 id="loop-button-operation">Loop button operation</h3>
+<p>To start looping, tap once to initialize the button into looping mode. The
+button shows corners, and is half-lit once initalized.</p>
+<p>After initialization, tap once to arm for the first loop recording (button
+pulses red). Only record arm is available immediately after initializing (no
+overdub), as no starting loop is present in the looper, yet.</p>
+<p>Once you're ready, tap again to start recording the initial loop. After
+initializing and recording the first loop, the following actions can be
+triggered:</p>
+<ul>
+<li>
+<p>When in  state <strong>&quot;Playing&quot;</strong> or <strong>&quot;Muted&quot;</strong> (button is green):</p>
+<ul>
+<li>
+<p><strong>Double-tap</strong> to toggle between muted and play state.</p>
+</li>
+<li>
+<p><strong>Long-tap (tap and hold)</strong> to trigger &quot;Undo&quot; or &quot;Redo&quot; action. So, this
+toggles between removing the last played material, and re-adding it to the
+loop.</p>
+</li>
+<li>
+<p><strong>Tap once</strong> to switch to &quot;Overdub armed&quot; mode.</p>
+</li>
+<li>
+<p><strong>Double-tap and hold</strong> to switch to &quot;Record armed&quot; mode.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>When in state <strong>&quot;Overdub armed&quot;</strong> or <strong>&quot;Record armed&quot;</strong> (button pulses orange or red):</p>
+<ul>
+<li>
+<p><strong>Tap once</strong> to start recording or overdubbing.</p>
+</li>
+<li>
+<p><strong>Long-tap (tap and hold)</strong> to cancel armed mode, and return to previous
+play or muted state.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>When in state <strong>&quot;Overdub&quot;</strong> or <strong>&quot;Record&quot;</strong> (button is orange or red):</p>
+<ul>
+<li>
+<p><strong>Tap once</strong> to stop recording or overdubbing.</p>
+</li>
+<li>
+<p><strong>Double-tap</strong> to stop recording or overdubbing, and also immediately switch
+to &quot;Muted&quot; state afterwards.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>When in <strong>ANY</strong> state, except for recording or overdubbing:</p>
+<ul>
+<li>
+<p><strong>Long-tap and hold for ~3 seconds</strong> will unarm the looper and do a full
+reset (as far as the used looper allows it).</p>
+<p>The looper will send MIDI note_on 41, value 127, to the looper. So,
+depending on what the looper supports, this can be bound to the looper's
+&quot;pause&quot; or &quot;reset&quot; function.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="planned-loop-button-features">Planned loop button features</h3>
+<ul>
+<li>Additional buttons to extend the supported range of functions, e.g. multiple
+loops with solo and mute support, record in &quot;replace&quot; or &quot;multiply&quot; mode etc.</li>
+<li>Test with other looper software to ensure the MIDI message scheme plays well
+also with other loopers.</li>
+<li>Add support (switchable option) for loopers that go from record stop directly
+back into overdub mode. (For now, please configure your software to switch to
+normal play after record stop, for it to stay in sync with the loop button
+state.)</li>
+<li>...</li>
+</ul>
 <h2 id="usage">Usage</h2>
 <ul>
 <li>

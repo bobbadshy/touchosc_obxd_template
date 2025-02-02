@@ -11,8 +11,8 @@ mkdir -p "$BUILDDIR" || exit 1
 ./update_readme.sh && \
 ./minify_lua.sh && \
 ./update_lua.sh && \
-./plain.sh && \
 ./defaults.sh && \
+./plain.sh && \
 ./compress.sh || exit 1
 
 echo -e "\nBuild to $BUILDDIR done.\n"

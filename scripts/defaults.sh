@@ -26,6 +26,3 @@ function replace {
 
 target="$XML_EXPORT"
 replace
-
-target="$XML_EXPORT_PLAIN"
-replace

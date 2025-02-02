@@ -5,7 +5,14 @@
     "getMillis",
     "onValueChanged",
     "ValueField",
+    "sendMIDI",
+    "Color",
+    "Colors",
+    "PointerState",
+    "json",
     "root",
-    "ControlType"
+    "init",
+    "onReceiveNotify",
+    "update"
   ]
 }
