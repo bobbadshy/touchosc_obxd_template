@@ -47,6 +47,11 @@ please consider donating to support further development! Check out the
 
 ![alt text](./docs/images/main-view-logo.png?raw=true)
 
+## Important notes
+
+- The template currently needs "Long Script Timeout" enabled in TouchOSC. Otherwise, the template might not initilize correctly on startup! Check the [TouchOSC documentation](https://hexler.net/touchosc/manual/preferences-script#timeout) on how to configure "Long Script Timeout" in TouchOSC.
+- ...
+
 ## Supported features
 
 ### OB-Xd support
